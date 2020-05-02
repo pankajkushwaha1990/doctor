@@ -126,6 +126,7 @@
 		<!-- Custom JS -->
 		<script src="<?php echo e(asset('template')); ?>/assets/js/script.js"></script>
 		<script src="<?php echo e(asset('template/admin')); ?>/assets/js/form-validation.js"></script>
+
 		
 		
 	</body>

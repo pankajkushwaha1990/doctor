@@ -74,18 +74,18 @@
            									<input type="hidden" name="type" value="ZG9jdG9y">
 
 											<div class="form-group form-focus">
-												<input type="text" class="form-control floating" name="name" required="" >
+												<input type="text" class="form-control floating" name="name" required="" value="<?php echo e(old('name')); ?>">
 												<label class="focus-label">Name</label>
 											</div>
                                                <?php if($errors->has('name')): ?> <p style="color:red;"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
 											<div class="form-group form-focus">
-												<input type="number" class="form-control floating" name="mobile" required="" maxlength="10" minlength="10">
+												<input type="number" class="form-control floating" name="mobile" required="" maxlength="10" minlength="10" value="<?php echo e(old('mobile')); ?>">
 												<label class="focus-label">Mobile Number</label>
                                                <?php if($errors->has('mobile')): ?> <p style="color:red;"><?php echo e($errors->first('mobile')); ?></p> <?php endif; ?>
 
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" name="password" required="">
+												<input type="password" class="form-control floating" placeholder="**************" name="password" required="">
 												<label class="focus-label">Create Password</label>
                                                <?php if($errors->has('password')): ?> <p style="color:red;"><?php echo e($errors->first('password')); ?></p> <?php endif; ?>
 

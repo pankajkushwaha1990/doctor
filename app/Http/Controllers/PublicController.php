@@ -37,6 +37,47 @@ class PublicController extends Controller{
     public function login(){
        return view('public.login');
     }
+    private function check_temp_mobile_otp($mobile_number=null){
+            $otp_status     =    DB::select("select * from temp_mobile_otp where mobile_number='$mobile_number'");
+            if(!empty($otp_status)){
+              return $otp_status[0]->otp;
+            }else{
+              return null; 
+            }
+    }
+    private function sendSms($mobile=null,$message=null){
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+      CURLOPT_URL => "https://www.fast2sms.com/dev/bulk?authorization=uiiZE8ZEytpYOjLmuhGSJCrcUDY7QOFciWa9BjLqDoQ5BhbGKOe02hxCCe4C&sender_id=FSTSMS&message=".urlencode($message)."&language=english&route=t&numbers=".urlencode($mobile),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 30,
+      CURLOPT_SSL_VERIFYHOST => 0,
+      CURLOPT_SSL_VERIFYPEER => 0,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "GET",
+      CURLOPT_HTTPHEADER => array("cache-control: no-cache"),
+      ));
+      $response = curl_exec($curl);
+      $err      = curl_error($curl);
+      curl_close($curl);
+      if ($err) {
+        return $err;
+      } else {
+        return $response;
+      }
+    }
+    private function generate_mobile_otp($mobile=null,$otp=null){
+          $mobile_status = $this->check_temp_mobile_otp($mobile);  
+          if(!empty($mobile_status)){
+            $update = ['otp'=>$otp];
+            $status = DB::table('temp_mobile_otp')->where('mobile_number',$mobile)->update($update);
+          }else{
+            $update = ['otp'=>$otp,'mobile_number'=>$mobile];
+            $status = DB::table('temp_mobile_otp')->insert($update);
+          }
+    }
     public function doctor_registration_submit(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:100',
@@ -63,12 +104,21 @@ class PublicController extends Controller{
                 'mobile' => $request->input('mobile'),
                 'mobile_otp' => '',
           );
-          $status = DB::table('admin')->insert($insert);
-          if(!empty($status)){
-             return redirect('/login')->with('success', 'Registration successfully Completed');
-          }else{
-             return redirect('/login')->with('failure', 'Some Problem Occured Try Again');
-          }
+          $mobile  = $request->input('mobile');
+          $name  = $request->input('name');
+          $otp   = rand(111111,999999);
+          $this->generate_mobile_otp($mobile,$otp);
+          $message = 'Dear '.$name."<br>Your Verfication Code is ".$otp."<br>Stay healthy";
+          $this->sendSms($mobile,$message);
+          $data = ['registration_details'=>$insert];
+          return view('public.doctor_registration_otp')->with($data);
+
+          // $status = DB::table('admin')->insert($insert);
+          // if(!empty($status)){
+          //    return redirect('/login')->with('success', 'Registration successfully Completed');
+          // }else{
+          //    return redirect('/login')->with('failure', 'Some Problem Occured Try Again');
+          // }
         } 
     }
     public function login_submit(Request $request){
@@ -451,6 +501,43 @@ class PublicController extends Controller{
             $status  = DB::table('admin')->where($where)->update($update);
             return redirect('/patient_profile_setting')->with('success', 'Profile has been updated successfully'); 
         }
+    }
+    public function doctor_registration_otp_submit(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100',
+            'mobile' => 'required|max:100|unique:admin,mobile',
+            'password' => 'required|max:50',
+            'type' => 'required|max:50',
+            'otp' => 'required|max:50',
+        ]);
+        if ($validator->fails()){
+            return redirect('doctor_registration')->withErrors($validator)->withInput();
+        }else{
+          $type   = base64_decode($request->input('type'));
+          $insert = array(
+                'name' => $request->input('name'),
+                'email' => '',
+                'password' => $request->input('password'),
+                'city' => '',
+                'state' => '',
+                'country' => 'india',
+                'email_verify' => 0,
+                'profile_picture'=>'default_doctor_profile_picture.png',
+                'type' =>  $type,
+                'user_id'=>uniqid(),
+                'status'=> 0,
+                'mobile' => $request->input('mobile'),
+                'mobile_otp' => $request->input('otp'),
+          );
+          $otp    = $this->check_temp_mobile_otp($request->input('mobile'));
+          if($otp==$request->input('otp')){
+            $status = DB::table('admin')->insert($insert);
+            return redirect('/login')->with('success', 'Registration successfully Completed');
+          }else{
+            $data = ['registration_details'=>$insert];
+            return view('public.doctor_registration_otp')->with($data);
+          }
+        } 
     }
 
 

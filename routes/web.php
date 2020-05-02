@@ -43,6 +43,7 @@ Route::get('/doctor_change_password', 'DoctorController@doctor_change_password')
 Route::post('/doctor_profile_setting_submit', 'PublicController@doctor_profile_setting_submit');
 Route::post('/doctor_schedule_timings_submit', 'DoctorController@doctor_schedule_timings_submit');
 Route::post('/doctor_change_password_submit', 'DoctorController@doctor_change_password_submit');
+Route::post('/doctor_registration_otp_submit', 'PublicController@doctor_registration_otp_submit');
 
 
 

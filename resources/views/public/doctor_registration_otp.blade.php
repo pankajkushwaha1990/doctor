@@ -51,35 +51,54 @@
 									</div>
 									<div class="col-md-12 col-lg-6 login-right">
 										<div class="login-header">
-											<h3>Patient Register <a href="{{ url('doctor_registration') }}">Are you a Doctor?</a></h3>
+											<h3>Doctor Register <a href="javascript:void();">OTP</a></h3>
+										</div>
+										<div class="login-header">
+											 <h6 class="card-title">
+								                  @if(session()->get('success'))
+								                    <span class="text-success">
+								                      {{ session()->get('success') }}  
+								                    </span>
+								                  @endif
+								                   @if(session()->get('failure'))
+								                    <span class="text-danger">
+								                      {{ session()->get('failure') }}  
+								                    </span>
+								                  @endif
+								              </h6>
 										</div>
 										
 										<!-- Register Form -->
-										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('patient_registration_submit') }}">
+										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('doctor_registration_otp_submit') }}">
            									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-           									<input type="hidden" name="type" value="cGF0aWVudA==">
+           									<input type="hidden" name="type" value="ZG9jdG9y">
+           									<input type="hidden" name="name" value="{{ $registration_details['name'] }}">
+           									<input type="hidden" name="mobile" value="{{ $registration_details['mobile'] }}">
+           									<input type="hidden" name="password" value="{{ $registration_details['password'] }}">
 
-											<div class="form-group form-focus">
+											<!-- <div class="form-group form-focus">
 												<input type="text" class="form-control floating" name="name" required="" >
-												<label class="focus-label">Name</label>
-											</div>
-                                               @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif
+												<label class="focus-label">Name123</label>
+											</div> -->
+                                               <!-- @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif -->
 											<div class="form-group form-focus">
-												<input type="number" class="form-control floating" name="mobile" required="" maxlength="10" minlength="10">
+												<input type="text" readonly="" class="form-control floating" value="{{ $registration_details['mobile'] }}" required="" maxlength="10" minlength="10">
 												<label class="focus-label">Mobile Number</label>
                                                @if ($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" name="password" required="">
-												<label class="focus-label">Create Password</label>
-                                               @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
+												<input type="number" class="form-control floating" name="otp" required="" minlength="6" maxlength="6">
+												<label class="focus-label">Enter OTP</label>
+												<div class="invalid-feedback">Enter 6 Digit OTP.</div>
+                                               @if ($registration_details['mobile_otp']) <p style="color:red;">Please Enter Valid Otp</p> @endif
 
 											</div>
 											<div class="text-right">
-												<a class="forgot-link" href="{{ url('login') }}">Already have an account?</a>
+												<!-- <a class="forgot-link" href="{{ url('login') }}">Already have an account?</a> -->
 											</div>
-											<button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Signup</button>
+											<br>
+											<button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Continue</button>
 											<!-- <div class="login-or">
 												<span class="or-line"></span>
 												<span class="span-or">or</span>
@@ -110,7 +129,7 @@
    
 			<!-- Footer -->
             @include('public/footer')
-			
+
 			<!-- /Footer -->
 		   
 		</div>
@@ -127,7 +146,6 @@
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
 
-		
 		
 	</body>
 
