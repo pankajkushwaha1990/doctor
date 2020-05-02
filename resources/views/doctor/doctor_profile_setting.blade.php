@@ -1,0 +1,616 @@
+@extends('doctor_master') 
+@section('title','Dashboard') 
+@section('styles')
+		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css">	
+		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.css">
+@endsection
+@section('content')
+      <!-- Page Wrapper -->
+						<div class="col-md-7 col-lg-8 col-xl-9">
+						<form id="needs-validation" enctype="multipart/form-data" novalidate class="needs-validation" method="post" action="{{ url('doctor_profile_setting_submit') }}">
+          				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+							<!-- Basic Information -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Basic Information</h4>
+									<div class="row form-row">
+										<div class="col-md-3"></div>
+										 <div class="col-md-6">
+                                            <center><h6 class="card-title">
+                                                  @if(session()->get('success'))
+                                                    <span class="text-success">
+                                                      {{ session()->get('success') }}  
+                                                    </span>
+                                                  @endif
+                                                   @if(session()->get('failure'))
+                                                    <span class="text-danger">
+                                                      {{ session()->get('failure') }}  
+                                                    </span>
+                                                  @endif
+                                              </h6>
+                                          </center>
+                                        </div>
+										<div class="col-md-3"></div>
+                                        
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="change-avatar">
+													<div class="profile-img">
+														<img id="blah" src="{{asset('doctor_files')}}/{{ $list[0]->profile_picture }}" alt="User Image">
+													</div>
+													<div class="upload-img">
+														<div class="change-photo-btn">
+															<span><i class="fa fa-upload"></i> Upload Photo</span>
+															<input type="file" class="upload" name="profile_picture" id="imgInp">
+															<input type="hidden" name="profile_picture_old" value="{{ $list[0]->profile_picture }}">
+														</div>
+														<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+														 @if ($errors->has('profile_picture')) <p style="color:red;">{{ $errors->first('profile_picture') }}</p> @endif
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group mb-0">
+												<label>Profile Name</label>
+												<input type="text" required="" name="profile_name" class="form-control"  value="{{ $list[0]->name }}">
+												 @if ($errors->has('profile_name')) <p style="color:red;">{{ $errors->first('profile_name') }}</p> @endif
+											</div>
+										</div>
+
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Username <span class="text-danger">*</span></label>
+												<input type="text" class="form-control" readonly value="{{ $list[0]->user_id }}" required="">
+												 @if ($errors->has('user_id')) <p style="color:red;">{{ $errors->first('user_id') }}</p> @endif
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Designation <span class="text-danger">*</span></label>
+												<input type="text" class="form-control" name="designation" value="{{ $list[0]->designation }}" required="">
+												 @if ($errors->has('designation')) <p style="color:red;">{{ $errors->first('designation') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Email <span class="text-danger">*</span></label>
+												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" required="">
+												 @if ($errors->has('email')) <p style="color:red;">{{ $errors->first('email') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>First Name <span class="text-danger">*</span></label>
+												<input type="text" name="first_name" class="form-control" value="{{ $list[0]->first_name }}" required="">
+												 @if($errors->has('first_name')) <p style="color:red;">{{ $errors->first('first_name') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Last Name <span class="text-danger">*</span></label>
+												<input type="text" name="last_name" class="form-control" value="{{ $list[0]->last_name }}" required="">
+												 @if($errors->has('last_name')) <p style="color:red;">{{ $errors->first('last_name') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Phone Number</label>
+												<input type="number" class="form-control" value="{{ $list[0]->mobile }}" required="">
+												 @if($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Gender</label>
+												<select class="form-control select" name="gender" required="">
+													<option value='' >Select</option>
+													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
+													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
+												</select>
+												 @if($errors->has('gender')) <p style="color:red;">{{ $errors->first('gender') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group mb-0">
+												<label>Date of Birth (DD/MM/YYYY)</label>
+												<input type="text" required="" name="date_of_birth" class="form-control"  value="{{ $list[0]->date_of_birth }}">
+												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
+
+											</div>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<!-- /Basic Information -->
+							
+							<!-- About Me -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">About Me</h4>
+									<div class="form-group mb-0">
+										<label>Biography</label>
+										<textarea class="form-control" name="about_us" required="" rows="5">{{ $list[0]->about_us }}</textarea>
+										 @if($errors->has('about_us')) <p style="color:red;">{{ $errors->first('about_us') }}</p> @endif
+									</div>
+								</div>
+							</div>
+							<!-- /About Me -->
+							
+							<!-- Clinic Info -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Clinic Info</h4>
+									<div class="row form-row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Clinic Name </label>
+												<input type="text" class="form-control" name="clinic_name" required="" value="{{ $list[0]->clinic_name }}">
+										 @if($errors->has('clinic_name')) <p style="color:red;">{{ $errors->first('clinic_name') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Clinic Open Time</label>
+												<input type="time" class="form-control" name="clinic_open_time" required="" value="{{ $list[0]->clinic_open_time }}">
+										 @if($errors->has('clinic_open_time')) <p style="color:red;">{{ $errors->first('clinic_open_time') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Clinic Close Time</label>
+												<input type="time" class="form-control" name="clinic_close_time" required="" value="{{ $list[0]->clinic_close_time }}">
+										 @if($errors->has('clinic_close_time')) <p style="color:red;">{{ $errors->first('clinic_close_time') }}</p> @endif
+
+											</div>
+										</div>
+										<!-- <div class="col-md-12">
+											<div class="form-group">
+												<label>Clinic Images</label>
+												<form action="#" class="dropzone"></form>
+											</div>
+											<div class="upload-wrap">
+												<div class="upload-images">
+													<img src="{{asset('template')}}/assets/img/features/feature-01.jpg" alt="Upload Image">
+													<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+												</div>
+												<div class="upload-images">
+													<img src="{{asset('template')}}/assets/img/features/feature-02.jpg" alt="Upload Image">
+													<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+												</div>
+											</div>
+										</div> -->
+									</div>
+								</div>
+							</div>
+							<!-- /Clinic Info -->
+
+							<!-- Contact Details -->
+							<div class="card contact-card">
+								<div class="card-body">
+									<h4 class="card-title">Clinic Address</h4>
+									<div class="row form-row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Address Line 1</label>
+												<input type="text" class="form-control" name="clinic_address" required="" value="{{ $list[0]->clinic_address }}">
+												 @if($errors->has('clinic_address')) <p style="color:red;">{{ $errors->first('clinic_address') }}</p> @endif
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">City</label>
+												<input type="text" class="form-control" name="clinic_city" required="" value="{{ $list[0]->clinic_city }}">
+												@if($errors->has('clinic_city')) <p style="color:red;">{{ $errors->first('clinic_city') }}</p> @endif
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">State / Province</label>
+												<input type="text" class="form-control" name="clinic_state" required="" value="{{ $list[0]->clinic_state }}">
+												@if($errors->has('clinic_state')) <p style="color:red;">{{ $errors->first('clinic_state') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">Country</label>
+												<input type="text" class="form-control" name="clinic_country" required="" value="{{ $list[0]->clinic_country }}">
+												@if($errors->has('clinic_country')) <p style="color:red;">{{ $errors->first('clinic_country') }}</p> @endif
+
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">Postal Code</label>
+												<input type="text" class="form-control" name="clinic_pincode" required="" value="{{ $list[0]->clinic_pincode }}">
+												@if($errors->has('clinic_pincode')) <p style="color:red;">{{ $errors->first('clinic_pincode') }}</p> @endif
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Contact Details -->
+							
+							<!-- Pricing -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Pricing</h4>
+									
+									<div class="form-group mb-0">
+										<div id="pricing_select">
+											<div class="custom-control custom-radio custom-control-inline">
+												<input type="radio" id="price_free" name="rating_option" @if($list[0]->rating_option=='price_free'){{ 'checked' }} @endif class="custom-control-input" value="price_free">
+												<label class="custom-control-label" for="price_free">Free</label>
+											</div>
+											<div class="custom-control custom-radio custom-control-inline">
+												<input @if($list[0]->rating_option=='custom_price'){{ 'checked' }} @endif type="radio" id="price_custom" name="rating_option" value="custom_price" class="custom-control-input">
+												<label class="custom-control-label" for="price_custom">Custom Price (per hour)</label>
+											</div>
+										</div>
+
+									</div>
+									
+									<div class="row custom_price_cont" id="custom_price_cont" @if($list[0]->rating_option=='custom_price'){{ 'checked' }} @else {{ 'style="display: none;"' }} @endif >
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="custom_rating_input" name="clinic_fee" value="{{ $list[0]->clinic_fee }}" placeholder="Enter Fee">
+											<small class="form-text text-muted">Custom price you can add</small>
+										</div>
+									</div>
+									@if($errors->has('rating_option')) <p style="color:red;">{{ $errors->first('rating_option') }}</p> @endif
+									
+								</div>
+							</div>
+							<!-- /Pricing -->
+							
+							<!-- Services and Specialization -->
+							<div class="card services-card">
+								<div class="card-body">
+									<h4 class="card-title">Services and Specialization</h4>
+									<div class="form-group">
+										<label>Services</label>
+										<input type="text" data-role="tagsinput" class="input-tags form-control" placeholder="Enter Services" name="clinic_services" value="{{ $list[0]->clinic_services }}" id="services" required="">
+										<small class="form-text text-muted">Note : Type & Press enter to add new services</small>
+									@if($errors->has('clinic_services')) <p style="color:red;">{{ $errors->first('clinic_services') }}</p> @endif
+
+									</div> 
+									<div class="form-group mb-0">
+										<label>Specialization </label>
+										<input class="input-tags form-control" type="text" data-role="tagsinput" placeholder="Enter Specialization" name="clinic_specialist" value="{{ $list[0]->clinic_specialist }}" id="specialist" required="">
+										<small class="form-text text-muted">Note : Type & Press  enter to add new specialization</small>
+									@if($errors->has('clinic_specialist')) <p style="color:red;">{{ $errors->first('clinic_specialist') }}</p> @endif
+
+									</div> 
+								</div>              
+							</div>
+							<!-- /Services and Specialization -->
+						 
+							<!-- Education -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Education</h4>
+									<div class="education-info">
+										<?php 
+										   $degree       =  json_decode($list[0]->degree,true);
+										   $institute    =  json_decode($list[0]->institute,true);
+										   $completion_year =  json_decode($list[0]->completion_year,true);
+										   if(!empty($degree)){
+										   	foreach ($degree as $key => $value) { ?>
+										   	     <div class="row form-row education-cont">
+													<div class="col-12 col-md-10 col-lg-11">
+														<div class="row form-row">
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>Degree</label>
+																	<input type="text" class="form-control" name="degree[]" required="" value="{{ $degree[$key] }}">
+																</div> 
+															</div>
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>College/Institute</label>
+																	<input type="text" class="form-control" name="institute[]" required="" value="{{ $institute[$key] }}">
+																</div> 
+															</div>
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>Year of Completion</label>
+																	<input type="text" class="form-control" name="completion_year[]" required="" value="{{ $completion_year[$key] }}">
+																</div> 
+															</div>
+														</div>
+													</div>
+												</div>
+										   	<?php }
+										   }else{ ?>
+
+										   	 <div class="row form-row education-cont">
+													<div class="col-12 col-md-10 col-lg-11">
+														<div class="row form-row">
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>Degree</label>
+																	<input type="text" class="form-control" name="degree[]" required="" value="">
+									@if($errors->has('degree')) <p style="color:red;">{{ $errors->first('degree') }}</p> @endif
+
+																</div> 
+															</div>
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>College/Institute</label>
+																	<input type="text" class="form-control" name="institute[]" required="" value="">
+									@if($errors->has('institute')) <p style="color:red;">{{ $errors->first('institute') }}</p> @endif
+
+																</div> 
+															</div>
+															<div class="col-12 col-md-6 col-lg-4">
+																<div class="form-group">
+																	<label>Year of Completion</label>
+																	<input type="text" class="form-control" name="completion_year[]" required="" value="">
+									@if($errors->has('completion_year')) <p style="color:red;">{{ $errors->first('completion_year') }}</p> @endif
+
+																</div> 
+															</div>
+														</div>
+													</div>
+												</div>
+
+										   <?php }
+										?>
+									</div>
+									<div class="add-more">
+										<a href="javascript:void(0);" class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+									</div>
+								</div>
+							</div>
+							<!-- /Education -->
+						
+							<!-- Experience -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Experience</h4>
+									<div class="experience-info">
+									<?php 
+										   $hospital_name       =  json_decode($list[0]->hospital_name,true);
+										   $experience_from    =  json_decode($list[0]->experience_from,true);
+										   $experience_to =  json_decode($list[0]->experience_to,true);
+										   $experience_designation =  json_decode($list[0]->experience_designation,true);
+										   if(!empty($hospital_name)){
+										   	foreach ($hospital_name as $key => $value) { ?>
+										
+										<div class="row form-row experience-cont">
+											<div class="col-12 col-md-10 col-lg-11">
+												<div class="row form-row">
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>Hospital Name</label>
+															<input type="text" class="form-control" name="hospital_name[]" required="" value="{{ $hospital_name[$key] }}">
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>From</label>
+															<input type="text" class="form-control" name="experience_from[]" required=""  value="{{ $experience_from[$key] }}">
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>To</label>
+															<input type="text" class="form-control" name="experience_to[]" required="" value="{{ $experience_to[$key] }}">
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>Designation</label>
+															<input type="text" class="form-control" name="experience_designation[]" required="" value="{{ $experience_designation[$key] }}">
+														</div> 
+													</div>
+												</div>
+											</div>
+										</div>
+									<?php } }else{ ?>
+
+										<div class="row form-row experience-cont">
+											<div class="col-12 col-md-10 col-lg-11">
+												<div class="row form-row">
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>Hospital Name</label>
+															<input type="text" class="form-control" name="hospital_name[]" required="" value="">
+									@if($errors->has('hospital_name')) <p style="color:red;">{{ $errors->first('hospital_name') }}</p> @endif
+
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>From</label>
+															<input type="text" class="form-control" name="experience_from[]" required=""  value="">
+									@if($errors->has('experience_from')) <p style="color:red;">{{ $errors->first('experience_from') }}</p> @endif
+
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>To</label>
+															<input type="text" class="form-control" name="experience_to[]" required="" value="">
+									@if($errors->has('experience_to')) <p style="color:red;">{{ $errors->first('experience_to') }}</p> @endif
+
+														</div> 
+													</div>
+													<div class="col-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<label>Designation</label>
+															<input type="text" class="form-control" name="experience_designation[]" required="" value="">
+									@if($errors->has('experience_designation')) <p style="color:red;">{{ $errors->first('experience_designation') }}</p> @endif
+
+														</div> 
+													</div>
+												</div>
+											</div>
+										</div>
+
+									<?php } ?>
+
+
+									</div>
+									<div class="add-more">
+										<a href="javascript:void(0);" class="add-experience"><i class="fa fa-plus-circle"></i> Add More</a>
+									</div>
+								</div>
+							</div>
+							<!-- /Experience -->
+							
+							<!-- Awards -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Awards</h4>
+									<div class="awards-info">
+									<?php 
+									 $award_name =  json_decode($list[0]->award_name,true);
+									 $award_year =  json_decode($list[0]->award_year,true);
+									  if(!empty($award_name)){
+										foreach ($award_name as $key => $value) { ?>
+										
+										<div class="row form-row awards-cont">
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Awards</label>
+													<input type="text" class="form-control" name="award_name[]" value="{{ $award_name[$key] }}">
+												</div> 
+											</div>
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Year</label>
+													<input type="text" class="form-control" name="award_year[]" value="{{ $award_year[$key] }}">
+												</div> 
+											</div>
+										</div>
+									<?php } }else{ ?>
+										<div class="row form-row awards-cont">
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Awards</label>
+													<input type="text" class="form-control" name="award_name[]" value="">
+												</div> 
+											</div>
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Year</label>
+													<input type="text" class="form-control" name="award_year[]" value="">
+												</div> 
+											</div>
+										</div>
+
+									<?php } ?>
+
+
+									</div>
+									<div class="add-more">
+										<a href="javascript:void(0);" class="add-award"><i class="fa fa-plus-circle"></i> Add More</a>
+									</div>
+								</div>
+							</div>
+							<!-- /Awards -->
+							
+							<!-- Memberships -->
+							<!-- <div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Memberships</h4>
+									<div class="membership-info">
+										<div class="row form-row membership-cont">
+											<div class="col-12 col-md-10 col-lg-5">
+												<div class="form-group">
+													<label>Memberships</label>
+													<input type="text" class="form-control">
+												</div> 
+											</div>
+										</div>
+									</div>
+									<div class="add-more">
+										<a href="javascript:void(0);" class="add-membership"><i class="fa fa-plus-circle"></i> Add More</a>
+									</div>
+								</div>
+							</div> -->
+							<!-- /Memberships -->
+							
+							<!-- Registrations -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Registrations</h4>
+									<div class="registrations-info">
+										<div class="row form-row reg-cont">
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Registrations</label>
+													<input type="text" class="form-control" name="registration_no" required="" value="{{ $list[0]->registration_no }}">
+													@if($errors->has('registration_no')) <p style="color:red;">{{ $errors->first('registration_no') }}</p> @endif
+												</div> 
+											</div>
+											<div class="col-12 col-md-5">
+												<div class="form-group">
+													<label>Year</label>
+													<input type="text" class="form-control" name="registration_year" required="" value="{{ $list[0]->registration_year }}">
+													@if($errors->has('registration_year')) <p style="color:red;">{{ $errors->first('registration_year') }}</p> @endif
+												</div> 
+											</div>
+										</div>
+									</div>
+									<!-- <div class="add-more">
+										<a href="javascript:void(0);" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+									</div> -->
+								</div>
+							</div>
+							<!-- /Registrations -->
+							
+							<div class="submit-section submit-btn-bottom">
+								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+							</div>
+						</form>
+							
+						</div>
+      <!-- /Page Wrapper -->
+      @section('scripts')
+		<script src="{{asset('template')}}/assets/plugins/select2/js/select2.min.js"></script>
+		<script src="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.js"></script>
+		<script src="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+		<script src="{{asset('template')}}/assets/js/profile-settings.js"></script>
+		<script src="{{asset('template')}}/assets/js/script.js"></script>
+		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
+		<script type="text/javascript">
+			function readURL(input) {
+			    if (input.files && input.files[0]) {
+			        var reader = new FileReader();
+
+			        reader.onload = function (e) {
+			            $('#blah').attr('src', e.target.result);
+			        }
+
+			        reader.readAsDataURL(input.files[0]);
+			    }
+			}
+
+			$("#imgInp").change(function(){
+			    readURL(this);
+			});
+		</script>
+
+
+      @endsection
+   
+@endsection
+
+

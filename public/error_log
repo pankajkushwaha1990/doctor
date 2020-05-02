@@ -1,0 +1,5 @@
+[09-Jan-2020 18:24:55 UTC] PHP Parse error:  syntax error, unexpected 'd' (T_STRING) in /home/spinofin/public_html/ashton/storage/framework/views/0ea5e638501dadfb0fc7768ae2048f6d198c2cbc.php on line 57
+[09-Jan-2020 18:58:21 UTC] PHP Parse error:  syntax error, unexpected 's' (T_STRING), expecting ']' in /home/spinofin/public_html/ashton/storage/framework/views/5ce6af510a381d8484a52fb4c2041f03161154c5.php on line 77
+[09-Jan-2020 18:58:24 UTC] PHP Parse error:  syntax error, unexpected 's' (T_STRING), expecting ']' in /home/spinofin/public_html/ashton/storage/framework/views/5ce6af510a381d8484a52fb4c2041f03161154c5.php on line 77
+[09-Jan-2020 18:58:30 UTC] PHP Parse error:  syntax error, unexpected 's' (T_STRING), expecting ']' in /home/spinofin/public_html/ashton/storage/framework/views/5ce6af510a381d8484a52fb4c2041f03161154c5.php on line 77
+[09-Jan-2020 18:58:38 UTC] PHP Fatal error:  Cannot use object of type stdClass as array in /home/spinofin/public_html/ashton/storage/framework/views/5ce6af510a381d8484a52fb4c2041f03161154c5.php on line 68
