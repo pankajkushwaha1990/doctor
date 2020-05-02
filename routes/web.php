@@ -23,6 +23,7 @@ Route::get('/ajax_patient_login', 'PublicController@ajax_patient_login');
 Route::get('/patient_appointment_checkout', 'PublicController@patient_appointment_checkout');
 Route::post('/patient_appointment_checkout_submit', 'PublicController@patient_appointment_checkout_submit');
 Route::get('/patient_booking_success/{id}', 'PublicController@patient_booking_success');
+Route::get('/patient_booking_failure/{id}', 'PublicController@patient_booking_failure');
 
 
 

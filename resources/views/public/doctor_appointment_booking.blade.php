@@ -28,6 +28,56 @@
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style type="text/css">
+		.timing2{
+			-webkit-tap-highlight-color: transparent;
+			--blue: #007bff;
+			--indigo: #6610f2;
+			--purple: #6f42c1;
+			--pink: #e83e8c;
+			--red: #dc3545;
+			--orange: #fd7e14;
+			--yellow: #ffc107;
+			--green: #28a745;
+			--teal: #20c997;
+			--cyan: #17a2b8;
+			--white: #fff;
+			--gray: #6c757d;
+			--gray-dark: #343a40;
+			--primary: #007bff;
+			--secondary: #6c757d;
+			--success: #28a745;
+			--info: #17a2b8;
+			--warning: #ffc107;
+			--danger: #dc3545;
+			--light: #f8f9fa;
+			--dark: #343a40;
+			--breakpoint-xs: 0;
+			--breakpoint-sm: 576px;
+			--breakpoint-md: 768px;
+			--breakpoint-lg: 992px;
+			--breakpoint-xl: 1200px;
+			--font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+			--font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+			font-weight: 400;
+			line-height: 1.5;
+			font-family: "Poppins",sans-serif;
+			list-style: none;
+			box-sizing: border-box;
+			text-decoration: none;
+			-webkit-transition: all 0.4s ease;
+			border-radius: 3px;
+			display: block;
+			font-size: 14px;
+			padding: 5px 5px;
+			text-align: center;
+			position: relative;
+			margin-bottom: 0;
+            background-color: #ffffff;
+		    border: 1px solid #ff0000;
+		    color: #ff0909;
+		}
+		</style>
 	
 	</head>
 	<body>
@@ -145,35 +195,27 @@
 											<div class="time-slot">
 												<ul class="clearfix">
 												<?php 
-												if(ucfirst($appointment)=='Saturday'){
-													$start = $doctor->saturday_start_time?json_decode($doctor->saturday_start_time,true):[];
-													$end   = $doctor->saturday_end_time?json_decode($doctor->saturday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Sunday'){
-													$start = $doctor->sunday_start_time?json_decode($doctor->sunday_start_time,true):[];
-													$end   = $doctor->sunday_end_time?json_decode($doctor->sunday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Monday'){
-													$start = $doctor->monday_start_time?json_decode($doctor->monday_start_time,true):[];
-													$end   = $doctor->monday_end_time?json_decode($doctor->monday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Tuesday'){
-													$start = $doctor->tuesday_start_time?json_decode($doctor->tuesday_start_time,true):[];
-													$end   = $doctor->tuesday_end_time?json_decode($doctor->tuesday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Wednesday'){
-													$start = $doctor->wednesday_start_time?json_decode($doctor->wednesday_start_time,true):[];
-													$end   = $doctor->wednesday_end_time?json_decode($doctor->wednesday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Thursday'){
-													$start = $doctor->thursday_start_time?json_decode($doctor->thursday_start_time,true):[];
-													$end   = $doctor->thursday_end_time?json_decode($doctor->thursday_end_time,true):[];
-												}elseif(ucfirst($appointment)=='Friday'){
-													$start = $doctor->friday_start_time?json_decode($doctor->friday_start_time,true):[];
-													$end   = $doctor->friday_end_time?json_decode($doctor->friday_end_time,true):[];
-												}
-												if(!empty($start)){
-												foreach ($start as $key => $value) { ?>
-													<li style="padding-top: 5px;padding-bottom: 5px;width:19.28%">
-														<a class="timing <?php $booking= $start[$key]." - ".$end[$key]; if($booking_slot==$booking){ echo 'selected'; } ?>"  href="javascript:void(0)">
-															<span>{{ $start[$key] }} - {{ $end[$key] }}</span>
-														</a>
-													</li>
+												
+												if(!empty($slots)){
+												foreach ($slots as $key => $value) { ?>
+														<?php 
+														if($value['booked_status']=='yes'){ ?>
+														<li style="padding-top: 5px;padding-bottom: 5px;width:19.28%">
+															<a data-toggle="tooltip" data-placement="top" title="Already Booked" class="timing2"  href="javascript:void(0)">
+															   <span>{{ $value['start'] }} - {{ $value['end'] }}</span>
+														   </a>
+													      </li>
+
+														<?php }else{ ?>
+													       <li style="padding-top: 5px;padding-bottom: 5px;width:19.28%">
+															<a class="timing <?php $value['start']." - ".$value['end']; ?>"  href="javascript:void(0)">
+															<span>{{ $value['start'] }} - {{ $value['end'] }}</span>
+														   </a>
+													      </li>
+														<?php } ?>	
+
+														
+															
 													
 												<?php } }else{ ?>
 
@@ -198,11 +240,11 @@
 							<!-- Submit Section -->
 							
 							<?php 
-							if(empty($session) && !empty($start)){?>
+							if(empty($session) && !empty($slots)){?>
 							 <div class="submit-section proceed-btn text-right">
 								<a href="javascript:void(0)" class="btn btn-primary submit-btn login_to_procced">Login To Proceed</a>
 							 </div>
-							<?php }elseif(!empty($start)){?>
+							<?php }elseif(!empty($slots)){?>
 								<div class="submit-section proceed-btn text-right">
 									<a href="javascript:void(0)" class="btn btn-primary submit-btn login_to_checkout">Proceed to Book</a>
 								 </div>

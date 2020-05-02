@@ -113,8 +113,8 @@
 
 												<?php }
 												?>
-													<input type="hidden" required="" name="ref_url" value=" {{ $ref_url }}">
-													<input type="hidden" required="" name="doctor_fee" value=" {{ $doctor->clinic_fee }}">
+													<input type="hidden" required="" name="ref_url" value="{{ $ref_url }}">
+													<input type="hidden" required="" name="doctor_fee" value="{{ $doctor->clinic_fee }}">
 												
 											</div>
 											<!-- <div class="exist-customer">Existing Customer? <a href="#">Click here to login</a></div> -->

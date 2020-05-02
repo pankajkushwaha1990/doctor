@@ -324,7 +324,15 @@ class PublicController extends Controller{
           if(empty($list)){
              return $list;
           }else{
-            return true;
+            return false;
+          }
+    }
+    private function check_booked_slot($date=null,$slot=null,$doctor_id=null){
+          $list    = DB::select("select id from appointment_booked where appointment_date='$date' and appointment_slot='$slot' and doctor_id='$doctor_id' and status='1'");
+          if(empty($list)){
+             return 'no';
+          }else{
+            return 'yes';
           }
     }
     public function doctor_appointment_booking(Request $request,$id=null){
@@ -338,9 +346,42 @@ class PublicController extends Controller{
        }elseif(strtotime($appointment_date)>strtotime("+6 day",strtotime(date('Y-m-d')))){
           $appointment_date = date('Y-m-d');
        }
-       $id               =    base64_decode(base64_decode($id));
-       $list             =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
-       $data    = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot);
+       $timestramp   = strtotime($appointment_date);
+       $appointment  = date('l',$timestramp);
+       $id           =    base64_decode(base64_decode($id));
+       $list         =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
+       $doctor       =  $list[0];
+       if(ucfirst($appointment)=='Saturday'){
+          $start = $doctor->saturday_start_time?json_decode($doctor->saturday_start_time,true):[];
+          $end   = $doctor->saturday_end_time?json_decode($doctor->saturday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Sunday'){
+          $start = $doctor->sunday_start_time?json_decode($doctor->sunday_start_time,true):[];
+          $end   = $doctor->sunday_end_time?json_decode($doctor->sunday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Monday'){
+          $start = $doctor->monday_start_time?json_decode($doctor->monday_start_time,true):[];
+          $end   = $doctor->monday_end_time?json_decode($doctor->monday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Tuesday'){
+          $start = $doctor->tuesday_start_time?json_decode($doctor->tuesday_start_time,true):[];
+          $end   = $doctor->tuesday_end_time?json_decode($doctor->tuesday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Wednesday'){
+          $start = $doctor->wednesday_start_time?json_decode($doctor->wednesday_start_time,true):[];
+          $end   = $doctor->wednesday_end_time?json_decode($doctor->wednesday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Thursday'){
+          $start = $doctor->thursday_start_time?json_decode($doctor->thursday_start_time,true):[];
+          $end   = $doctor->thursday_end_time?json_decode($doctor->thursday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Friday'){
+          $start = $doctor->friday_start_time?json_decode($doctor->friday_start_time,true):[];
+          $end   = $doctor->friday_end_time?json_decode($doctor->friday_end_time,true):[];
+        }
+        $slots = [];
+        if(!empty($start)){
+            foreach ($start as $key => $value) {
+              $slot = $start[$key]." - ".$end[$key];
+              $booked_status = $this->check_booked_slot($appointment_date,$slot,$doctor->id);
+              $slots[] = ['start'=>$start[$key],'end'=>$end[$key],'booked_status'=>$booked_status];
+            }
+        }
+       $data         = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot,'slots'=>$slots);
        return view('public.doctor_appointment_booking')->with($data);
     }
     public function ajax_patient_login(Request $request){
@@ -402,8 +443,11 @@ class PublicController extends Controller{
         $appointment_date = $ref_url['booking_date'];
         $booking_slot     = $ref_url['booking_slot'];
         $patient_details  = explode('||',$request->input('patient_details'));
-
-        $insert = array(
+        if($this->check_booked_slot($appointment_date,$booking_slot,$doctor_id)=='yes'){
+          $book_other_slot = '/doctor_appointment_booking/'.$output['doctor_id'].'?appointment_date='.$output['booking_date']."&booking_slot=".$output['booking_slot'];
+          return redirect('/patient_booking_failure/'.$ref_url2)->with('book_other_slot',$book_other_slot);
+        }elseif($this->check_booked_slot($appointment_date,$booking_slot,$doctor_id)=='no'){
+           $insert = array(
                           'patient_id'=>$patient_id,
                           'doctor_id'=>$doctor_id,
                           'appointment_date'=>$appointment_date,
@@ -416,14 +460,21 @@ class PublicController extends Controller{
                   );
           $status = DB::table('appointment_booked')->insert($insert);
           $status = DB::getPdo()->lastInsertId();
-          if(!empty($status)){
-             $booking_id   = base64_encode(base64_encode(base64_encode($status)));
-             return redirect('/patient_booking_success/'.$booking_id)->with('success', 'Appointment Booked Successfully');
-          }else{
-             return redirect('/patient_booking_failure/'.$ref_url2)->with('failure', 'Some Problem Occured Try Again');
+          $booking_id   = base64_encode(base64_encode(base64_encode($status)));
+          return redirect('/patient_booking_success/'.$booking_id)->with('success', 'Appointment Booked Successfully');
           }
+        }       
        }
+
+    public function patient_booking_failure(Request $request,$booking_id=null){
+      // $booking_id = base64_decode(base64_decode(base64_decode($booking_id)));
+      $session    = $request->session()->get('member');
+       parse_str(base64_decode($booking_id),$output);
+       $ref_url = $output;
+       $data    = array('appointment'=>$ref_url,'session'=>$session);
+       return view('public.patient_booking_failure')->with($data);
     }
+
     public function patient_booking_success(Request $request,$booking_id=null){
       $booking_id = base64_decode(base64_decode(base64_decode($booking_id)));
       $session    = $request->session()->get('member');
