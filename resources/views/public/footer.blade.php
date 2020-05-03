@@ -91,10 +91,10 @@
                                                     <a href="https://twitter.com/akhileshkusha12" target="_blank"><i class="fab fa-twitter"></i> </a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://www.facebook.com/akhil.maurya.7737" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                                    <a href="https://www.linkedin.com/in/akhilesh-kushawaha-79b73980/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://www.linkedin.com/in/akhilesh-kushawaha-79b73980/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                                    <a href="https://www.instagram.com/p/B_e4a25AcSNLq9bwxaTLVCcheJQh0HYpEqLcXY0/" target="_blank"><i class="fab fa-instagram"></i></a>
                                                 </li>
                                                <!--  <li>
                                                     <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
