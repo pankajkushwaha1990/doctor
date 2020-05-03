@@ -105,13 +105,13 @@
             <!-- Popular Section -->
 
                                 @if(!empty($list))
-                <div class="container-fluid">
+               <!--  <div class="container-fluid">
                    <div class="row">
                         <h2>Book Our Doctor</h2>
                    </div>
-               </div>
+               </div> -->
 
-                                            <section class="section section-doctor" style="padding-top: 0px;">
+                                            <section class="section section-doctor">
                 <div class="container-fluid">
                    <div class="row">
 <!--                         <div class="col-lg-4">
