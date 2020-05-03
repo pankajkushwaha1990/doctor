@@ -8,7 +8,9 @@ use DB;
 class AdminController extends Controller{   
     public function __construct(){
         $this->middleware(function ($request, $next) {
-          if($request->session()->get('member') == NULL && $request->session()->get('member')->type!='admin'){
+          if($request->session()->get('member') == NULL){
+               return redirect('admin_login');
+          }elseif($request->session()->get('member')->type!='admin'){
                return redirect('admin_login');
           }else{
               return $next($request);
