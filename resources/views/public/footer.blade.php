@@ -33,6 +33,7 @@
                                         <li><a href="{{ url('login') }}">Login</a></li>
                                         <li><a href="{{ url('doctor_registration') }}">Register</a></li>
                                         <li><a href="{{ url('doctor_dashboard') }}">Doctor Dashboard</a></li>
+                                        <li><a href="{{ url('front_desk_dashboard') }}">Front-desk Dashboard</a></li>
                                     </ul>
                                 </div>
                                 <!-- /Footer Widget -->
