@@ -4,41 +4,9 @@
                 <div class="footer-top">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-3 col-md-6">
+                           
                             
-                                <!-- Footer Widget -->
-                                <div class="footer-widget footer-about">
-                                    <div class="footer-logo">
-                                        <img src="{{asset('template/')}}/assets/img/footer-logo.png" alt="logo">
-                                    </div>
-                                    <div class="footer-about-content">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                        <div class="social-icon">
-                                            <ul>
-                                                <li>
-                                                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                                </li>
-                                               <!--  <li>
-                                                    <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                                </li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Footer Widget -->
-                                
-                            </div>
-                            
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-4 col-md-4">
                             
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-menu">
@@ -55,7 +23,7 @@
                                 
                             </div>
                             
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-4 col-md-4">
                             
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-menu">
@@ -71,7 +39,7 @@
                                 
                             </div>
                             
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-4 col-md-4">
                             
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-contact">
@@ -79,7 +47,7 @@
                                     <div class="footer-contact-info">
                                         <div class="footer-address">
                                             <span><i class="fas fa-map-marker-alt"></i></span>
-                                            <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                            <p>H. N. 714, Krishna Nagar Sector 10, Gurugram- 122001 , India</p>
                                         </div>
                                         <p>
                                             <i class="fas fa-phone-alt"></i>
