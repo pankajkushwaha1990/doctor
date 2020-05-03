@@ -9,11 +9,12 @@ Route::get('/admin_doctors_list','AdminController@doctors_list');
 Route::get('/admin_patients_list','AdminController@patients_list');
 Route::get('/admin_patient_change_status/{status}/{id}', 'AdminController@admin_patient_change_status');
 Route::get('/admin_doctor_change_status/{status}/{id}', 'AdminController@admin_doctor_change_status');
+Route::get('/admin_doctor_change_premium_status/{status}/{id}', 'AdminController@admin_doctor_change_premium_status');
 
 
 
 // public route
-Route::get('/', function () { return view('public.welcome'); });
+Route::get('/','PublicController@index');
 Route::get('/login', function () { return view('public.login'); });
 Route::post('/login_submit', 'PublicController@login_submit');
 Route::get('/search_doctor', 'PublicController@search_doctor');

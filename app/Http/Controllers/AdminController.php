@@ -88,6 +88,18 @@ class AdminController extends Controller{
       return redirect('/admin_doctors_list')->with('success', 'Status Changed Successfully'); 
     }
 
+    public function admin_doctor_change_premium_status(Request $request,$status=null,$ids=null){
+      $session = $request->session()->get('member');
+      $id      = $session->id;
+      $ids     = base64_decode($ids);
+      if($session->type=='admin'){
+           $status   = DB::table('admin')->where('id', $ids)->update(array('premenum_status'=>$status));
+      }else{
+           $status   = DB::table('admin')->where('id', $ids)->update(array('premenum_status'=>$status));
+      }    
+      return redirect('/admin_doctors_list')->with('success', 'Preminum Status Changed Successfully'); 
+    }
+
 
 
 

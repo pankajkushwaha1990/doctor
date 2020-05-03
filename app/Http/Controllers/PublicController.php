@@ -589,6 +589,11 @@ class PublicController extends Controller{
           }
         } 
     }
+    public function index(){
+       $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and admin.premenum_status='1' and clinic_city!=''");
+       $data    = array('list'=>$list);
+      return view('public.welcome')->with($data);
+    }
 
 
 

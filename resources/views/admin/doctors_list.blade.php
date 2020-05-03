@@ -38,6 +38,7 @@
                           <th>Mobile</th>
                           <th>Registred On</th>
                           <th class="text-right">Action</th>
+                          <th class="text-right">Premium</th>
                           
                         </tr>
                       </thead>
@@ -61,11 +62,20 @@
                          
                           
                            <td>{{ $doctor->created_at }}</td>
+
                            @if($doctor->status =='1')         
                               <td><a href="{{ url('admin_doctor_change_status/0/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-success">Active</button></a></td>         
                             @else
                             <td><a href="{{ url('admin_doctor_change_status/1/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-danger">Deactive</button></a></td>        
                            @endif
+
+                            @if($doctor->premenum_status =='1')         
+                              <td><a href="{{ url('admin_doctor_change_premium_status/0/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-success">Active</button></a></td>         
+                            @else
+                            <td><a href="{{ url('admin_doctor_change_premium_status/1/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-danger">Deactive</button></a></td>        
+                           @endif
+
+
                         </tr>
                         </tr>
                         @endforeach
