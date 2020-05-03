@@ -75,12 +75,35 @@
                         <!-- Copyright -->
                         <div class="copyright">
                             <div class="row">
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-5 col-lg-5">
                                     <div class="copyright-text">
                                         <p class="mb-0">&copy; {{ date('Y')}} Aasanilaz. All rights reserved.</p>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-6">
+
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="social-icon">
+                                            <ul>
+                                                <li>
+                                                    <a href="https://www.facebook.com/akhil.maurya.7737" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.facebook.com/akhil.maurya.7737" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.facebook.com/akhil.maurya.7737" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.facebook.com/akhil.maurya.7737" target="_blank"><i class="fab fa-instagram"></i></a>
+                                                </li>
+                                               <!--  <li>
+                                                    <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                                </li> -->
+                                            </ul>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3">
                                 
                                     <!-- Copyright Menu -->
                                     <div class="copyright-menu">
