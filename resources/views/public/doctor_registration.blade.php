@@ -4,7 +4,7 @@
 <!-- Mirrored from dreamguys.co.in/demo/doccure/template/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Apr 2020 18:09:17 GMT -->
 <head>
 		<meta charset="utf-8">
-		<title>Doccure</title>
+		<title>Aasanilaz</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		
 		<!-- Favicons -->
@@ -74,18 +74,18 @@
            									<input type="hidden" name="type" value="ZG9jdG9y">
 
 											<div class="form-group form-focus">
-												<input type="text" class="form-control floating" name="name" required="" value="{{ old('name') }}">
+												<input type="text" class="form-control floating" minlength="3" maxlength="100" name="name" required="" value="{{ old('name') }}">
 												<label class="focus-label">Name</label>
 											</div>
                                                @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif
 											<div class="form-group form-focus">
-												<input type="number" class="form-control floating" name="mobile" required="" maxlength="10" minlength="10" value="{{ old('mobile') }}">
-												<label class="focus-label">Mobile Number</label>
+												<input type="text" class="form-control floating mobile_validation" name="mobile" required="" maxlength="10" minlength="10" value="{{ old('mobile') }}" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+												<label class="focus-label">Mobile Number (+91)</label>
                                                @if ($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" placeholder="**************" name="password" required="">
+												<input type="password" class="form-control floating" placeholder="**************" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
 												<label class="focus-label">Create Password</label>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
@@ -139,6 +139,9 @@
 		
 		<!-- Custom JS -->
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
+		<script type="text/javascript">
+
+		</script>
 		
 	</body>
 

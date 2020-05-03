@@ -48,7 +48,7 @@ class PublicController extends Controller{
     private function sendSms($mobile=null,$message=null){
       $curl = curl_init();
       curl_setopt_array($curl, array(
-      CURLOPT_URL => "https://www.fast2sms.com/dev/bulk?authorization=uiiZE8ZEytpYOjLmuhGSJCrcUDY7QOFciWa9BjLqDoQ5BhbGKOe02hxCCe4C&sender_id=FSTSMS&message=".urlencode($message)."&language=english&route=t&numbers=".urlencode($mobile),
+      CURLOPT_URL => "https://www.fast2sms.com/dev/bulk?authorization=uiiZE8ZEytpYOjLmuhGSJCrcUDY7QOFciWa9BjLqDoQ5BhbGKOe02hxCCe4C&sender_id=FSTSMS&language=english&route=qt&numbers=$mobile&message=26982&variables={AA}&variables_values=$message",
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => "",
       CURLOPT_MAXREDIRS => 10,
@@ -106,10 +106,9 @@ class PublicController extends Controller{
           );
           $mobile  = $request->input('mobile');
           $name  = $request->input('name');
-          $otp   = rand(111111,999999);
+          $otp   = rand(11111,99999);
           $this->generate_mobile_otp($mobile,$otp);
-          $message = 'Dear '.$name."<br>Your Verfication Code is ".$otp."<br>Stay healthy";
-          $this->sendSms($mobile,$message);
+          $this->sendSms($mobile,$otp);
           $data = ['registration_details'=>$insert];
           return view('public.doctor_registration_otp')->with($data);
 

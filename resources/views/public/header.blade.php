@@ -106,7 +106,7 @@
                                 <i class="far fa-hospital"></i>                         
                             </div>
                             <div class="header-contact-detail">
-                                <p class="contact-header">Contact</p>
+                                <p class="contact-header">Contact Us</p>
                                 <p class="contact-info-header"> +91 9560248029</p>
                             </div>
                         </li>
