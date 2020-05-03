@@ -14,9 +14,9 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('guest:api')->group(function () {
-    Route::post('/user-registration', 'ApiController@user_registration');
-    Route::post('/user-registration-otp-generate', 'ApiController@user_registration_otp_generate');
-    Route::post('/user-login', 'ApiController@user_login');
+    Route::get('/get-config', 'ApiController@get_config');
+    Route::post('/add-host-section', 'ApiController@add_host_section');
+    Route::post('/add-api-host', 'ApiController@add_api_host');
 
 });
 
