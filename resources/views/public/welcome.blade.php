@@ -152,7 +152,7 @@
                                             <li>
                                                 <i class="fas fa-map-marker-alt"></i>{{ ucfirst($doctor->clinic_city) }},{{ ucfirst($doctor->clinic_state) }}
                                             </li>
-                                            <li>
+                                            <li style="font-size: 12px;">
                                                 <i class="far fa-clock"></i> Available on {{ ucfirst(date("h:i A", strtotime($doctor->clinic_open_time.' GMT+5:30'))) }} - {{ ucfirst(date("h:i A", strtotime($doctor->clinic_close_time.' GMT+5:30'))) }} 
                                             </li>
                                             <!-- <li>
