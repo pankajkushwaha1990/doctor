@@ -107,7 +107,7 @@
                             </div>
                             <div class="header-contact-detail">
                                 <p class="contact-header">Contact Us</p>
-                                <p class="contact-info-header"> +91 9560248029</p>
+                                <p class="contact-info-header"> +91 8299801056</p>
                             </div>
                         </li>
                         <li class="nav-item">

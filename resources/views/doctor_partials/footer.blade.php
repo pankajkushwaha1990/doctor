@@ -92,7 +92,7 @@
 										</div>
 										<p>
 											<i class="fas fa-phone-alt"></i>
-											+1 315 369 5943
+											+91 8299801056
 										</p>
 										<p class="mb-0">
 											<i class="fas fa-envelope"></i>
