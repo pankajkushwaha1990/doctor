@@ -4,7 +4,7 @@
 <!-- Mirrored from dreamguys.co.in/demo/doccure/template/booking.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Apr 2020 18:09:14 GMT -->
 <head>
 		<meta charset="utf-8">
-		<title>Aasanilaz</title>
+		<title>aasanilaz</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		
 		<!-- Favicons -->
@@ -292,6 +292,9 @@
 					var url_encode   = btoa("booking_date="+booking_date+"&booking_slot="+booking_slot+"&doctor_id="+doctor_id);
 					var final_url    = "<?php echo url('patient_appointment_checkout');?>?ref_url="+url_encode;
 					$('.login_to_checkout').attr('href',final_url);
+					$('html, body').animate({
+				        scrollTop: 200
+				    }, 500);
 
 				})
 

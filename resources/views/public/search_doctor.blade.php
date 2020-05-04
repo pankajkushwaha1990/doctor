@@ -4,7 +4,7 @@
 <!-- Mirrored from dreamguys.co.in/demo/doccure/template/search.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Apr 2020 18:09:14 GMT -->
 <head>
 		<meta charset="utf-8">
-		<title>Aasanilaz</title>
+		<title>aasanilaz</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		
 		<!-- Favicons -->

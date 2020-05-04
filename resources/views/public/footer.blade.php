@@ -78,7 +78,7 @@
                             <div class="row">
                                 <div class="col-md-5 col-lg-5">
                                     <div class="copyright-text">
-                                        <p class="mb-0">&copy; {{ date('Y')}} Aasanilaz. All rights reserved.</p>
+                                        <p class="mb-0">&copy; {{ date('Y')}} aasanilaz. All rights reserved.</p>
                                     </div>
                                 </div>
 
@@ -109,8 +109,8 @@
                                     <!-- Copyright Menu -->
                                     <div class="copyright-menu">
                                         <ul class="policy-menu">
-                                            <li><a href="term-condition.html">Terms and Conditions</a></li>
-                                            <li><a href="privacy-policy.html">Policy</a></li>
+                                            <li><a href="{{ url('term_condition') }}">Terms and Conditions</a></li>
+                                            <li><a href="{{ url('privacy_policy') }}">Policy</a></li>
                                         </ul>
                                     </div>
                                     <!-- /Copyright Menu -->

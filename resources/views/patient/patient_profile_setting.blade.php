@@ -52,65 +52,67 @@
 
 											<div class="col-md-6">
 												<div class="form-group mb-0">
-													<label>Profile Name</label>
+													<label>Profile Display Name  <span class="text-danger">*</span></label>
 													<input type="text" required="" name="profile_name" class="form-control"  value="{{ $list[0]->name }}">
 												</div>
 											</div>
 
 										<div class="col-md-4">
 											<div class="form-group">
-												<label>Username <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="username" readonly value="{{ $list[0]->user_id }}" required="">
+												<label>UserID <span class="text-danger">*</span></label>
+												<input type="text" class="form-control"  readonly value="#PT{{ $list[0]->id }}" required="">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
-												<label>Email <span class="text-danger">*</span></label>
-												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" required="">
+												<label>Email </label>
+												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>Mobile</label>
-													<input type="number" name="mobile" class="form-control" value="{{ $list[0]->mobile }}" required="">
+													<label>Mobile  <span class="text-danger">*</span></label>
+													<input type="number" readonly="" name="mobile" class="form-control" value="{{ $list[0]->mobile }}" required="">
 												</div>
 											</div>
 
 											<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>First Name</label>
+													<label>First Name  <span class="text-danger">*</span></label>
 													<input type="text" name="first_name" class="form-control" value="{{ $list[0]->first_name }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>Last Name</label>
+													<label>Last Name  <span class="text-danger">*</span></label>
 													<input type="text" name="last_name" class="form-control" value="{{ $list[0]->last_name }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>Date of Birth</label>
+													<label>Date of Birth  <span class="text-danger">*</span></label>
 													<div class="cal-icon">
-														<input type="text" required="" name="date_of_birth" class="form-control datetimepicker"  value="{{ $list[0]->date_of_birth }}">
+														<input type="text" required="" name="date_of_birth" class="form-control datetimepicker first_date_of_birth"  value="{{ $list[0]->date_of_birth }}">
 													</div>
 												</div>
 											</div>
 											<div class="col-md-6">
 											<div class="form-group">
-												<label>Gender</label>
+												<label>Gender <span class="text-danger">*</span></label>
 												<select class="form-control select" name="gender" required="">
 													<option value='' >Select</option>
 													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
 													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
+													<option value="transgender" @if($list[0]->gender=='transgender'){{ 'selected' }} @endif>Trans-Gender</option>
 												</select>
 											</div>
 										</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
-													<label>Blood Group</label>
+													<label>Blood Group <span class="text-danger">*</span></label>
 													<select class="form-control select" required="" name="blood_group">
 														<option  value="">Select Blood Group</option>
+														<option @if($list[0]->blood_group=='Not Known'){{ 'selected' }} @endif value="Not Known">Not Known</option>
 														<option @if($list[0]->blood_group=='A-'){{ 'selected' }} @endif value="A-">A-</option>
 														<option @if($list[0]->blood_group=='A+'){{ 'selected' }} @endif value="A+">A+</option>
 														<option @if($list[0]->blood_group=='B-'){{ 'selected' }} @endif value="B-">B-</option>
@@ -131,38 +133,38 @@
 
 											<div class="col-12">
 												<div class="form-group">
-												<label>Address</label>
+												<label>Address <span class="text-danger">*</span></label>
 													<input type="text" name="address" class="form-control" value="{{ $list[0]->address }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
-													<label>City</label>
+													<label>City <span class="text-danger">*</span></label>
 													<input type="text" name="city" class="form-control" value="{{ $list[0]->city }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
-													<label>State</label>
+													<label>State <span class="text-danger">*</span></label>
 													<input type="text" name="state" class="form-control" value="{{ $list[0]->state }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
-													<label>Zip Code</label>
-													<input type="text" name="pincode" class="form-control" value="{{ $list[0]->pincode }}" required="">
+													<label>Zip/Pin Code <span class="text-danger">*</span></label>
+													<input maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" name="pincode" class="form-control" value="{{ $list[0]->pincode }}" required="">
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
-													<label>Country</label>
+													<label>Country <span class="text-danger">*</span></label>
 													<input type="text" name="country" class="form-control" value="{{ $list[0]->country }}" required="">
 												</div>
 											</div>
 										</div>
 										<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">Family Members</h4>
+									<h4 class="card-title">Family Members <span class="text-danger">*</span></h4>
 									<div class="awards-info">
 										<div class="row form-row awards-cont">
 										 <?php 
@@ -194,7 +196,7 @@
 										<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>DOB</label>
-													<input type="text"  name="family_dob[]" class="form-control" value="{{ $family_dob[$key] }}">
+													<input type="text"  name="family_dob[]" class="form-control " value="{{ $family_dob[$key] }}">
 												</div> 
 											</div>
 										 		
@@ -204,14 +206,14 @@
 
 											<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>Name</label>
+													<label>Name <span class="text-danger">*</span></label>
 													<input type="text" required="" readonly="" name="family_name[]" class="form-control" value="{{ $list[0]->name }}">
 												</div> 
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>Relation</label>
-													<select class="form-control" name="family_relation[]" readonly="">
+													<label>Relation <span class="text-danger">*</span></label>
+													<select class="form-control"  required="" name="family_relation[]" readonly="">
 													  <option value="self" selected="">Self</option>
 													</select>
 
@@ -219,8 +221,8 @@
 											</div>
 										<div class="col-12 col-md-4">
 												<div class="form-group">
-													<label>DOB</label>
-													<input type="text"  name="family_dob[]" class="form-control ">
+													<label>DOB <span class="text-danger">*</span></label>
+													<input type="text" required=""  name="family_dob[]" class="form-control ">
 												</div> 
 											</div>
 										    <?php } ?>
@@ -249,6 +251,13 @@
 		<script src="{{asset('template')}}/assets/js/moment.min.js"></script>
 		<script src="{{asset('template')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('.first_date_of_birth').change(function(){
+					alert();
+				})
+			})
+		</script>
 		<script type="text/javascript">
 			function readURL(input) {
 			    if (input.files && input.files[0]) {

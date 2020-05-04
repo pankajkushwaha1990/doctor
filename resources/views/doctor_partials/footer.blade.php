@@ -118,7 +118,7 @@
 							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									<div class="copyright-text">
-										<p class="mb-0">&copy; 2020 Aasanilaz. All rights reserved.</p>
+										<p class="mb-0">&copy; 2020 aasanilaz. All rights reserved.</p>
 									</div>
 								</div>
 								<div class="col-md-6 col-lg-6">

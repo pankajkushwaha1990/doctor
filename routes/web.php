@@ -25,6 +25,8 @@ Route::get('/patient_appointment_checkout', 'PublicController@patient_appointmen
 Route::post('/patient_appointment_checkout_submit', 'PublicController@patient_appointment_checkout_submit');
 Route::get('/patient_booking_success/{id}', 'PublicController@patient_booking_success');
 Route::get('/patient_booking_failure/{id}', 'PublicController@patient_booking_failure');
+Route::get('/term_condition', function () { return view('public.term_condition'); });
+Route::get('/privacy_policy', function () { return view('public.privacy_policy'); });
 
 
 
@@ -57,6 +59,8 @@ Route::get('/patient_dashboard', 'PatientController@patient_dashboard');
 Route::get('/patient_logout',function(){ session()->flush(); return redirect('login'); });
 Route::get('/patient_profile_setting', 'PublicController@patient_profile_setting');
 Route::post('/patient_profile_setting_submit', 'PublicController@patient_profile_setting_submit');
+Route::post('/patient_registration_otp_submit', 'PublicController@patient_registration_otp_submit');
+
 
 
 

@@ -4,7 +4,7 @@
 <!-- Mirrored from dreamguys.co.in/demo/doccure/template/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Apr 2020 18:09:17 GMT -->
 <head>
         <meta charset="utf-8">
-        <title>Aasanilaz</title>
+        <title>aasanilaz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         
         <!-- Favicons -->
@@ -71,7 +71,7 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                             <div class="form-group form-focus">
-                                                <input type="number" name="mobile" class="form-control floating" maxlength="10" minlength="10" required="">
+                                                <input type="text" name="mobile" class="form-control floating" maxlength="10" minlength="10" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="">
                                                 <label class="focus-label">Mobile</label>
                                             </div>
                                             <div class="form-group form-focus">
