@@ -38,6 +38,12 @@
                           <span>Dashboard</span>
                         </a>
                       </li>
+                       <li class="">
+                        <a target="_blank" href="{{ url('') }}">
+                          <i class="fas fa-columns"></i>
+                          <span>Book Appointment</span>
+                        </a>
+                      </li>
                      <!--  <li>
                         <a href="favourites.html">
                           <i class="fas fa-bookmark"></i>

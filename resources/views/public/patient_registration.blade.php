@@ -71,7 +71,7 @@
 
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" placeholder="**************" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
 												<label class="focus-label">Create Password</label>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 

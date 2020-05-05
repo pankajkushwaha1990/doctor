@@ -518,6 +518,7 @@ class PublicController extends Controller{
             'pincode' => 'required|max:500',
             'country' => 'required|max:10',
             'family_name' => 'required|max:1000',
+            'family_gender' => 'required|max:1000',
             'family_relation' => 'required|max:1000',
             'family_dob' => 'required|max:1000',
         ]);
@@ -550,6 +551,7 @@ class PublicController extends Controller{
                   'pincode'=> $request->input('pincode'),
                   'country'=> $request->input('country'),
                   'family_name'=> json_encode($request->input('family_name')),
+                  'family_gender'=> json_encode($request->input('family_gender')),
                   'family_relation'=> json_encode($request->input('family_relation')),
                   'family_dob'=> json_encode($request->input('family_dob')),
                   'profile_picture'=> $images,

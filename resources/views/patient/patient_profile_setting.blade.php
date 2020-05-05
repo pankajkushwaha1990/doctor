@@ -92,14 +92,14 @@
 												<div class="form-group">
 													<label>Date of Birth  <span class="text-danger">*</span></label>
 													<div class="cal-icon">
-														<input type="text" required="" name="date_of_birth" class="form-control datetimepicker first_date_of_birth"  value="{{ $list[0]->date_of_birth }}">
+														<input type="text" required="" name="date_of_birth" class="form-control datetimepicker2 first_date_of_birth"  value="{{ $list[0]->date_of_birth }}">
 													</div>
 												</div>
 											</div>
 											<div class="col-md-6">
 											<div class="form-group">
-												<label>Gender <span class="text-danger">*</span></label>
-												<select class="form-control select" name="gender" required="">
+												<label>Gender <span class="text-danger ">*</span></label>
+												<select class="form-control select_gender" name="gender" required="">
 													<option value='' >Select</option>
 													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
 													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
@@ -110,7 +110,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Blood Group <span class="text-danger">*</span></label>
-													<select class="form-control select" required="" name="blood_group">
+													<select class="form-control" required="" name="blood_group">
 														<option  value="">Select Blood Group</option>
 														<option @if($list[0]->blood_group=='Not Known'){{ 'selected' }} @endif value="Not Known">Not Known</option>
 														<option @if($list[0]->blood_group=='A-'){{ 'selected' }} @endif value="A-">A-</option>
@@ -170,17 +170,30 @@
 										 <?php 
 										 if(!empty($list[0]->family_name)){
 										 	$family_name     = json_decode($list[0]->family_name,true);
+										 	$family_gender     = json_decode($list[0]->family_gender,true);
 										 	$family_relation = json_decode($list[0]->family_relation,true);
 										 	$family_dob      = json_decode($list[0]->family_dob,true);
 										 	foreach ($family_name as $key => $value) { ?>
 
-										 		<div class="col-12 col-md-4">
+										 		<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>Name</label>
 													<input type="text" required="" name="family_name[]" class="form-control" value="{{ $family_name[$key] }}">
 												</div> 
 											</div>
-											<div class="col-12 col-md-4">
+
+											<div class="col-md-3">
+											<div class="form-group">
+												<label>Gender <span class="text-danger ">*</span></label>
+												<select class="form-control gender1"  name="family_gender[]" required="">
+													<option  value="male" <?php if($family_gender[$key]=='self'){ echo 'selected'; } ?> >Male</option>
+													<option value="female" <?php if($family_gender[$key]=='self'){ echo 'selected'; } ?> >Female</option>
+													<option value="transgender" <?php if($family_gender[$key]=='self'){ echo 'selected'; } ?>>Trans-Gender</option>
+												</select>
+											</div>
+										</div>
+
+											<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>Relation</label>
 													<select class="form-control" name="family_relation[]">
@@ -189,14 +202,15 @@
 													  <option <?php if($family_relation[$key]=='children'){ echo 'selected'; } ?> value="children">Children</option>
 													  <option <?php if($family_relation[$key]=='father'){ echo 'selected'; } ?> value="father">Father</option>
 													  <option <?php if($family_relation[$key]=='mother'){ echo 'selected'; } ?> value="mother">Mother</option>
+													  <option <?php if($family_relation[$key]=='others'){ echo 'selected'; } ?> value="others">Others</option>
 													</select>
 
 												</div> 
 											</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>DOB</label>
-													<input type="text"  name="family_dob[]" class="form-control " value="{{ $family_dob[$key] }}">
+													<input type="text"  name="family_dob[]" class="form-control datetimepicker1" value="{{ $family_dob[$key] }}">
 												</div> 
 											</div>
 										 		
@@ -204,25 +218,37 @@
 
 										    }else{ ?>
 
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>Name <span class="text-danger">*</span></label>
 													<input type="text" required="" readonly="" name="family_name[]" class="form-control" value="{{ $list[0]->name }}">
 												</div> 
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-md-3">
+											<div class="form-group">
+												<label>Gender <span class="text-danger ">*</span></label>
+												<select class="form-control gender1" readonly='' name="family_gender[]" required="">
+													<option value='' >Select</option>
+													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
+													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
+													<option value="transgender" @if($list[0]->gender=='transgender'){{ 'selected' }} @endif>Trans-Gender</option>
+												</select>
+											</div>
+										</div>
+											<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>Relation <span class="text-danger">*</span></label>
 													<select class="form-control"  required="" name="family_relation[]" readonly="">
 													  <option value="self" selected="">Self</option>
+													  <option <?php if($family_relation[$key]=='others'){ echo 'selected'; } ?> value="others">Others</option>
 													</select>
 
 												</div> 
 											</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 												<div class="form-group">
 													<label>DOB <span class="text-danger">*</span></label>
-													<input type="text" required=""  name="family_dob[]" class="form-control ">
+													<input type="text" required="" readonly=""  name="family_dob[]" class="form-control set_date_picked">
 												</div> 
 											</div>
 										    <?php } ?>
@@ -282,22 +308,28 @@
     $(".add-award").on('click', function () {
 
         var regcontent = '<div class="row form-row awards-cont">' +
-			'<div class="col-12 col-md-4">' +
+			'<div class="col-12 col-md-3">' +
 				'<div class="form-group">' +
-					'<label>Name</label>' +
+					'<label>Name <span class="text-danger">*</span></label>' +
 					'<input type="text" required="" class="form-control" name="family_name[]">' +
-				'</div>' +
-			'</div>' +
-			'<div class="col-12 col-md-4">' +
-				'<div class="form-group">' +
-					'<label>Relation</label>' +
-					'<select required="" class="form-control" name="family_relation[]" ><option value="">Select Relation</option><option value="wife">Wife</option><option value="children">Children</option><option value="father">Father</option><option value="mother">Mother</option></select>' +
 				'</div>' +
 			'</div>' +
 			'<div class="col-12 col-md-3">' +
 				'<div class="form-group">' +
-					'<label>DOB</label>' +
-					'<input required="" type="text" class="form-control" name="family_dob[]">' +
+					'<label>Gender <span class="text-danger">*</span></label>' +
+					'<select required="" class="form-control" name="family_gender[]" ><option value="">Select Gender</option><option value="male">Male</option><option value="female">Female</option><option value="transgender">Trans-Gender</option></select>' +
+				'</div>' +
+			'</div>' +
+			'<div class="col-12 col-md-3">' +
+				'<div class="form-group">' +
+					'<label>Relation <span class="text-danger">*</span></label>' +
+					'<select required="" class="form-control" name="family_relation[]" ><option value="">Select Relation</option><option value="wife">Wife</option><option value="children">Children</option><option value="father">Father</option><option value="mother">Mother</option><option value="others">Others</option></select>' +
+				'</div>' +
+			'</div>' +
+			'<div class="col-12 col-md-2">' +
+				'<div class="form-group">' +
+					'<label>DOB <span class="text-danger">*</span></label>' +
+					'<input required="" type="text" class="form-control datetimepicker1" name="family_dob[]">' +
 				'</div>' +
 			'</div>' +
 			'<div class="col-12 col-md-1">' +
@@ -309,6 +341,48 @@
         $(".awards-info").append(regcontent);
         return false;
     });
+		</script>
+		<script type="text/javascript">
+			$('body').on('focus',".datetimepicker1", function(){
+				    $(this).datetimepicker({
+				    	format: 'DD/MM/YYYY',
+			icons: {
+				up: "fas fa-chevron-up",
+				down: "fas fa-chevron-down",
+				next: 'fas fa-chevron-right',
+				previous: 'fas fa-chevron-left'
+			}
+				    });
+				})
+
+		</script>
+		<script type="text/javascript">
+			$('body').on('focus',".datetimepicker2", function(){
+				    $(this).datetimepicker({
+				    	format: 'DD/MM/YYYY',
+			icons: {
+				up: "fas fa-chevron-up",
+				down: "fas fa-chevron-down",
+				next: 'fas fa-chevron-right',
+				previous: 'fas fa-chevron-left'
+			}
+				    });
+				})
+
+		</script>
+		<script type="text/javascript">
+			$('body').on('focusout',".datetimepicker2", function(){
+				    var dob = $(this).val();
+				    $('.set_date_picked').val(dob);
+			})
+
+			$(function(){
+				$('.select_gender').change(function(){
+					var gender = $(this).val();
+					$('.gender1').val(gender);
+				})
+			})
+
 		</script>
       @endsection
    
