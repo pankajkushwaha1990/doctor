@@ -506,7 +506,6 @@ class PublicController extends Controller{
       $id      = $session->id;
       $validator = Validator::make($request->all(), [
             'profile_name' => 'required|max:100',
-            'email' => 'required|max:5000',
             'first_name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'date_of_birth' => 'required|max:100',

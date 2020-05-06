@@ -198,7 +198,7 @@
 													<label>Relation</label>
 													<select class="form-control" name="family_relation[]">
 													  <option <?php if($family_relation[$key]=='self'){ echo 'selected'; } ?>  value="self" selected="">Self</option>
-													  <option <?php if($family_relation[$key]=='wife'){ echo 'selected'; } ?> value="wife">Wife</option>
+													  <option <?php if($family_relation[$key]=='spouse'){ echo 'selected'; } ?> value="spouse">Spouse</option>
 													  <option <?php if($family_relation[$key]=='children'){ echo 'selected'; } ?> value="children">Children</option>
 													  <option <?php if($family_relation[$key]=='father'){ echo 'selected'; } ?> value="father">Father</option>
 													  <option <?php if($family_relation[$key]=='mother'){ echo 'selected'; } ?> value="mother">Mother</option>
@@ -322,7 +322,7 @@
 			'<div class="col-12 col-md-3">' +
 				'<div class="form-group">' +
 					'<label>Relation <span class="text-danger">*</span></label>' +
-					'<select required="" class="form-control" name="family_relation[]" ><option value="">Select Relation</option><option value="wife">Wife</option><option value="children">Children</option><option value="father">Father</option><option value="mother">Mother</option><option value="others">Others</option></select>' +
+					'<select required="" class="form-control" name="family_relation[]" ><option value="">Select Relation</option><option value="spouse">Spouse</option><option value="children">Children</option><option value="father">Father</option><option value="mother">Mother</option><option value="others">Others</option></select>' +
 				'</div>' +
 			'</div>' +
 			'<div class="col-12 col-md-2">' +
