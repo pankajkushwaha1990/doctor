@@ -240,7 +240,6 @@
 													<label>Relation <span class="text-danger">*</span></label>
 													<select class="form-control"  required="" name="family_relation[]" readonly="">
 													  <option value="self" selected="">Self</option>
-													  <option <?php if($family_relation[$key]=='others'){ echo 'selected'; } ?> value="others">Others</option>
 													</select>
 
 												</div> 
