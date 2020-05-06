@@ -292,9 +292,7 @@
 					var url_encode   = btoa("booking_date="+booking_date+"&booking_slot="+booking_slot+"&doctor_id="+doctor_id);
 					var final_url    = "<?php echo url('patient_appointment_checkout');?>?ref_url="+url_encode;
 					$('.login_to_checkout').attr('href',final_url);
-					$('html, body').animate({
-				        scrollTop: 1000
-				    }, 2000);
+					$("html, body").animate({ scrollTop: $(document).height() }, 1000);
 
 				})
 
