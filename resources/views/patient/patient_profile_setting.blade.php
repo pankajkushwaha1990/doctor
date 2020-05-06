@@ -54,6 +54,7 @@
 												<div class="form-group mb-0">
 													<label>Profile Display Name  <span class="text-danger">*</span></label>
 													<input type="text" required="" name="profile_name" class="form-control"  value="{{ $list[0]->name }}">
+													@if ($errors->has('profile_name')) <p style="color:red;">{{ $errors->first('profile_name') }}</p> @endif
 												</div>
 											</div>
 
@@ -61,18 +62,23 @@
 											<div class="form-group">
 												<label>UserID <span class="text-danger">*</span></label>
 												<input type="text" class="form-control"  readonly value="#PT{{ $list[0]->id }}" required="">
+												@if ($errors->has('user_id')) <p style="color:red;">{{ $errors->first('user_id') }}</p> @endif
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Email </label>
 												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" >
+												@if ($errors->has('email')) <p style="color:red;">{{ $errors->first('email') }}</p> @endif
+
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Mobile  <span class="text-danger">*</span></label>
-													<input type="number" readonly="" name="mobile" class="form-control" value="{{ $list[0]->mobile }}" required="">
+													<input type="number" readonly=""  class="form-control" value="{{ $list[0]->mobile }}" required="">
+												@if ($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
+
 												</div>
 											</div>
 
@@ -80,12 +86,16 @@
 												<div class="form-group">
 													<label>First Name  <span class="text-danger">*</span></label>
 													<input type="text" name="first_name" class="form-control" value="{{ $list[0]->first_name }}" required="">
+												@if ($errors->has('first_name')) <p style="color:red;">{{ $errors->first('first_name') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Last Name  <span class="text-danger">*</span></label>
 													<input type="text" name="last_name" class="form-control" value="{{ $list[0]->last_name }}" required="">
+												@if ($errors->has('last_name')) <p style="color:red;">{{ $errors->first('last_name') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
@@ -93,6 +103,8 @@
 													<label>Date of Birth  <span class="text-danger">*</span></label>
 													<div class="cal-icon">
 														<input type="text" required="" name="date_of_birth" class="form-control datetimepicker2 first_date_of_birth"  value="{{ $list[0]->date_of_birth }}">
+												@if ($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
+
 													</div>
 												</div>
 											</div>
@@ -105,6 +117,7 @@
 													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
 													<option value="transgender" @if($list[0]->gender=='transgender'){{ 'selected' }} @endif>Trans-Gender</option>
 												</select>
+												@if ($errors->has('gender')) <p style="color:red;">{{ $errors->first('gender') }}</p> @endif
 											</div>
 										</div>
 											<div class="col-12 col-md-6">
@@ -122,6 +135,8 @@
 														<option @if($list[0]->blood_group=='O-'){{ 'selected' }} @endif value="O-">O-</option>
 														<option @if($list[0]->blood_group=='O+'){{ 'selected' }} @endif value="O+">O+</option>
 													</select>
+												@if ($errors->has('blood_group')) <p style="color:red;">{{ $errors->first('blood_group') }}</p> @endif
+
 												</div>
 											</div>
 											<!-- <div class="col-12 col-md-6">
@@ -135,30 +150,40 @@
 												<div class="form-group">
 												<label>Address <span class="text-danger">*</span></label>
 													<input type="text" name="address" class="form-control" value="{{ $list[0]->address }}" required="">
+												@if ($errors->has('address')) <p style="color:red;">{{ $errors->first('address') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>City <span class="text-danger">*</span></label>
 													<input type="text" name="city" class="form-control" value="{{ $list[0]->city }}" required="">
+												@if ($errors->has('city')) <p style="color:red;">{{ $errors->first('city') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>State <span class="text-danger">*</span></label>
 													<input type="text" name="state" class="form-control" value="{{ $list[0]->state }}" required="">
+												@if ($errors->has('state')) <p style="color:red;">{{ $errors->first('state') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Zip/Pin Code <span class="text-danger">*</span></label>
 													<input maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" name="pincode" class="form-control" value="{{ $list[0]->pincode }}" required="">
+												@if ($errors->has('pincode')) <p style="color:red;">{{ $errors->first('pincode') }}</p> @endif
+
 												</div>
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Country <span class="text-danger">*</span></label>
 													<input type="text" name="country" class="form-control" value="{{ $list[0]->country }}" required="">
+												@if ($errors->has('country')) <p style="color:red;">{{ $errors->first('country') }}</p> @endif
+													
 												</div>
 											</div>
 										</div>
