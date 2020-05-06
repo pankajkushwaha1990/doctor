@@ -69,7 +69,7 @@
 										<h3>Appointment booked Successfully!</h3>
 										<?php $timestramp = strtotime($appointment->appointment_date); ?>
 										<p>Appointment booked with <strong>{{ $appointment->name }}</strong><br> on <strong><?php echo date('d F Y',$timestramp); ?> {{ $appointment->appointment_slot }}</strong></p>
-										<a href="invoice-view.html" class="btn btn-primary view-inv-btn">View Invoice</a>
+										<a href="{{ url('patient_invoice_view') }}/{{ base64_encode(base64_encode($appointment->id)) }}" class="btn btn-primary view-inv-btn">View Invoice</a>
 									</div>
 								</div>
 							</div>

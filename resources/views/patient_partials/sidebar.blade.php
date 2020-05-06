@@ -44,6 +44,12 @@
                           <span>Book Appointment</span>
                         </a>
                       </li>
+                       <li class="">
+                        <a  href="{{ url('patient_dashboard') }}">
+                          <i class="fas fa-columns"></i>
+                          <span>My Appointment</span>
+                        </a>
+                      </li>
                      <!--  <li>
                         <a href="favourites.html">
                           <i class="fas fa-bookmark"></i>

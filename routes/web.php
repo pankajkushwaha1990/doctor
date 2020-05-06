@@ -27,6 +27,8 @@ Route::get('/patient_booking_success/{id}', 'PublicController@patient_booking_su
 Route::get('/patient_booking_failure/{id}', 'PublicController@patient_booking_failure');
 Route::get('/term_condition', function () { return view('public.term_condition'); });
 Route::get('/privacy_policy', function () { return view('public.privacy_policy'); });
+Route::get('/patient_invoice_view/{id}', 'PublicController@patient_invoice_view');
+
 
 
 

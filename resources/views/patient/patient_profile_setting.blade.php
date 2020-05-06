@@ -156,20 +156,28 @@
 											</div>
 											<div class="col-12 col-md-6">
 												<div class="form-group">
+													<label>State <span class="text-danger">*</span></label>
+													<select class="form-control select2" name="state" required="">
+													<option value='' >Select State</option>
+													@foreach($states as $st)
+													<option value="{{ $st->name }}" @if($list[0]->state==$st->name){{ 'selected' }} @endif >{{ $st->name }}</option>
+													@endforeach
+
+												</select>
+
+												@if ($errors->has('state')) <p style="color:red;">{{ $errors->first('state') }}</p> @endif
+
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="form-group">
 													<label>City <span class="text-danger">*</span></label>
 													<input type="text" name="city" class="form-control" value="{{ $list[0]->city }}" required="">
 												@if ($errors->has('city')) <p style="color:red;">{{ $errors->first('city') }}</p> @endif
 
 												</div>
 											</div>
-											<div class="col-12 col-md-6">
-												<div class="form-group">
-													<label>State <span class="text-danger">*</span></label>
-													<input type="text" name="state" class="form-control" value="{{ $list[0]->state }}" required="">
-												@if ($errors->has('state')) <p style="color:red;">{{ $errors->first('state') }}</p> @endif
-
-												</div>
-											</div>
+											
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Zip/Pin Code <span class="text-danger">*</span></label>
@@ -181,7 +189,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Country <span class="text-danger">*</span></label>
-													<input type="text" name="country" class="form-control" value="{{ $list[0]->country }}" required="">
+													<input type="text" readonly="" name="country" class="form-control" value="India" required="">
 												@if ($errors->has('country')) <p style="color:red;">{{ $errors->first('country') }}</p> @endif
 													
 												</div>

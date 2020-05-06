@@ -341,6 +341,19 @@ class PublicController extends Controller{
             return 'yes';
           }
     }
+
+    private function check_lapsed_slot($date=null,$slot=null){
+      $today_day         = date('l');
+       $selected_day      = date('l',strtotime($date));
+      $currentTime       = (int) date('Gi');
+      $selectedTime       = (int) date('Gi',strtotime($slot));
+      if($today_day==$selected_day && $currentTime>=$selectedTime){
+       return 'closed';
+      }else{
+        return 'open';
+      }
+    }
+
     public function doctor_appointment_booking(Request $request,$id=null){
        $session = $request->session()->get('member');
        $appointment_date = $request->get('appointment_date');
@@ -384,7 +397,8 @@ class PublicController extends Controller{
             foreach ($start as $key => $value) {
               $slot = $start[$key]." - ".$end[$key];
               $booked_status = $this->check_booked_slot($appointment_date,$slot,$doctor->id);
-              $slots[] = ['start'=>$start[$key],'end'=>$end[$key],'booked_status'=>$booked_status];
+              $lapsed_status = $this->check_lapsed_slot($appointment_date,$start[$key]);
+              $slots[] = ['start'=>$start[$key],'end'=>$end[$key],'booked_status'=>$booked_status,'lapsed_status'=>$lapsed_status];
             }
         }
        $data         = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot,'slots'=>$slots);
@@ -485,7 +499,7 @@ class PublicController extends Controller{
       $booking_id = base64_decode(base64_decode(base64_decode($booking_id)));
       $session    = $request->session()->get('member');
       $patient_id = $session->id;
-      $list       = DB::select("select * from appointment_booked join admin on doctor_id=admin.id where appointment_booked.id='$booking_id' and patient_id='$patient_id'");
+      $list       = DB::select("select *,appointment_booked.id as id from appointment_booked join admin on doctor_id=admin.id where appointment_booked.id='$booking_id' and patient_id='$patient_id'");
       if(!empty($list)){
         $response = $list[0];
       }else{
@@ -498,7 +512,8 @@ class PublicController extends Controller{
        $session = $request->session()->get('member');
        $id      = $session->id;
        $list    =    DB::select("select * from admin where admin.id='$id' and type='patient'");
-       $data    = array('session'=>$session,'list'=>$list);
+       $states    =    DB::select("select * from states where country_id='101'");
+       $data    = array('session'=>$session,'list'=>$list,'states'=>$states);
        return view('patient.patient_profile_setting')->with($data);
     }
     public function patient_profile_setting_submit(Request $request){
@@ -639,6 +654,19 @@ class PublicController extends Controller{
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and admin.premenum_status='1' and clinic_city!=''");
        $data    = array('list'=>$list);
       return view('public.welcome')->with($data);
+    }
+    public function patient_invoice_view(Request $request,$booking_id=null){
+      $booking_id = base64_decode(base64_decode($booking_id));
+      $session    = $request->session()->get('member');
+      $patient_id = $session->id;
+      $list       = DB::select("select *,appointment_booked.id as id from appointment_booked join admin on doctor_id=admin.id join profile_details on profile_details.admin_id=admin.id where appointment_booked.id='$booking_id' and patient_id='$patient_id'");
+      if(!empty($list)){
+        $response = $list[0];
+      }else{
+        $response = [];
+      }
+       $data    = array('appointment'=>$response,'session'=>$session);
+       return view('Patient.patient_invoice_view')->with($data);
     }
 
 
