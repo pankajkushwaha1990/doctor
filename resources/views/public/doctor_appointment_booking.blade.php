@@ -293,7 +293,7 @@
 					var final_url    = "<?php echo url('patient_appointment_checkout');?>?ref_url="+url_encode;
 					$('.login_to_checkout').attr('href',final_url);
 					$('html, body').animate({
-				        scrollTop: 500
+				        scrollTop: 1000
 				    }, 2000);
 
 				})
