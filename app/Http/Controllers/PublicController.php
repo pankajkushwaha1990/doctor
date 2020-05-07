@@ -682,7 +682,7 @@ class PublicController extends Controller{
         $response = [];
       }
        $data    = array('appointment'=>$response,'session'=>$session);
-       return view('Patient.patient_invoice_view')->with($data);
+       return view('patient.patient_invoice_view')->with($data);
     }
     public function forget_password_otp_submit(Request $request){
         $validator = Validator::make($request->all(), [
