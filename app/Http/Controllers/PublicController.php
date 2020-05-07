@@ -347,7 +347,7 @@ class PublicController extends Controller{
        $selected_day      = date('l',strtotime($date));
       $currentTime       = (int) date('Gi');
       $selectedTime       = (int) date('Gi',strtotime($slot));
-      if($today_day==$selected_day && $currentTime>=$selectedTime){
+      if($today_day>=$selected_day && $currentTime>=$selectedTime){
        return 'closed';
       }else{
         return 'open';
