@@ -51,35 +51,72 @@
 									</div>
 									<div class="col-md-12 col-lg-6 login-right">
 										<div class="login-header">
-											<h3>Patient Register <a href="{{ url('doctor_registration') }}">Are you a Doctor?</a></h3>
+											<h3>Patient Register <a href="javascript:void();">OTP</a></h3>
+										</div>
+										<div class="login-header">
+											 <h6 class="card-title">
+								                  @if(session()->get('success'))
+								                    <span class="text-success">
+								                      {{ session()->get('success') }}  
+								                    </span>
+								                  @endif
+								                   @if(session()->get('failure'))
+								                    <span class="text-danger">
+								                      {{ session()->get('failure') }}  
+								                    </span>
+								                  @endif
+								              </h6>
 										</div>
 										
 										<!-- Register Form -->
-										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('patient_registration_submit') }}">
+										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('forget_password_otp_submit') }}" oninput='confirm_password.setCustomValidity(confirm_password.value != password.value ? "Passwords do not match." : "")'>
            									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-           									<input type="hidden" name="type" value="cGF0aWVudA==">
+           									<?php 
+           									$mobile = isset($registration_details['mobile'])?$registration_details['mobile']:old('mobile');
+           									?>
+           								<input type="hidden" name="mobile" value="{{ base64_encode(base64_encode($mobile)) }}">
 
+											<!-- <div class="form-group form-focus">
+												<input type="text" class="form-control floating" name="name" required="" >
+												<label class="focus-label">Name123</label>
+											</div> -->
+                                               <!-- @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif -->
 											<div class="form-group form-focus">
-												<input type="text" class="form-control floating" value="{{ old('name') }}" minlength="3" maxlength="100" name="name" required="" >
-												<label class="focus-label">Patient Name</label>
-											</div>
-                                               @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif
-											<div class="form-group form-focus">
-												<input type="text" class="form-control floating mobile_validation" name="mobile" required="" maxlength="10" minlength="10" value="{{ old('mobile') }}" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-												<label class="focus-label">Patient Mobile Number (+91)</label>
+												<input type="text" readonly="" class="form-control floating" value="{{ $mobile }}" required="" maxlength="10" minlength="10">
+												<label class="focus-label">Mobile Number</label>
                                                @if ($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
 											</div>
 											<div class="form-group form-focus">
+												<input type="number" class="form-control floating" name="otp" required="" minlength="6" maxlength="6">
+												<label class="focus-label">Enter OTP</label>
+												<div class="invalid-feedback">Enter 5 Digit OTP.</div>
+                                               @if ($registration_details['mobile_otp']) <p style="color:red;">Please Enter Valid Otp</p> @endif
+
+											</div>
+
+											<div class="form-group form-focus">
 												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
-												<label class="focus-label">Create Password</label>
+												<label class="focus-label">Password</label>
+												<div class="invalid-feedback">Enter Password.</div>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>
-											<div class="text-right">
-												<a class="forgot-link" href="{{ url('login') }}">Already have an account?</a>
+
+											<div class="form-group form-focus">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="confirm_password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<label class="focus-label">Confirm Password</label>
+												<div class="invalid-feedback">Password And Confirm Password Should Be Same.</div>
+
+                                               @if ($errors->has('confirm_password')) <p style="color:red;">{{ $errors->first('confirm_password') }}</p> @endif
+
 											</div>
-											<button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Signup</button>
+
+											<div class="text-right">
+												<!-- <a class="forgot-link" href="{{ url('login') }}">Already have an account?</a> -->
+											</div>
+											<br>
+											<button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Continue</button>
 											<!-- <div class="login-or">
 												<span class="or-line"></span>
 												<span class="span-or">or</span>
@@ -110,7 +147,7 @@
    
 			<!-- Footer -->
             @include('public/footer')
-			
+
 			<!-- /Footer -->
 		   
 		</div>
@@ -127,7 +164,6 @@
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
 
-		
 		
 	</body>
 

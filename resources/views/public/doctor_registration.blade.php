@@ -75,12 +75,12 @@
 
 											<div class="form-group form-focus">
 												<input type="text" class="form-control floating" minlength="3" maxlength="100" name="name" required="" value="{{ old('name') }}">
-												<label class="focus-label">Name</label>
+												<label class="focus-label">Doctor Name</label>
 											</div>
                                                @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif
 											<div class="form-group form-focus">
 												<input type="text" class="form-control floating mobile_validation" name="mobile" required="" maxlength="10" minlength="10" value="{{ old('mobile') }}" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-												<label class="focus-label">Mobile Number (+91)</label>
+												<label class="focus-label">Doctor Mobile Number (+91)</label>
                                                @if ($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
 											</div>

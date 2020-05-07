@@ -200,6 +200,22 @@ class PublicController extends Controller{
           // }
         } 
     }
+    public function forget_password_submit(Request $request){
+        $validator = Validator::make($request->all(), [
+            'mobile' => 'required|max:10|exists:admin,mobile',
+        ]);
+        if ($validator->fails()){
+            return redirect('forgot_password')->withErrors($validator)->withInput();
+        }else{
+          $otp   = rand(11111,99999);
+          $this->generate_mobile_otp($request->input('mobile'),$otp);
+          $this->sendSms($request->input('mobile'),$otp);
+          $insert  = ['mobile'=>$request->input('mobile'),'mobile_otp'=>''];
+          $data    = ['registration_details'=>$insert];
+          return view('public.forget_password_otp')->with($data);
+        }
+    }
+
     public function search_doctor(Request $request){
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!=''");
        $data    = array('list'=>$list);
@@ -668,6 +684,31 @@ class PublicController extends Controller{
        $data    = array('appointment'=>$response,'session'=>$session);
        return view('Patient.patient_invoice_view')->with($data);
     }
+    public function forget_password_otp_submit(Request $request){
+        $validator = Validator::make($request->all(), [
+            'mobile' => 'required|max:100',
+            'password' => 'required|max:50',
+            'confirm_password' => 'required|max:50',
+            'otp' => 'required|max:50',
+        ]);
+        if ($validator->fails()){
+            return redirect('forget_password_otp')->withErrors($validator)->withInput();
+        }else{
+          $insert = array(
+                'password' => $request->input('password'),
+                'mobile_otp' => $request->input('otp'),
+          );
+          $mobile = base64_decode(base64_decode($request->input('mobile')));
+           $otp    = $this->check_temp_mobile_otp($mobile);
+          if($otp==$request->input('otp')){
+            $status = DB::table('admin')->where('mobile',$mobile)->update($insert);
+            return redirect('/login')->with('success', 'Password Changed successfully');
+          }else{
+            $data = ['registration_details'=>$insert];
+            return view('public.forget_password_otp')->with($data);
+          }
+        } 
+    }
 
 
 
@@ -692,9 +733,9 @@ class PublicController extends Controller{
 
     
 
-    public function forget_password_submit(Request $request){
+    public function forget_password(Request $request){
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'mobile' => 'required',
         ]);
 
         if ($validator->fails()){
@@ -713,7 +754,7 @@ class PublicController extends Controller{
                   $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
                   $headers .= 'From: <webmaster@example.com>' . "\r\n";
                   mail($to,$subject,$message,$headers);
-                  return redirect('/forget-password')->with('success', 'Reset Link Sent On Given Mail Successfully');
+                  return redirect('/forget_password1')->with('success', 'Reset Link Sent On Given Mail Successfully');
             }
         }
     }

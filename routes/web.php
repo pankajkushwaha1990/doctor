@@ -28,6 +28,10 @@ Route::get('/patient_booking_failure/{id}', 'PublicController@patient_booking_fa
 Route::get('/term_condition', function () { return view('public.term_condition'); });
 Route::get('/privacy_policy', function () { return view('public.privacy_policy'); });
 Route::get('/patient_invoice_view/{id}', 'PublicController@patient_invoice_view');
+Route::get('/forgot_password', function () {  return view('public.forgot_password'); });
+Route::post('/forget_password_submit', 'PublicController@forget_password_submit');
+Route::post('/forget_password_otp_submit', 'PublicController@forget_password_otp_submit');
+
 
 
 
@@ -170,9 +174,7 @@ Route::get('/transaction-history-report-list', 'AdminController@transaction_hist
 
 
 
-Route::get('/forget-password', function () {
-    return view('public.forget-password');
-});
+
 
 Route::get('/set-new-password/{id}', function ($id) {
     return view('public.set-new-password')->with(array('email'=>$id));
