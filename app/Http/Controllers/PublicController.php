@@ -704,6 +704,7 @@ class PublicController extends Controller{
             $status = DB::table('admin')->where('mobile',$mobile)->update($insert);
             return redirect('/login')->with('success', 'Password Changed successfully');
           }else{
+            $insert = array_merge($insert,['mobile'=>$mobile]);
             $data = ['registration_details'=>$insert];
             return view('public.forget_password_otp')->with($data);
           }
