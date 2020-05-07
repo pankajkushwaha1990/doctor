@@ -347,7 +347,7 @@ class PublicController extends Controller{
        $selected_day      = date('l',strtotime($date));
       $currentTime       = (int) date('Gi');
       $selectedTime       = (int) date('Gi',strtotime($slot));
-      if($today_day>=$selected_day && $currentTime>=$selectedTime){
+      if($today_day==$selected_day && $currentTime>=$selectedTime){
        return 'closed';
       }else{
         return 'open';
@@ -397,7 +397,7 @@ class PublicController extends Controller{
             foreach ($start as $key => $value) {
               $slot = $start[$key]." - ".$end[$key];
               $booked_status = $this->check_booked_slot($appointment_date,$slot,$doctor->id);
-              $lapsed_status = $this->check_lapsed_slot($appointment_date,$start[$key]);
+              $lapsed_status = $this->check_lapsed_slot($appointment_date,$end[$key]);
               $slots[] = ['start'=>$start[$key],'end'=>$end[$key],'booked_status'=>$booked_status,'lapsed_status'=>$lapsed_status];
             }
         }
