@@ -493,6 +493,7 @@ class PublicController extends Controller{
                           'patient_name'=>$patient_details[0],
                           'patient_relation'=>$patient_details[1],
                           'patient_dob'=>$patient_details[2],
+                          'patient_gender'=>$patient_details[3],
                   );
           $status = DB::table('appointment_booked')->insert($insert);
           $status = DB::getPdo()->lastInsertId();

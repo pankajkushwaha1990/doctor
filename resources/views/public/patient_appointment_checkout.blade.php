@@ -82,8 +82,9 @@
 														$family_name     = json_decode($patient[0]->family_name,true);
 													 	$family_relation = json_decode($patient[0]->family_relation,true);
 													 	$family_dob      = json_decode($patient[0]->family_dob,true);
+													 	$family_gender   = json_decode($patient[0]->family_gender,true);
 													 	foreach ($family_name as $key => $value) { ?>
-													 		     	<option value="{{ $family_name[$key] }}||{{ $family_relation[$key] }}||{{ $family_dob[$key] }}">{{ $family_name[$key] }}  ({{ $family_relation[$key] }}) {{ $family_dob[$key] }}</option>
+													 		     	<option value="{{ $family_name[$key] }}||{{ $family_relation[$key] }}||{{ $family_dob[$key] }}||{{ $family_gender[$key] }}">{{ $family_name[$key] }}  ({{ $family_relation[$key] }}) {{ $family_dob[$key] }}</option>
 													 	<?php } ?>
 													 		      </select>
 													 			</div>

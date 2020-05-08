@@ -90,7 +90,7 @@
 												<strong class="customer-text">Paitent Details</strong>
 												<p class="invoice-details invoice-details-two">
 													{{ $appointment->patient_name }} <br>
-													{{ $appointment->patient_dob }} ({{ $dob }}) Years<br>
+													{{ ucfirst($appointment->patient_gender) }} ({{ $dob }}) Years<br>
 													Relation: {{ $appointment->patient_relation }}<br>
 												</p>
 											</div>
