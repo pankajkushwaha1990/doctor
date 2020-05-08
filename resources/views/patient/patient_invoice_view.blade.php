@@ -149,8 +149,11 @@
 								
 								<!-- Invoice Information -->
 								<div class="other-info">
-									<h4>Other information</h4>
-									<p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed dictum ligula, cursus blandit risus. Maecenas eget metus non tellus dignissim aliquam ut a ex. Maecenas sed vehicula dui, ac suscipit lacus. Sed finibus leo vitae lorem interdum, eu scelerisque tellus fermentum. Curabitur sit amet lacinia lorem. Nullam finibus pellentesque libero.</p>
+									<h4>Note:</h4>
+									<p class="text-muted mb-0">1- This is computer generated appointment letter only.</p>
+									<p class="text-muted mb-0">2- Original invoice shall be provided by doctor at clinic.</p>
+									<p class="text-muted mb-0">3- No signature required.</p>
+
 								</div>
 								<!-- /Invoice Information -->
 								
