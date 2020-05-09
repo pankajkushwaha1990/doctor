@@ -22,6 +22,43 @@ class DoctorController extends Controller{
           }
         });
     }
+    public function doctor_slot_clone(Request $request,$days=null){
+       $session       = $request->session()->get('member');
+       $id           = $session->id;
+       $appointment  =    $days;
+       $list         =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
+       $doctor       =  $list[0];
+       if(ucfirst($appointment)=='Saturday'){
+          $start = $doctor->saturday_start_time?json_decode($doctor->saturday_start_time,true):[];
+          $end   = $doctor->saturday_end_time?json_decode($doctor->saturday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Sunday'){
+          $start = $doctor->sunday_start_time?json_decode($doctor->sunday_start_time,true):[];
+          $end   = $doctor->sunday_end_time?json_decode($doctor->sunday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Monday'){
+          $start = $doctor->monday_start_time?json_decode($doctor->monday_start_time,true):[];
+          $end   = $doctor->monday_end_time?json_decode($doctor->monday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Tuesday'){
+          $start = $doctor->tuesday_start_time?json_decode($doctor->tuesday_start_time,true):[];
+          $end   = $doctor->tuesday_end_time?json_decode($doctor->tuesday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Wednesday'){
+          $start = $doctor->wednesday_start_time?json_decode($doctor->wednesday_start_time,true):[];
+          $end   = $doctor->wednesday_end_time?json_decode($doctor->wednesday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Thursday'){
+          $start = $doctor->thursday_start_time?json_decode($doctor->thursday_start_time,true):[];
+          $end   = $doctor->thursday_end_time?json_decode($doctor->thursday_end_time,true):[];
+        }elseif(ucfirst($appointment)=='Friday'){
+          $start = $doctor->friday_start_time?json_decode($doctor->friday_start_time,true):[];
+          $end   = $doctor->friday_end_time?json_decode($doctor->friday_end_time,true):[];
+        }
+        $slots = [];
+        if(!empty($start)){
+            foreach ($start as $key => $value) {
+              $slot = $start[$key]." - ".$end[$key];
+              $slots[] = ['start'=>$start[$key],'end'=>$end[$key]];
+            }
+        }
+        return response()->json($slots);
+    }
     public function doctor_dashboard(Request $request){
        $session = $request->session()->get('member');
        $id      = $session->id;       
@@ -72,7 +109,6 @@ class DoctorController extends Controller{
             'start_time' => 'required|max:5000',
             'end_time' => 'required|max:5000',
        ]);
-       $amenities_id = $request->get('amenities_id');
        if ($validator->fails()){
             return redirect('doctor_schedule_timings/')->withErrors($validator)->withInput();
       }else{

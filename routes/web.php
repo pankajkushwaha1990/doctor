@@ -54,6 +54,7 @@ Route::post('/doctor_profile_setting_submit', 'PublicController@doctor_profile_s
 Route::post('/doctor_schedule_timings_submit', 'DoctorController@doctor_schedule_timings_submit');
 Route::post('/doctor_change_password_submit', 'DoctorController@doctor_change_password_submit');
 Route::post('/doctor_registration_otp_submit', 'PublicController@doctor_registration_otp_submit');
+Route::get('/doctor_slot_clone/{id}', 'DoctorController@doctor_slot_clone');
 
 
 

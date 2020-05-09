@@ -349,6 +349,22 @@
         			var end = moment.utc(start,'hh:mm').add(duration,'minute').format('LT');
         			$('.end_time').eq(index).val(end);
         		})
+
+        		$('.clone_slot').change(function(){
+        			var days = $(this).val();
+        			var url  = '<?php echo url('doctor_slot_clone');?>';
+        			var slots = '';
+        			$.ajax({
+					  url: url+"/"+days,
+					  success: function(html){
+					  	var slot     = html;
+					  	for(var p=0;p<slot.length;p++){
+					  		slots+='<div class="row form-row hours-cont"><div class="col-12 col-md-10"><div class="row form-row"><div class="col-12 col-md-6"><div class="form-group"><label>Start Time1</label><input type="text" name="start_time[]" value="'+slot[p].start+'" class="form-control start_time" required=""></div></div><div class="col-12 col-md-6"><div class="form-group"><label>End Time</label><input type="text" name="end_time[]" value="'+slot[p].end+'" class="form-control end_time" required=""></div></div></div></div><div class="col-12 col-md-2"><label class="d-md-block d-sm-none d-none">&nbsp;</label><a href="#" class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div></div>';
+					  	}
+					  	$('.hours-info').html(slots);					  	
+					  }
+					});
+        		})
         	})
 
         </script>
@@ -356,20 +372,40 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Time Slots</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          	<div class="row" style="width: 100%;">
+          		<div class="col-md-4">
+            		<h5 class="modal-title">Add Slots</h5>
+          		</div>
+          		<div class="col-md-6">
+                 <select class="select form-control clone_slot">
+																<option value=''>Clone Slot From</option>
+																<option value="Sunday">Sunday</option>
+																<option value="Monday">Monday</option>
+																<option value="Tuesday">Tuesday</option>
+																<option value="Wednesday">Wednesday</option>
+																<option value="Thursday">Thursday</option>
+																<option value="Friday">Friday</option>  
+																<option value="Saturday">Saturday</option>
+															</select>
+				</div> 
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                   </button>
+                <!-- </div> -->
+			</div>
+
+           
           </div>
           <div class="modal-body">
             <form id="needs-validation" enctype="multipart/form-data" novalidate class="needs-validation" method="post" action="{{ url('doctor_schedule_timings_submit') }}">
           	 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          	 <input type="hidden" name='duration' value="" class="submit_duration">
+                      <input type="hidden" name='days' value="" class="submit_days">
               <div class="hours-info">
                 <div class="row form-row hours-cont">
                   <div class="col-12 col-md-10">
                     <div class="row form-row">
-                      <input type="hidden" name='duration' value="" class="submit_duration">
-                      <input type="hidden" name='days' value="" class="submit_days">
+                      
                       <div class="col-12 col-md-6">
                         <div class="form-group">
                           <label>Start Time</label>

@@ -378,7 +378,12 @@
 															<span> Opening Time </span>
 														</p>
 														<p class="timings-times">
-															<span>{{ ucfirst($doctor->clinic_open_time) }} - {{ ucfirst($doctor->clinic_close_time) }}</span>
+                                                   <?php 
+                                                   date_default_timezone_set('Asia/Kolkata');
+                                                    $openTime           = date('Gi',strtotime($doctor->clinic_open_time)); ?>
+                                                 <?php $closedTime       = date('Gi',strtotime($doctor->clinic_close_time)); ?>
+
+															<span>{{ date('h:i A',strtotime($openTime)) }} - {{ date('h:i A',strtotime($closedTime)) }}</span>
 															<!-- <span>4:00 PM - 9:00 PM</span> -->
 														</p>
 													</div>
