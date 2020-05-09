@@ -75,7 +75,7 @@ class DoctorController extends Controller{
     public function doctor_appointments(Request $request){
        $session = $request->session()->get('member');
        $id      = $session->id;
-       $appointment =    DB::select("select *,admin.id as id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' order by appointment_date asc,appointment_slot asc");
+       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
        $data       = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_appointments')->with($data);
     }

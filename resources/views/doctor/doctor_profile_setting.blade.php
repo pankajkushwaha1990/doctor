@@ -553,14 +553,14 @@
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Registrations</label>
-													<input type="text" class="form-control" name="registration_no" required="" value="{{ $list[0]->registration_no }}">
+													<input type="text" class="form-control" name="registration_no" value="{{ $list[0]->registration_no }}">
 													@if($errors->has('registration_no')) <p style="color:red;">{{ $errors->first('registration_no') }}</p> @endif
 												</div> 
 											</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Year</label>
-													<input type="text" class="form-control" name="registration_year" required="" value="{{ $list[0]->registration_year }}">
+													<input type="text" class="form-control" name="registration_year" value="{{ $list[0]->registration_year }}">
 													@if($errors->has('registration_year')) <p style="color:red;">{{ $errors->first('registration_year') }}</p> @endif
 												</div> 
 											</div>

@@ -120,6 +120,35 @@ class PublicController extends Controller{
           // }
         } 
     }
+    public function doctor_appointments_checked_in_submit(Request $request){
+      $validator = Validator::make($request->all(), [
+            'booking_id' => 'required',
+            'doctor_fee' => 'required',
+            'pay_amount' => 'required',
+      ]);
+      if ($validator->fails()){
+            return redirect('doctor_appointments')->withErrors($validator)->withInput();
+      }else{
+            $booking_id      = $request->input('booking_id');
+            $pay_amount      = $request->input('pay_amount');
+            $insert_update   = ['pay_amount'=>$pay_amount,'appointment_status'=>1];
+            $where   = ['id'=>$booking_id];
+            $status  = DB::table('appointment_booked')->where($where)->update($insert_update);
+
+            if($status){
+              return redirect('/doctor_appointments')->with('success', 'Checked-In successfully'); 
+            }else{
+              return redirect('/doctor_appointments')->with('success', 'Some Problem Occured Try Again'); 
+            }
+      }
+    }
+    public function doctor_appointments_checkout_status(Request $request,$status=null,$amenities_id=null){
+      $session = $request->session()->get('member');
+      $id      = $session->id;
+      $amenities_id = base64_decode($amenities_id);
+      $status   = DB::table('appointment_booked')->where('id', $amenities_id)->update(array('appointment_status'=>$status));
+      return redirect('/doctor_appointments')->with('success', 'Checkout Changed Successfully'); 
+    }
     public function login_submit(Request $request){
         $validator = Validator::make($request->all(), [
             'mobile' => 'required',
@@ -270,8 +299,8 @@ class PublicController extends Controller{
             // 'experience_designation' => 'required|max:5000',
             'designation' => 'required|max:5000',
             // 'award_year' => 'required|max:5000',
-            'registration_no' => 'required|max:5000',
-            'registration_year' => 'required|max:5000',
+            // 'registration_no' => 'required|max:5000',
+            // 'registration_year' => 'required|max:5000',
             'clinic_open_time' => 'required|max:5000',
             'clinic_close_time' => 'required|max:5000',
         ]);

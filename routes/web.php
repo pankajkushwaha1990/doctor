@@ -55,6 +55,10 @@ Route::post('/doctor_schedule_timings_submit', 'DoctorController@doctor_schedule
 Route::post('/doctor_change_password_submit', 'DoctorController@doctor_change_password_submit');
 Route::post('/doctor_registration_otp_submit', 'PublicController@doctor_registration_otp_submit');
 Route::get('/doctor_slot_clone/{id}', 'DoctorController@doctor_slot_clone');
+Route::post('/doctor_appointments_checked_in_submit', 'PublicController@doctor_appointments_checked_in_submit');
+Route::get('/doctor_appointments_checkout_status/{status}/{id}', 'PublicController@doctor_appointments_checkout_status');
+
+
 
 
 

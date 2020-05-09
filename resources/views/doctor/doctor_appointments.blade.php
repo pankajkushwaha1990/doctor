@@ -9,9 +9,26 @@
 						<div class="col-md-7 col-lg-8 col-xl-9">
 							<div class="card">
 								<div class="card-body pt-0">
+
 								
 									<!-- Tab Menu -->
 									<nav class="user-tabs mb-4">
+										<div class="login-header" style="text-align: center;">
+                                             <h6 class="card-title">
+                                                  @if(session()->get('success'))
+                                                  <br>
+                                                    <span class="text-success">
+                                                      {{ session()->get('success') }}  
+                                                    </span>
+                                                  @endif
+                                                   @if(session()->get('failure'))
+                                                   <br>
+                                                    <span class="text-danger">
+                                                      {{ session()->get('failure') }}  
+                                                    </span>
+                                                  @endif
+                                              </h6>
+                                        </div>
 										<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
 											<li class="nav-item">
 												<a class="nav-link active" href="#pat_appointments" data-toggle="tab">Appointments</a>
@@ -45,6 +62,7 @@
 																	<th>Appt Date</th>
 																	<th>Booking Date</th>
 																	<th>Amount</th>
+																	<th>Paid</th>
 																	<!-- <th>Follow Up</th> -->
 																	<th>Action</th>
 																	<th></th>
@@ -63,7 +81,7 @@
 																	</td>
 																	<td>
 																		<h2 class="table-avatar">
-																			<a href="{{ url('patient_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
+																			<a  href="{{ url('patient_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
 																				<img class="avatar-img rounded-circle" src="{{asset('patient_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
 																			</a>
 																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->state }} , {{ $doctor->city }}</span> <span>+91 {{ $doctor->mobile }}</span></a>
@@ -74,6 +92,7 @@
 																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
 																	<td><?php echo date('d F Y',$created_at); ?></td>
 																	<td>{{ $doctor->doctor_fee }} Rs.</td>
+																	<td>{{ $doctor->pay_amount }} Rs.</td>
 																	<!-- <td>16 Nov 2019</td> -->
 																	<!-- <td><span class="badge badge-pill bg-success-light">Confirm</span></td> -->
 																	<td class="text-right">
@@ -81,10 +100,13 @@
 																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
 																				<i class="fas fa-print"></i> Print
 																			</a> -->
-																			
-																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
-																				<i class="far fa-eye"></i> check-In
-																			</a>
+																		@if($doctor->appointment_status==0)
+																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">In</button></a>
+																		@elseif($doctor->appointment_status==1)
+																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Out</button></a>
+																		@endif
+
+
 																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a>
@@ -896,15 +918,98 @@
 						</div>
       <!-- /Page Wrapper -->
 
+
+
       	
       @section('scripts')
       <script src="{{asset('template')}}/admin/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 		<script src="{{asset('template')}}/admin/assets/plugins/datatables/datatables.min.js"></script>
 		<script  src="{{asset('template')}}/admin/assets/js/script.js"></script>
+		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
+
+		<script type="text/javascript">
+			$(function(){
+				$('.check_in_click').click(function(e){
+					e.preventDefault();
+					$('.patient_name').text($(this).attr('patient_name'));
+					$('.appintment_on').text($(this).attr('appointment_on'));
+					$('.doctor_fee').val($(this).attr('doctor_fee'));
+					$('.booking_id').val($(this).attr('booking_id'));
+					$('#check_in_modal').modal('show');
+				})
+			})
+		</script>
 
 		
       @endsection
+
    
 @endsection
+
+<div id="check_in_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="needs-validation" enctype="multipart/form-data" novalidate="" class="needs-validation" method="post" action="{{ url('doctor_appointments_checked_in_submit') }}">
+          	 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          	 <input type="hidden" name="booking_id" required="" value="" class="booking_id">
+              <div class="hours-info">
+                <div class="row form-row hours-cont">
+                  <div class="col-12 col-md-12">
+                    <div class="row form-row">
+                      
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Patient Name</label>
+                          <div class="patient_name">Pankaj Kushwaha</div>
+                        </div> 
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Appointment On</label>
+                          <div class="appintment_on">Pankaj Kushwaha</div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<hr>
+                <div class="row form-row hours-cont">
+                  <div class="col-12 col-md-12">
+                    <div class="row form-row">
+                      
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Booking Amount</label>
+                          <div ><input class="doctor_fee form-control" readonly="" type="number" name="doctor_fee"></div>
+                        </div> 
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Pay Amount</label>
+                          <div ><input class="pay_amount form-control" required=""  type="number" name="pay_amount"></div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="submit-section text-center">
+                <button type="submit" class="btn btn-primary submit-btn">Check-In</button>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
