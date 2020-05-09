@@ -65,7 +65,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Username <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" readonly value="{{ $list[0]->user_id }}" required="">
+												<input type="text" class="form-control" readonly value="#DR{{ $list[0]->id }}" required="">
 												 @if ($errors->has('user_id')) <p style="color:red;">{{ $errors->first('user_id') }}</p> @endif
 											</div>
 										</div>
@@ -79,8 +79,8 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Email <span class="text-danger">*</span></label>
-												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" required="">
+												<label>Email</label>
+												<input type="email" class="form-control" name="email" value="{{ $list[0]->email }}" >
 												 @if ($errors->has('email')) <p style="color:red;">{{ $errors->first('email') }}</p> @endif
 
 											</div>
@@ -112,7 +112,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Gender</label>
-												<select class="form-control select" name="gender" required="">
+												<select class="form-control" name="gender" required="">
 													<option value='' >Select</option>
 													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
 													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
@@ -251,28 +251,25 @@
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Pricing</h4>
-									
-									<div class="form-group mb-0">
-										<div id="pricing_select">
-											<div class="custom-control custom-radio custom-control-inline">
-												<input type="radio" id="price_free" name="rating_option" @if($list[0]->rating_option=='price_free'){{ 'checked' }} @endif class="custom-control-input" value="price_free">
-												<label class="custom-control-label" for="price_free">Free</label>
-											</div>
-											<div class="custom-control custom-radio custom-control-inline">
-												<input @if($list[0]->rating_option=='custom_price'){{ 'checked' }} @endif type="radio" id="price_custom" name="rating_option" value="custom_price" class="custom-control-input">
-												<label class="custom-control-label" for="price_custom">Custom Price (per hour)</label>
-											</div>
-										</div>
 
-									</div>
-									
-									<div class="row custom_price_cont" id="custom_price_cont" @if($list[0]->rating_option=='custom_price'){{ 'checked' }} @else {{ 'style="display: none;"' }} @endif >
-										<div class="col-md-4">
-											<input type="text" class="form-control" id="custom_rating_input" name="clinic_fee" value="{{ $list[0]->clinic_fee }}" placeholder="Enter Fee">
-											<small class="form-text text-muted">Custom price you can add</small>
+										<div class="row form-row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>New Appointment Fee</label>
+												<input type="text" class="form-control" name="clinic_fee" required="" value="{{ $list[0]->clinic_fee }}">
+												 @if($errors->has('clinic_fee')) <p style="color:red;">{{ $errors->first('clinic_fee') }}</p> @endif
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Old Appointment Fee</label>
+												<input type="text" class="form-control" name="old_clinic_fee" required="" value="{{ $list[0]->old_clinic_fee }}">
+												 @if($errors->has('old_clinic_fee')) <p style="color:red;">{{ $errors->first('old_clinic_fee') }}</p> @endif
+											</div>
 										</div>
 									</div>
-									@if($errors->has('rating_option')) <p style="color:red;">{{ $errors->first('rating_option') }}</p> @endif
+									
+									
 									
 								</div>
 							</div>
@@ -398,25 +395,25 @@
 													<div class="col-12 col-md-6 col-lg-3">
 														<div class="form-group">
 															<label>Hospital Name</label>
-															<input type="text" class="form-control" name="hospital_name[]" required="" value="{{ $hospital_name[$key] }}">
+															<input type="text" class="form-control" name="hospital_name[]" value="{{ $hospital_name[$key] }}">
 														</div> 
 													</div>
 													<div class="col-12 col-md-6 col-lg-3">
 														<div class="form-group">
 															<label>From</label>
-															<input type="text" class="form-control" name="experience_from[]" required=""  value="{{ $experience_from[$key] }}">
+															<input type="text" class="form-control" name="experience_from[]"   value="{{ $experience_from[$key] }}">
 														</div> 
 													</div>
 													<div class="col-12 col-md-6 col-lg-3">
 														<div class="form-group">
 															<label>To</label>
-															<input type="text" class="form-control" name="experience_to[]" required="" value="{{ $experience_to[$key] }}">
+															<input type="text" class="form-control" name="experience_to[]" value="{{ $experience_to[$key] }}">
 														</div> 
 													</div>
 													<div class="col-12 col-md-6 col-lg-3">
 														<div class="form-group">
 															<label>Designation</label>
-															<input type="text" class="form-control" name="experience_designation[]" required="" value="{{ $experience_designation[$key] }}">
+															<input type="text" class="form-control" name="experience_designation[]"  value="{{ $experience_designation[$key] }}">
 														</div> 
 													</div>
 												</div>

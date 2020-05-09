@@ -233,7 +233,7 @@ class PublicController extends Controller{
         }else{
            $session = $request->session()->get('member');
            $id      = $session->id;
-           $list    =    DB::select("select * from admin left join profile_details on profile_details.admin_id=admin.id where admin.id='$id' and type='doctor'");
+           $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where admin.id='$id' and type='doctor'");
            $data    = array('session'=>$session,'list'=>$list);
            return view('doctor.doctor_profile_setting')->with($data);
         }  
@@ -257,17 +257,17 @@ class PublicController extends Controller{
             'clinic_state' => 'required|max:500',
             'clinic_country' => 'required|max:500',
             'clinic_pincode' => 'required|max:10',
-            'rating_option' => 'required|max:500',
             'clinic_fee' => 'required|max:50',
+            'old_clinic_fee' => 'required|max:50',
             'clinic_services' => 'required|max:50',
             'clinic_specialist' => 'required|max:50',
             'degree' => 'required|max:5000',
             'institute' => 'required|max:5000',
             'completion_year' => 'required|max:5000',
-            'hospital_name' => 'required|max:5000',
-            'experience_from' => 'required|max:5000',
-            'experience_to' => 'required|max:5000',
-            'experience_designation' => 'required|max:5000',
+            // 'hospital_name' => 'required|max:5000',
+            // 'experience_from' => 'required|max:5000',
+            // 'experience_to' => 'required|max:5000',
+            // 'experience_designation' => 'required|max:5000',
             'designation' => 'required|max:5000',
             // 'award_year' => 'required|max:5000',
             'registration_no' => 'required|max:5000',
@@ -311,8 +311,8 @@ class PublicController extends Controller{
                   'clinic_state'=> $request->input('clinic_state'),
                   'clinic_country'=> $request->input('clinic_country'),
                   'clinic_pincode'=> $request->input('clinic_pincode'),
-                  'rating_option'=> $request->input('rating_option'),
                   'clinic_fee'=> $request->input('clinic_fee'),
+                  'old_clinic_fee'=> $request->input('old_clinic_fee'),
                   'clinic_services'=> $request->input('clinic_services'),
                   'clinic_specialist'=> $request->input('clinic_specialist'),
                   'registration_no'=> $request->input('registration_no'),
@@ -330,7 +330,6 @@ class PublicController extends Controller{
                   'award_year'=> json_encode($request->input('award_year')),
                   'admin_id'=>$id,
             );
-
             $status = $this->check_profile_by_doctor_id($id);
             if(empty($status)){
                $status  = DB::table('profile_details')->insert($insert_update);
@@ -338,12 +337,16 @@ class PublicController extends Controller{
                $where   = ['admin_id'=>$id];
                $status  = DB::table('profile_details')->where($where)->update($insert_update);
             }
-            return redirect('/doctor_dashboard')->with('success', 'Profile has been updated successfully'); 
+            if($status){
+              return redirect('/doctor_dashboard')->with('success', 'Profile has been updated successfully'); 
+            }else{
+              return redirect('/doctor_profile_setting')->with('success', 'Some Problem Occured Try Again'); 
+            }
         }
     }
     private function check_profile_by_doctor_id($id=null){
           $list    = DB::select("select * from profile_details where admin_id='$id'");
-          if(empty($list)){
+          if(!empty($list)){
              return $list;
           }else{
             return false;
