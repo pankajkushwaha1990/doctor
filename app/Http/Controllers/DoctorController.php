@@ -67,9 +67,9 @@ class DoctorController extends Controller{
        $all_patient_count         = DB::table('appointment_booked')->where('doctor_id', '=',$id)->count();           
        $today_patient_count       = DB::table('appointment_booked')->where($condition)->count(); 
        $today_appointment_count   = DB::table('appointment_booked')->where($condition)->count();
-       $todat_appointment         = DB::select("select * from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$today'");
+       $todat_appointment         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$today'");
 
-       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'todat_appointment'=>$todat_appointment);
+       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment);
        return view('doctor.dashboard')->with($data);
     }
     public function doctor_appointments(Request $request){
