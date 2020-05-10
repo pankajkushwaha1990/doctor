@@ -57,6 +57,14 @@ Route::post('/doctor_registration_otp_submit', 'PublicController@doctor_registra
 Route::get('/doctor_slot_clone/{id}', 'DoctorController@doctor_slot_clone');
 Route::post('/doctor_appointments_checked_in_submit', 'PublicController@doctor_appointments_checked_in_submit');
 Route::get('/doctor_appointments_checkout_status/{status}/{id}', 'PublicController@doctor_appointments_checkout_status');
+Route::get('/help_desk_profile_setting', 'DoctorController@help_desk_profile_setting');
+Route::post('/help_desk_profile_setting_submit', 'DoctorController@help_desk_profile_setting_submit');
+Route::get('/help_desk_profile_setting_status/{status}/{id}', 'DoctorController@help_desk_profile_setting_status');
+
+
+
+// help desk
+
 
 
 

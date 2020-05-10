@@ -72,6 +72,12 @@
                           <span>Profile Settings</span>
                         </a>
                       </li>
+                      <li>
+                        <a href="{{ url('help_desk_profile_setting') }}">
+                          <i class="fas fa-user-cog"></i>
+                          <span>Helpdesk Settings</span>
+                        </a>
+                      </li>
 <!--                       <li>
                         <a href="social-media.html">
                           <i class="fas fa-share-alt"></i>

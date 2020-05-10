@@ -146,8 +146,12 @@ class PublicController extends Controller{
       $session = $request->session()->get('member');
       $id      = $session->id;
       $amenities_id = base64_decode($amenities_id);
-      $status   = DB::table('appointment_booked')->where('id', $amenities_id)->update(array('appointment_status'=>$status));
-      return redirect('/doctor_appointments')->with('success', 'Checkout Changed Successfully'); 
+      $status1   = DB::table('appointment_booked')->where('id', $amenities_id)->update(array('appointment_status'=>$status));
+      if($status==2){
+        return redirect('/doctor_appointments')->with('success', 'Checkout Changed Successfully'); 
+      }elseif($status==3){
+        return redirect('/doctor_appointments')->with('success', 'Not Seen Changed Successfully'); 
+      }
     }
     public function login_submit(Request $request){
         $validator = Validator::make($request->all(), [

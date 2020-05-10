@@ -17,6 +17,8 @@ Route::middleware('guest:api')->group(function () {
     Route::get('/get-config', 'ApiController@get_config');
     Route::post('/add-host-section', 'ApiController@add_host_section');
     Route::post('/add-api-host', 'ApiController@add_api_host');
+    Route::post('/patient_registration', 'ApiController@patient_registration');
+    Route::post('/patient_otp_generate', 'ApiController@patient_otp_generate');
 
 });
 

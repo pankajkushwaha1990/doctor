@@ -22,6 +22,82 @@ class DoctorController extends Controller{
           }
         });
     }
+    public function help_desk_profile_setting_submit(Request $request){
+        $hd_id       = $request->input('help_desk_id');
+        $validator = Validator::make($request->all(), [
+            'profile_name' => 'required|max:100',
+            'mobile' => empty($hd_id)?'required|max:100|unique:admin,user_id':'required|max:100',
+            'password' => 'required|max:50',
+            'gender' => 'required|max:50',
+            'date_of_birth' => 'required|max:50',
+            'address' => 'required|max:2000',
+            'city' => 'required|max:200',
+            'state' => 'required|max:200',
+            'country' => 'required|max:200',
+            'pincode' => 'required|max:200',
+            'menu' => 'required|max:200',
+        ]);
+        if ($validator->fails()){
+            return redirect('help_desk_profile_setting')->withErrors($validator)->withInput();
+        }else{
+          $session = $request->session()->get('member');
+          $id      = $session->id;
+          if($request->hasFile('profile_picture')){
+               $image = $request->file('profile_picture');
+               $filename = str_replace(' ','_',time().'_doctor_'.$image->getClientOriginalName());
+               $image->move(public_path('patient_files'), $filename);
+          }else{
+                $images = 'default_help_desk_profile_picture.png';
+          }
+          $insert = array(
+                'name' => $request->input('profile_name'),
+                'user_id'=>$request->input('mobile'),
+                'password' => $request->input('password'),
+                'gender'=>$request->input('gender'),
+                'date_of_birth'=>$request->input('date_of_birth'),
+                'address'=>$request->input('address'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'country' => $request->input('country'),
+                'pincode' => $request->input('pincode'),
+                'email' => '',
+                'email_verify' => 0,
+                'profile_picture'=>$images,
+                'type' =>  'help_desk',
+                'status'=> 0,
+                'mobile' => 'help_desk',
+                'mobile_otp' => '',
+                'created_by'=>$id,
+                'menu_allow'=>json_encode($request->input('menu')),
+          );
+          if(!empty($request->input('help_desk_id'))){
+            $id       = $request->input('help_desk_id');
+            $status  = DB::table('admin')->where(['id'=>$id])->update($insert);
+          }else{
+            $status  = DB::table('admin')->insert($insert);
+          }
+          if($status){
+              return redirect('/help_desk_profile_setting')->with('success', 'Profile has been updated successfully'); 
+          }else{
+              return redirect('/help_desk_profile_setting')->with('success', 'Some Problem Occured Try Again'); 
+          }
+        } 
+    }
+
+    public function help_desk_profile_setting_status(Request $request,$status=null,$amenities_id=null){
+      $amenities_id = base64_decode($amenities_id);
+      $status1   = DB::table('admin')->where('id', $amenities_id)->update(array('status'=>$status));
+      return redirect('/help_desk_profile_setting')->with('success', 'Status Changed Successfully'); 
+    }
+
+    public function help_desk_profile_setting(Request $request){
+           $session = $request->session()->get('member');
+           $id      = $session->id;
+           $list    = DB::select("select * from admin where admin.created_by='$id' and type='help_desk'");
+           $data    = array('session'=>$session,'list'=>$list);
+           return view('doctor.help_desk_profile_setting')->with($data);
+    }
+
     public function doctor_slot_clone(Request $request,$days=null){
        $session       = $request->session()->get('member');
        $id           = $session->id;

@@ -9,10 +9,6 @@
 						<div class="col-md-7 col-lg-8 col-xl-9">
 							<div class="card">
 								<div class="card-body pt-0">
-
-								
-									<!-- Tab Menu -->
-									<nav class="user-tabs mb-4">
 										<div class="login-header" style="text-align: center;">
                                              <h6 class="card-title">
                                                   @if(session()->get('success'))
@@ -29,31 +25,7 @@
                                                   @endif
                                               </h6>
                                         </div>
-										<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-											<li class="nav-item">
-												<a class="nav-link active" href="#pat_appointments" data-toggle="tab">Appointments</a>
-											</li>
-											<!-- <li class="nav-item">
-												<a class="nav-link" href="#pat_prescriptions" data-toggle="tab">Prescriptions</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#pat_medical_records" data-toggle="tab"><span class="med-records">Medical Records</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#pat_billing" data-toggle="tab">Billing</a>
-											</li> -->
-										</ul>
-									</nav>
-									<!-- /Tab Menu -->
-									
-									<!-- Tab Content -->
-									<div class="tab-content pt-0">
-										
-										<!-- Appointment Tab -->
-										<div id="pat_appointments" class="tab-pane fade show active">
-											<div class="card card-table mb-0">
-												<div class="card-body">
-													<div class="table-responsive">
+
 														<table class="datatable table table-hover table-center mb-0">
 															<thead>
 																<tr>
@@ -107,12 +79,11 @@
 																		@endif
 
 
-																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
-																				<i class="far fa-eye"></i>
-																			</a>
-																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_appointments_checkout_status/3/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-warning">Not Seen</button></a>
+
+																		<!-- 	<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
-																			</a>
+																			</a> -->
 																		</div>
 																	</td>
 																</tr>
@@ -124,7 +95,6 @@
 													</div>
 												</div>
 											</div>
-										</div>
 										<!-- /Appointment Tab -->
 										
 										<!-- Prescription Tab -->
@@ -914,8 +884,7 @@
 									<!-- Tab Content -->
 									
 								</div>
-							</div>
-						</div>
+
       <!-- /Page Wrapper -->
 
 

@@ -346,8 +346,8 @@
 
 </div>
       @section('scripts')
-      <script src="{{asset('template')}}/admin/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-		<script src="{{asset('template')}}/admin/assets/plugins/datatables/datatables.min.js"></script>
+      <!-- <script src="{{asset('template')}}/admin/assets/plugins/datatables/jquery.dataTables.min.js"></script> -->
+		<!-- <script src="{{asset('template')}}/admin/assets/plugins/datatables/datatables.min.js"></script> -->
 		<script  src="{{asset('template')}}/admin/assets/js/script.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
 
