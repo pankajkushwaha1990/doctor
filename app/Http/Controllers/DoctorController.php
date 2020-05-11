@@ -139,13 +139,25 @@ class DoctorController extends Controller{
        $session = $request->session()->get('member');
        $id      = $session->id;       
        $today   = date('Y-m-d');   
+       $tom    = date('Y-m-d',strtotime("+1 days"));   
+       $tom2    = date('Y-m-d',strtotime("+2 days"));   
+       $tom3    = date('Y-m-d',strtotime("+3 days"));   
        $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id];
        $all_patient_count         = DB::table('appointment_booked')->where('doctor_id', '=',$id)->count();           
        $today_patient_count       = DB::table('appointment_booked')->where($condition)->count(); 
        $today_appointment_count   = DB::table('appointment_booked')->where($condition)->count();
+
        $todat_appointment         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$today'");
 
-       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment);
+       $tomorrow         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom'");
+
+       $tomorrow3         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom2'");
+
+       $tomorrow4         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom3'");
+
+       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment,'tomorrow'=>$tomorrow,'tomorrow3'=>$tomorrow3,'tomorrow4'=>$tomorrow4);
+       
+
        return view('doctor.dashboard')->with($data);
     }
     public function doctor_appointments(Request $request){
