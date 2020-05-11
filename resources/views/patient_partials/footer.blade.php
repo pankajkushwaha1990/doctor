@@ -96,7 +96,7 @@
 										</p>
 										<p class="mb-0">
 											<i class="fas fa-envelope"></i>
-											admin@aasanilaz.online
+											admin@aasanilaz.com
 										</p>
 									</div>
 								</div>

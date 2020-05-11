@@ -1,6 +1,7 @@
 @extends('doctor_master') 
 @section('title','Dashboard') 
 @section('styles')
+		<link rel="stylesheet" href="{{asset('template')}}/assets/css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/select2/css/select2.min.css">
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css">	
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.css">
@@ -116,6 +117,7 @@
 													<option value='' >Select</option>
 													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
 													<option value="female" @if($list[0]->gender=='female'){{ 'selected' }} @endif>Female</option>
+													<option value="transgender" @if($list[0]->gender=='transgender'){{ 'selected' }} @endif>Trans-Gender</option>
 												</select>
 												 @if($errors->has('gender')) <p style="color:red;">{{ $errors->first('gender') }}</p> @endif
 
@@ -124,7 +126,7 @@
 										<div class="col-md-6">
 											<div class="form-group mb-0">
 												<label>Date of Birth (DD/MM/YYYY)</label>
-												<input type="text" required="" name="date_of_birth" class="form-control"  value="{{ $list[0]->date_of_birth }}">
+												<input type="text" required="" name="date_of_birth" class="form-control datetimepicker1"  value="{{ $list[0]->date_of_birth }}">
 												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
 
 											</div>
@@ -221,9 +223,15 @@
 
 										<div class="col-md-6">
 											<div class="form-group">
-												<label class="control-label">State / Province</label>
-												<input type="text" class="form-control" name="clinic_state" required="" value="{{ $list[0]->clinic_state }}">
-												@if($errors->has('clinic_state')) <p style="color:red;">{{ $errors->first('clinic_state') }}</p> @endif
+
+												<label>State <span class="text-danger">*</span></label>
+													<select class="form-control select2" name="clinic_state" required="">
+													<option value='' >Select State</option>
+													@foreach($states as $st)
+													<option value="{{ $st->name }}" @if($list[0]->clinic_state==$st->name){{ 'selected' }} @endif >{{ $st->name }}</option>
+													@endforeach
+												</select>
+
 
 											</div>
 										</div>
@@ -238,7 +246,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control" name="clinic_pincode" required="" value="{{ $list[0]->clinic_pincode }}">
+												<input type="text" class="form-control" name="clinic_pincode" required="" value="{{ $list[0]->clinic_pincode }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												@if($errors->has('clinic_pincode')) <p style="color:red;">{{ $errors->first('clinic_pincode') }}</p> @endif
 											</div>
 										</div>
@@ -584,6 +592,9 @@
 		<script src="{{asset('template')}}/assets/plugins/select2/js/select2.min.js"></script>
 		<script src="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.js"></script>
 		<script src="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+		<script src="{{asset('template')}}/assets/js/moment.min.js"></script>
+
+        <script src="{{asset('template')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="{{asset('template')}}/assets/js/profile-settings.js"></script>
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
@@ -603,6 +614,22 @@
 			$("#imgInp").change(function(){
 			    readURL(this);
 			});
+		</script>
+
+		<script type="text/javascript">
+			$('.datetimepicker1').datetimepicker({
+				    	format: 'DD/MM/YYYY',
+			icons: {
+				up: "fas fa-chevron-up",
+				down: "fas fa-chevron-down",
+				next: 'fas fa-chevron-right',
+				previous: 'fas fa-chevron-left'
+			}
+				    });
+
+			
+			
+
 		</script>
 
 

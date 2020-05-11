@@ -1,6 +1,8 @@
 @extends('doctor_master') 
 @section('title','Dashboard') 
 @section('styles')
+		<link rel="stylesheet" href="{{asset('template')}}/assets/css/bootstrap-datetimepicker.min.css">
+
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/select2/css/select2.min.css">
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css">	
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.css">
@@ -68,7 +70,7 @@
 										
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Phone Number <span class="text-danger">*</span></label>
+												<label>Phone Number (+91)<span class="text-danger">*</span></label>
 												<input type="text" class="form-control" name="mobile" value="{{ $list[0]->user_id }}" required="" maxlength="10" minlength="10"  min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												 @if($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
@@ -77,7 +79,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Password <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="password" value="{{ $list[0]->password }}" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="text" class="form-control" name="password" value="{{ $list[0]->password }}" required="" placeholder="Example@123" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
 												 @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>
@@ -97,7 +99,7 @@
 										<div class="col-md-6">
 											<div class="form-group mb-0">
 												<label>Date of Birth (DD/MM/YYYY)</label>
-												<input type="text" required="" name="date_of_birth" class="form-control"  value="{{ $list[0]->date_of_birth }}">
+												<input type="text" required="" name="date_of_birth" class="form-control datetimepicker1"  value="{{ $list[0]->date_of_birth }}">
 												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
 
 											</div>
@@ -145,7 +147,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control" name="pincode" required="" value="{{ $list[0]->pincode }}">
+												<input type="text" class="form-control" name="pincode" required="" value="{{ $list[0]->pincode }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												@if($errors->has('pincode')) <p style="color:red;">{{ $errors->first('pincode') }}</p> @endif
 											</div>
 										</div>
@@ -273,7 +275,7 @@
 										
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Phone Number <span class="text-danger">*</span></label>
+												<label>Phone Number (+91) <span class="text-danger">*</span></label>
 												<input type="text" class="form-control" required="" name="mobile" required="" maxlength="10" minlength="10" value="{{ old('mobile') }}" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												 @if($errors->has('mobile')) <p style="color:red;">{{ $errors->first('mobile') }}</p> @endif
 
@@ -282,7 +284,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Password <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="password" value="" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars" value="{{ old('password') }}">
+												<input type="text" placeholder="Example@123" class="form-control" name="password" value="" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars" value="{{ old('password') }}">
 												 @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>
@@ -302,7 +304,7 @@
 										<div class="col-md-6">
 											<div class="form-group mb-0">
 												<label>Date of Birth (DD/MM/YYYY)</label>
-												<input type="text" required="" name="date_of_birth" class="form-control"  value="{{ old('date_of_birth') }}">
+												<input type="text" required="" name="date_of_birth" class="form-control datetimepicker1"  value="{{ old('date_of_birth') }}">
 												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
 
 											</div>
@@ -350,7 +352,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control" name="pincode" required="" value="{{ old('pincode') }}">
+												<input type="text" class="form-control" name="pincode" required="" value="{{ old('pincode') }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												@if($errors->has('pincode')) <p style="color:red;">{{ $errors->first('pincode') }}</p> @endif
 											</div>
 										</div>
@@ -416,9 +418,27 @@
 		<script src="{{asset('template')}}/assets/plugins/select2/js/select2.min.js"></script>
 		<script src="{{asset('template')}}/assets/plugins/dropzone/dropzone.min.js"></script>
 		<script src="{{asset('template')}}/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+				<script src="{{asset('template')}}/assets/js/moment.min.js"></script>
+
+        <script src="{{asset('template')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="{{asset('template')}}/assets/js/profile-settings.js"></script>
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
 		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
+				<script type="text/javascript">
+			$('.datetimepicker1').datetimepicker({
+				    	format: 'DD/MM/YYYY',
+			icons: {
+				up: "fas fa-chevron-up",
+				down: "fas fa-chevron-down",
+				next: 'fas fa-chevron-right',
+				previous: 'fas fa-chevron-left'
+			}
+				    });
+
+			
+			
+
+		</script>
 		<script type="text/javascript">
 			function readURL(input) {
 			    if (input.files && input.files[0]) {

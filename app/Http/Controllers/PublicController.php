@@ -267,7 +267,8 @@ class PublicController extends Controller{
            $session = $request->session()->get('member');
            $id      = $session->id;
            $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where admin.id='$id' and type='doctor'");
-           $data    = array('session'=>$session,'list'=>$list);
+            $states    =    DB::select("select * from states where country_id='101'");
+           $data    = array('session'=>$session,'list'=>$list,'states'=>$states);
            return view('doctor.doctor_profile_setting')->with($data);
         }  
     }

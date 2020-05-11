@@ -125,36 +125,30 @@
 																<div id="slot_monday" class="tab-pane fade ">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
-																		<a class="edit-link" days="monday" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-edit mr-1"></i>Edit</a>
+																		<a class="edit-link" days="monday" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
 																	</h4>
 																	
 																	<!-- Slot List -->
+																	<?php 
+																if(!empty($list[0]->monday_start_time)){ ?>
 																	<div class="doc-times">
+																   <?php 
+																	$start_time = json_decode($list[0]->monday_start_time,true);
+																	$end_time   = json_decode($list[0]->monday_end_time,true);
+																	foreach ($start_time as $key => $value) { ?>
 																		<div class="doc-slot-list">
-																			8:00 pm - 11:30 pm
+																			<?php echo $start_time[$key]." - ". $end_time[$key]; ?>
 																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
+																				<!-- <i class="fa fa-times"></i> -->
 																			</a>
 																		</div>
-																		<div class="doc-slot-list">
-																			11:30 pm - 1:30 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																		<div class="doc-slot-list">
-																			3:00 pm - 5:00 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																		<div class="doc-slot-list">
-																			6:00 pm - 11:00 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
+																	<?php } ?>
 																	</div>
+
+																<?php }else{ ?>
+																	<p class="text-muted mb-0">Not Available</p>
+
+																<?php } ?>
 																	<!-- /Slot List -->
 																	
 																</div>

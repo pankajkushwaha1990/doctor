@@ -45,7 +45,7 @@
 						 									 @foreach($appointment_booked as $doctor)
 																<tr>
 																	<?php 
-																	      $timestramp = strtotime($doctor->date_of_birth); 
+																	      $timestramp = strtotime($doctor->patient_dob); 
                                                                           $year = date('Y',$timestramp);
                                                                     ?>
 																	<td>{{ $doctor->patient_name }}<br>
@@ -73,13 +73,23 @@
 																				<i class="fas fa-print"></i> Print
 																			</a> -->
 																		@if($doctor->appointment_status==0)
-																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">In</button></a>
+																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">Check-In</button></a>
 																		@elseif($doctor->appointment_status==1)
-																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Out</button></a>
+																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Check-Out</button></a>
 																		@endif
 
+																	<?php 
+																	   $today_day         = date('l');
+																       $selected_day      = date('l',$timestramp);
+																       $currentTime       = (int) date('Gi');
+																       $end               = explode(' - ',$doctor->appointment_slot);
+																       $selectedTime       = (int) date('Gi',strtotime($end[1]));
+																      if($today_day==$selected_day && $currentTime>=$selectedTime){ ?>
+																      <a href="{{ url('doctor_appointments_checkout_status/3/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-warning">Not Show</button></a>
+																      <?php } ?>
 
-																			<a href="{{ url('doctor_appointments_checkout_status/3/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-warning">Not Seen</button></a>
+
+																			
 
 																		<!-- 	<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>

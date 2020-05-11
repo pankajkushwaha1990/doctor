@@ -75,7 +75,7 @@
                       <li>
                         <a href="{{ url('help_desk_profile_setting') }}">
                           <i class="fas fa-user-cog"></i>
-                          <span>Helpdesk Settings</span>
+                          <span>Front Desk Settings</span>
                         </a>
                       </li>
 <!--                       <li>
