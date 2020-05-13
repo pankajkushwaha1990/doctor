@@ -58,6 +58,7 @@ Route::get('/doctor_slot_clone/{id}', 'DoctorController@doctor_slot_clone');
 Route::post('/doctor_appointments_checked_in_submit', 'PublicController@doctor_appointments_checked_in_submit');
 Route::get('/doctor_appointments_checkout_status/{status}/{id}', 'PublicController@doctor_appointments_checkout_status');
 Route::get('/help_desk_profile_setting', 'DoctorController@help_desk_profile_setting');
+Route::get('/doctor_booking_message', 'DoctorController@doctor_booking_message');
 Route::post('/help_desk_profile_setting_submit', 'DoctorController@help_desk_profile_setting_submit');
 Route::get('/help_desk_profile_setting_status/{status}/{id}', 'DoctorController@help_desk_profile_setting_status');
 
@@ -99,6 +100,7 @@ Route::get('/patient_appointments_checkout_status/{status}/{id}', 'PatientContro
 
 Route::get('/dashboard', 'AdminController@dashboard');
 Route::get('/logout',function(){ session()->flush(); return redirect('login'); });
+Route::get('/front_desk_logout',function(){ session()->flush(); return redirect('login?type=front_desk'); });
 Route::get('/package-list', 'AdminController@package_list');
 Route::get('/package-create', 'AdminController@package_create');
 Route::post('/package-create-submit', 'AdminController@package_create_submit');

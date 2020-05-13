@@ -36,7 +36,7 @@
        <div class="card">
          <div class="card-body">
           <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <div class="row">
@@ -276,7 +276,7 @@ Pay to: Ashton College, Westpac Bank, BSB: 033005 ACCOUNT NUMBER: 363119, Swift 
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
 
@@ -365,7 +365,7 @@ While in Australia and studying with Ashton College, students must notify Ashton
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>
@@ -455,7 +455,7 @@ VIC 3011 or email admin@ashtoncollege.edu.au for further information and applica
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>
@@ -540,7 +540,7 @@ For ELICOS programs, exams are graded based on the marking guide detailed in the
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>
@@ -635,7 +635,7 @@ This policy is implemented in compliance with the requirements of the Standards 
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           
@@ -725,7 +725,7 @@ This policy is implemented in compliance with the requirements of the Standards 
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>
@@ -815,7 +815,7 @@ Refunds paid under section 47E of the ESOS Act are calculated under the Educatio
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           
@@ -922,7 +922,7 @@ Where evidence can be successfully provided to support the student’s circumsta
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>
@@ -1014,7 +1014,7 @@ Under the Data Provision Requirements 2012, Ashton College is required to collec
          <div class="card-body">
                 
                 <div class="row">
-           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo.png' }}">
+           <img  style="height: 80px;width: 350px;" src="{{ url('').'/offer_docs/logo2.png' }}">
             <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PH: +61 3 9349 2488, 9349 2344 | Email: info@ashtoncollege.edu.au | www.ashtoncollege.edu.au</h5>
           </div>
           <br>

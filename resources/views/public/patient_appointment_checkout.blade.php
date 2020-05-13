@@ -12,6 +12,8 @@
 		
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="{{asset('template')}}/assets/css/bootstrap.min.css">
+				<link rel="stylesheet" href="{{asset('template')}}/assets/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/select2/css/select2.min.css">
 		
 		<!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="{{asset('template')}}/assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -64,7 +66,7 @@
 								<div class="card-body">
 								
 									<!-- Checkout Form -->
-						<form  enctype="multipart/form-data" class="needs-validation" method="post" action="{{ url('patient_appointment_checkout_submit') }}">
+						<form id="needs-validation" novalidate class="needs-validation"  enctype="multipart/form-data" class="needs-validation" method="post" action="{{ url('patient_appointment_checkout_submit') }}">
           				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 									
 										<!-- Personal Information -->
@@ -93,24 +95,37 @@
 													 	<?php 
 												}else{ ?>
 
-													<div class="col-md-6 col-sm-12">
-													<div class="form-group card-label">
-														<label>Name</label>
-														<input class="form-control" type="text">
-													</div>
-													</div>
-													<div class="col-md-6 col-sm-12">
-														<div class="form-group card-label">
-															<label>DOB</label>
-															<input class="form-control" type="email">
-														</div>
-													</div>
-													<div class="col-md-6 col-sm-12">
-														<div class="form-group card-label">
-															<label>Phone</label>
-															<input class="form-control" type="text">
-														</div>
-													</div>
+										<div class="col-md-6 col-sm-12">
+										<div class="form-group card-label">
+											<label>Name</label>
+											<input class="form-control" name="patient_name" required="" type="text">
+										</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="form-group card-label">
+												<label>DOB</label>
+												<input class="form-control datetimepicker1" name="patient_dob" required="" type="text">
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="form-group card-label">
+												<label>Phone</label>
+												<input class="form-control" name="patient_mobile" required="" type="text">
+												<input type="hidden" name="type" value="doctor">
+											</div>
+										</div>
+
+										<div class="col-md-6 col-sm-12">
+											<div class="form-group card-label">
+												<label>Gender</label>
+												<select class="form-control" name="patient_gender" required="" required="">
+													<option value='' >Select Gender</option>
+													<option value="male" >Male</option>
+													<option value="female" >Female</option>
+													<option value="transgender" >Trans-Gender</option>
+												</select>
+											</div>
+										</div>
 
 												<?php }
 												?>
@@ -182,6 +197,8 @@
 												<div class="custom-checkbox">
 												   <input type="checkbox" id="terms_accept" required="">
 												   <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
+												<div class="invalid-feedback">Please Select Terms And condition.</div>
+
 												</div>
 											</div>
 											<!-- /Terms Accept -->
@@ -292,9 +309,28 @@
 		<!-- Sticky Sidebar JS -->
         <script src="{{asset('template')}}/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
         <script src="{{asset('template')}}/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+		<script src="{{asset('template/admin')}}/assets/js/form-validation.js"></script>
+
+		<script src="{{asset('template')}}/assets/js/moment.min.js"></script>
+		<script src="{{asset('template')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
 		
 		<!-- Custom JS -->
 		<script src="{{asset('template')}}/assets/js/script.js"></script>
+
+				<script type="text/javascript">
+			$('body').on('focus',".datetimepicker1", function(){
+				    $(this).datetimepicker({
+				    	format: 'DD/MM/YYYY',
+			icons: {
+				up: "fas fa-chevron-up",
+				down: "fas fa-chevron-down",
+				next: 'fas fa-chevron-right',
+				previous: 'fas fa-chevron-left'
+			}
+				    });
+				})
+
+		</script>
 		
 	</body>
 

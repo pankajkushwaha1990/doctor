@@ -9,14 +9,16 @@ class DoctorController extends Controller{
     public function __construct(){
         $this->middleware(function ($request, $next) {
           if($request->session()->get('member') == NULL){
-               return redirect('login');
-          }elseif($request->session()->get('member')->type!='doctor'){
-               return redirect('login');
+               return redirect('login1');
+          }elseif($request->session()->get('member')->type!='doctor'  && $request->session()->get('member')->type!='help_desk'){
+               return redirect('login2');
+          }elseif($request->session()->get('member')->type!='help_desk' && $request->session()->get('member')->type!='doctor'){
+               return redirect('login3');
           }else{
               $id = $request->session()->get('member')->id;
               $check_profile = $this->check_profile_by_doctor_id($id);
-              if(empty($check_profile)){
-                return redirect('doctor_profile_setting');
+              if(empty($check_profile) && $request->session()->get('member')->type=='doctor'){
+                return redirect('doctor_profile_setting4');
               }
               return $next($request);
           }
@@ -44,8 +46,8 @@ class DoctorController extends Controller{
           $id      = $session->id;
           if($request->hasFile('profile_picture')){
                $image = $request->file('profile_picture');
-               $filename = str_replace(' ','_',time().'_doctor_'.$image->getClientOriginalName());
-               $image->move(public_path('patient_files'), $filename);
+               $images = str_replace(' ','_',time().'_doctor_'.$image->getClientOriginalName());
+               $image->move(public_path('doctor_files'), $images);
           }else{
                 $images = 'default_help_desk_profile_picture.png';
           }
@@ -98,6 +100,8 @@ class DoctorController extends Controller{
            return view('doctor.help_desk_profile_setting')->with($data);
     }
 
+
+
     public function doctor_slot_clone(Request $request,$days=null){
        $session       = $request->session()->get('member');
        $id           = $session->id;
@@ -137,7 +141,11 @@ class DoctorController extends Controller{
     }
     public function doctor_dashboard(Request $request){
        $session = $request->session()->get('member');
-       $id      = $session->id;       
+       if($session->type=='doctor'){
+         $id      = $session->id;       
+       }else{
+        $id      = $session->created_by;    
+       }
        $today   = date('Y-m-d');   
        $tom    = date('Y-m-d',strtotime("+1 days"));   
        $tom2    = date('Y-m-d',strtotime("+2 days"));   
@@ -178,7 +186,13 @@ class DoctorController extends Controller{
     }
     public function doctor_appointments(Request $request){
        $session = $request->session()->get('member');
-       $id      = $session->id;
+
+       if($session->type=='doctor'){
+       $id      = $session->id;       
+      }else{
+       $id      = $session->created_by;    
+      }
+
        $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
        $data       = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_appointments')->with($data);
@@ -186,13 +200,19 @@ class DoctorController extends Controller{
     public function doctor_patients(Request $request){
        $session = $request->session()->get('member');
        $id      = $session->id;
-        $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' order by appointment_date asc,appointment_slot asc");
+       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' order by appointment_date asc,appointment_slot asc");
        $data    = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_patients')->with($data);
     }
     public function doctor_schedule_timings(Request $request){
        $session = $request->session()->get('member');
-       $id      = $session->id;
+
+       if($session->type=='doctor'){
+       $id      = $session->id;       
+      }else{
+       $id      = $session->created_by;    
+      }
+
        $list    =    DB::select("select * from admin left join profile_details on profile_details.admin_id=admin.id where admin.id='$id' and type='doctor'");
        $data    = array('session'=>$session,'list'=>$list);
        return view('doctor.doctor_schedule_timings')->with($data);

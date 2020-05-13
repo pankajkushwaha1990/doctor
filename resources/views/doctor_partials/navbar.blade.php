@@ -10,13 +10,13 @@
               </span>
             </a>
             <a href="{{ url('doctor_dashboard') }}" class="navbar-brand logo">
-              <img src="{{asset('template')}}/assets/img/logo.png" class="img-fluid" alt="Logo">
+              <img src="{{asset('template')}}/assets/img/logo2.png" class="img-fluid" alt="Logo">
             </a>
           </div>
           <div class="main-menu-wrapper">
             <div class="menu-header">
               <a href="index-2.html" class="menu-logo">
-                <img src="{{asset('template')}}/assets/img/logo.png" class="img-fluid" alt="Logo">
+                <img src="{{asset('template')}}/assets/img/logo2.png" class="img-fluid" alt="Logo">
               </a>
               <a id="menu_close" class="menu-close" href="javascript:void(0);">
                 <i class="fas fa-times"></i>
@@ -130,7 +130,12 @@
                 </div>
                 <a class="dropdown-item" href="{{ url('doctor_dashboard') }}">Dashboard</a>
                 <a class="dropdown-item" href="{{ url('doctor_profile_setting') }}">Profile Settings</a>
+                @if($session->type=='doctor')
                 <a class="dropdown-item" href="{{ url('doctor_logout') }}">Logout</a>
+                @else
+                <a class="dropdown-item" href="{{ url('front_desk_logout') }}">Logout</a>
+
+                @endif
               </div>
             </li>
             <!-- /User Menu -->

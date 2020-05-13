@@ -53,7 +53,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                 <div><center><img src="{{asset('dist/img/logo.png')}}" alt="Ashton College"></center></div>
+                 <div><center><img src="{{asset('dist/img/logo2.png')}}" alt="Ashton College"></center></div>
                  <br>
                 <div class="panel-heading"><center><b>Set New Password</b></center></div>
 

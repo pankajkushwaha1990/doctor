@@ -172,18 +172,20 @@
 							</div>
 							<input type="hidden" class="doctor_id" value="{{ base64_encode(base64_encode($doctor->id)) }}">
 							<div class="row">
-								<div class="col-12 col-sm-4 col-md-6">
+								<div class="col-12 col-sm-4 col-md-3">
 									<?php $timestramp = strtotime($appointment_date); ?>
 									<h4 class="mb-1"><?php echo date('d F Y',$timestramp); ?></h4>
 									<p class="text-muted"><?php echo $appointment = date('l',$timestramp); ?></p>
 								</div>
-								<!-- <div class="col-12 col-sm-8 col-md-6 text-sm-right">
-									<div class="bookingrange btn btn-white btn-sm mb-3">
-										<i class="far fa-calendar-alt mr-2"></i>
-										<span></span>
-										<i class="fas fa-chevron-down ml-2"></i>
+
+								@if($doctor->notification_status=='active')
+
+								<div class="col-12 col-sm-8 col-md-9 text-sm-right">
+									<div class="btn btn-white btn-sm mb-3">
+										{{ $doctor->booking_notification }}
 									</div>
-								</div> -->
+								</div> 
+								@endif
                             </div>
 							<!-- Schedule Widget -->
 							<div class="card booking-schedule schedule-widget">

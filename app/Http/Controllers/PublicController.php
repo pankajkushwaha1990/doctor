@@ -121,6 +121,9 @@ class PublicController extends Controller{
         } 
     }
     public function doctor_appointments_checked_in_submit(Request $request){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $validator = Validator::make($request->all(), [
             'booking_id' => 'required',
             'doctor_fee' => 'required',
@@ -143,6 +146,9 @@ class PublicController extends Controller{
       }
     }
     public function doctor_appointments_checkout_status(Request $request,$status=null,$amenities_id=null){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $session = $request->session()->get('member');
       $id      = $session->id;
       $amenities_id = base64_decode($amenities_id);
@@ -170,8 +176,12 @@ class PublicController extends Controller{
               $request->session()->put('member', $login_details);
               return $login_details->type=='doctor'?redirect('/doctor_dashboard'):redirect('/patient_dashboard');
             }
-
-            $login    =  DB::select("select * from admin where mobile='$mobile' and password='$password' and type!='admin'");
+            $type    = $request->input('type');
+            if($type=='front_desk'){
+              $login    =  DB::select("select * from admin where user_id='$mobile' and password='$password' and type!='admin'");
+            }else{
+              $login    =  DB::select("select * from admin where mobile='$mobile' and password='$password' and type!='admin'");
+            }
             if(empty($login)){
                  return redirect('/login')->with('failure', 'Please Enter Valid Credentials'); 
             }else{
@@ -180,9 +190,11 @@ class PublicController extends Controller{
                   return redirect('/login')->with('failure', 'Your Profile Under Verfication, please Contact Customer Care.'); 
                 }elseif($login_details->status==0 && $login_details->type=='patient'){
                   return redirect('/login')->with('failure', 'Your Profile Under Verfication, please Contact Customer Care.'); 
+                }elseif($login_details->status==0 && $login_details->type=='help_desk'){
+                  return redirect('/login?type='.$type)->with('failure', 'Your Profile Under Verfication, please Contact Customer Care.'); 
                 }else{
                   $request->session()->put('member', $login_details);
-                  if($login_details->type=='doctor'){
+                  if($login_details->type=='doctor' || $login_details->type=='help_desk'){
                     return redirect('/doctor_dashboard');
                   }elseif($login_details->type=='patient'){
                     return redirect('/patient_dashboard');
@@ -334,6 +346,8 @@ class PublicController extends Controller{
                   'profile_picture'=> $images,
                    'city'=> $request->input('clinic_city'),
                   'state'=> $request->input('clinic_state'),
+                  'booking_notification'=> $request->input('booking_notification'),
+                  'notification_status'=> $request->input('notification_status'),
             );
             $where   = ['id'=>$id];
             $status  = DB::table('admin')->where($where)->update($update);
@@ -394,7 +408,6 @@ class PublicController extends Controller{
             return 'yes';
           }
     }
-
     private function check_lapsed_slot($date=null,$slot=null){
       $today_day         = date('l');
        $selected_day      = date('l',strtotime($date));
@@ -477,6 +490,9 @@ class PublicController extends Controller{
           echo json_encode($response);
     }
     public function patient_appointment_checkout(Request $request){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
        $session    = $request->session()->get('member');
        $patient_id = $session->id;
        $ref_url      = $ref_url2 = $request->get('ref_url');
@@ -496,6 +512,9 @@ class PublicController extends Controller{
        return view('public.patient_appointment_checkout')->with($data);
     }
     public function patient_appointment_checkout_submit(Request $request){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
        $session    = $request->session()->get('member');
        $patient_id = $session->id;
        $ref_url      = $ref_url2 = $request->input('ref_url');
@@ -520,28 +539,53 @@ class PublicController extends Controller{
           $book_other_slot = '/doctor_appointment_booking/'.$output['doctor_id'].'?appointment_date='.$output['booking_date']."&booking_slot=".$output['booking_slot'];
           return redirect('/patient_booking_failure/'.$ref_url2)->with('book_other_slot',$book_other_slot);
         }elseif($this->check_booked_slot($appointment_date,$booking_slot,$doctor_id)=='no'){
-           $insert = array(
-                          'patient_id'=>$patient_id,
-                          'doctor_id'=>$doctor_id,
-                          'appointment_date'=>$appointment_date,
-                          'appointment_slot'=>$booking_slot,
-                          'status'=>1,
-                          'doctor_fee'=>$request->input('doctor_fee'),
-                          'patient_name'=>$patient_details[0],
-                          'patient_relation'=>$patient_details[1],
-                          'patient_dob'=>$patient_details[2],
-                          'patient_gender'=>$patient_details[3],
-                  );
-          $status = DB::table('appointment_booked')->insert($insert);
-          $status = DB::getPdo()->lastInsertId();
-          $booking_id   = base64_encode(base64_encode(base64_encode($status)));
-          return redirect('/patient_booking_success/'.$booking_id)->with('success', 'Appointment Booked Successfully');
+          $type       = $request->input('type');
+          if($type=='doctor'){
+            $insert = array(
+                              'patient_id'=>$patient_id,
+                              'doctor_id'=>$doctor_id,
+                              'appointment_date'=>$appointment_date,
+                              'appointment_slot'=>$booking_slot,
+                              'status'=>1,
+                              'doctor_fee'=>$request->input('doctor_fee'),
+                              'patient_name'=>$request->input('patient_name'),
+                              'patient_relation'=>'N/A',
+                              'patient_dob'=>$request->input('patient_dob'),
+                              'patient_gender'=>$request->input('patient_gender'),
+                              'patient_mobile'=>$request->input('patient_mobile'),
+                              'booked_by_type'=>$type,
+                      );
+              $status = DB::table('appointment_booked')->insert($insert);
+              $status = DB::getPdo()->lastInsertId();
+              $booking_id   = base64_encode(base64_encode(base64_encode($status)));
+              return redirect('/patient_booking_success/'.$booking_id)->with('success', 'Appointment Booked Successfully');
+          }else{
+              $insert = array(
+                              'patient_id'=>$patient_id,
+                              'doctor_id'=>$doctor_id,
+                              'appointment_date'=>$appointment_date,
+                              'appointment_slot'=>$booking_slot,
+                              'status'=>1,
+                              'doctor_fee'=>$request->input('doctor_fee'),
+                              'patient_name'=>$patient_details[0],
+                              'patient_relation'=>$patient_details[1],
+                              'patient_dob'=>$patient_details[2],
+                              'patient_gender'=>$patient_details[3],
+                      );
+              $status = DB::table('appointment_booked')->insert($insert);
+              $status = DB::getPdo()->lastInsertId();
+              $booking_id   = base64_encode(base64_encode(base64_encode($status)));
+              return redirect('/patient_booking_success/'.$booking_id)->with('success', 'Appointment Booked Successfully');
+          }
           }
         }       
        }
 
     public function patient_booking_failure(Request $request,$booking_id=null){
       // $booking_id = base64_decode(base64_decode(base64_decode($booking_id)));
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $session    = $request->session()->get('member');
        parse_str(base64_decode($booking_id),$output);
        $ref_url = $output;
@@ -550,6 +594,9 @@ class PublicController extends Controller{
     }
 
     public function patient_booking_success(Request $request,$booking_id=null){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $booking_id = base64_decode(base64_decode(base64_decode($booking_id)));
       $session    = $request->session()->get('member');
       $patient_id = $session->id;
@@ -563,6 +610,9 @@ class PublicController extends Controller{
        return view('public.patient_booking_success')->with($data);
     }
     public function patient_profile_setting(Request $request){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
        $session = $request->session()->get('member');
        $id      = $session->id;
        $list    =    DB::select("select * from admin where admin.id='$id' and type='patient'");
@@ -571,6 +621,9 @@ class PublicController extends Controller{
        return view('patient.patient_profile_setting')->with($data);
     }
     public function patient_profile_setting_submit(Request $request){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $session = $request->session()->get('member');
       $id      = $session->id;
       $validator = Validator::make($request->all(), [
@@ -710,6 +763,9 @@ class PublicController extends Controller{
       return view('public.welcome')->with($data);
     }
     public function patient_invoice_view(Request $request,$booking_id=null){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
       $booking_id = base64_decode(base64_decode($booking_id));
       $session    = $request->session()->get('member');
       $patient_id = $session->id;

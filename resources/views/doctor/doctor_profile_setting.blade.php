@@ -580,6 +580,32 @@
 								</div>
 							</div>
 							<!-- /Registrations -->
+
+							<!-- About Me -->
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Booking Notification</h4>
+									<div class="col-12 col-md-12">
+									<div class="form-group mb-0">
+										<label>Notifiaction Show On Patient Booking Page</label>
+										<textarea class="form-control" name="booking_notification" rows="5">{{ $list[0]->booking_notification }}</textarea>
+										 @if($errors->has('booking_notification')) <p style="color:red;">{{ $errors->first('booking_notification') }}</p> @endif
+									</div>
+								</div>
+								<div class="col-6 col-md-6">
+									<div class="form-group">
+												<label>Notification Status</label>
+												<select class="form-control" name="notification_status" >
+													<option value='' >Select</option>
+													<option value="active" @if($list[0]->notification_status=='active'){{ 'selected' }} @endif >Active</option>
+													<option value="deactive" @if($list[0]->notification_status=='deactive'){{ 'selected' }} @endif>Deactive</option>
+												</select>
+
+											</div>
+								</div>
+								</div>
+							</div>
+							<!-- /About Me -->
 							
 							<div class="submit-section submit-btn-bottom">
 								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>

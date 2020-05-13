@@ -39,7 +39,7 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="invoice-logo">
-												<img src="{{asset('template')}}/assets/img/logo.png" alt="logo">
+												<img src="{{asset('template')}}/assets/img/logo2.png" alt="logo">
 											</div>
 										</div>
 										<div class="col-md-6">

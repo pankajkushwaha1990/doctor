@@ -42,7 +42,7 @@
 											<div class="form-group">
 												<div class="change-avatar">
 													<div class="profile-img">
-														<img id="blah" src="{{asset('patient_files')}}/{{ $list[0]->profile_picture }}" alt="User Image">
+														<img id="blah" src="{{asset('doctor_files')}}/{{ $list[0]->profile_picture }}" alt="User Image">
 													</div>
 													<div class="upload-img">
 														<div class="change-photo-btn">
@@ -155,7 +155,7 @@
 								</div>
 							</div>
                             <?php 
-                              $menu = json_decode($list[0]->date_of_birth,true);
+                              $menu = json_decode($list[0]->menu_allow,true);
                             ?>
 							<div class="card contact-card">
 								<div class="card-body">
@@ -173,30 +173,56 @@
 										<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Appointments</label>
-												<input type="checkbox" name="menu[]"  value="appointments">
+												<input type="checkbox" @if(in_array('appointments',$menu)) {{ 'checked' }} @endif name="menu[]"  value="appointments">
 											</div>
 										</div>
 
 										<div class="col-md-3">
 											<div class="form-group">
-												<label class="control-label">My Patients</label>
-												<input type="checkbox"  name="menu[]"  value="my_patients">
+												<label class="control-label">Book A Patient</label>
+												<input type="checkbox" @if(in_array('book_a_patient',$menu)) {{ 'checked' }} @endif  name="menu[]"  value="book_a_patient">
+											</div>
+										</div>
+
+										<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Reports</label>
+												<input type="checkbox" @if(in_array('patient_reports',$menu)) {{ 'checked' }} @endif name="menu[]" value="patient_reports">
 											</div>
 										</div>
 
 										<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Schedule Timing</label>
-												<input type="checkbox" name="menu[]" value="schedule_timing">
+												<input type="checkbox"  @if(in_array('schedule_timing',$menu)) {{ 'checked' }}
+												@endif  name="menu[]" value="schedule_timing">
 											</div>
 										</div>
-
 										<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Profile Setting</label>
-												<input type="checkbox"  name="menu[]" value="profile_setting">
+												<input type="checkbox" @if(in_array('profile_setting',$menu)) {{ 'checked' }}
+												@endif  name="menu[]" value="profile_setting">
 											</div>
 										</div>
+
+<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Change Password</label>
+												<input type="checkbox" @if(in_array('change_password',$menu)) {{ 'checked' }} @endif   name="menu[]" value="change_password">
+											</div>
+										</div>
+
+										<!-- <div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">My Patients</label>
+												<input type="checkbox"  name="menu[]"  value="my_patients">
+											</div>
+										</div> -->
+
+										
+
+										
 									</div>
 								</div>
 							</div>
@@ -248,7 +274,7 @@
 											<div class="form-group">
 												<div class="change-avatar">
 													<div class="profile-img">
-														<img id="blah" src="{{asset('patient_files')}}/default_help_desk_profile_picture.png" alt="User Image">
+														<img id="blah" src="{{asset('doctor_files')}}/default_help_desk_profile_picture.png" alt="User Image">
 													</div>
 													<div class="upload-img">
 														<div class="change-photo-btn">
@@ -382,8 +408,15 @@
 
 										<div class="col-md-3">
 											<div class="form-group">
-												<label class="control-label">My Patients</label>
-												<input type="checkbox" name="menu[]" value="my_patients">
+												<label class="control-label">Book A Patient</label>
+												<input type="checkbox"  name="menu[]"  value="book_a_patient">
+											</div>
+										</div>
+
+										<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Reports</label>
+												<input type="checkbox" name="menu[]" value="patient_reports">
 											</div>
 										</div>
 
@@ -398,6 +431,12 @@
 											<div class="form-group">
 												<label class="control-label">Profile Setting</label>
 												<input type="checkbox"  name="menu[]" value="profile_setting">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Change Password</label>
+												<input type="checkbox"  name="menu[]" value="change_password">
 											</div>
 										</div>
 									</div>

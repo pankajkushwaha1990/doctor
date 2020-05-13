@@ -69,6 +69,9 @@
                                         </div>
                                         <form role="form" enctype="multipart/form-data" method="post" action="{{ url('login_submit') }}">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="type" value="{{ Request::get('type') }}">
+
+                                            
 
                                             <div class="form-group form-focus">
                                                 <input type="text" name="mobile" class="form-control floating" maxlength="10" minlength="10" min='1111111111' max='9999999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="">
