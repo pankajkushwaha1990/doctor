@@ -87,31 +87,31 @@
 										<!-- Appointment Tab -->
 										<ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
 											<li class="nav-item">
-												<a class="nav-link active" href="#today-appointments" data-toggle="tab">Today <span class="badge">({{ count($appointment_booked) }})</span></a>
+												<a class="nav-link active" style="font-size: 13px;" href="#today-appointments" data-toggle="tab">Today <span class="badge">({{ count($appointment_booked) }})</span></a>
 											</li> 
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments" data-toggle="tab">Tomorrow <span class="badge">({{ count($tomorrow) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments" data-toggle="tab">Tomorrow <span class="badge">({{ count($tomorrow) }})</span>  </a>
 											</li>
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments3" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+2 days'));?> <span class="badge">({{ count($tomorrow3) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments3" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+2 days'));?> <span class="badge">({{ count($tomorrow3) }})</span>  </a>
 											</li>
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments4" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+3 days'));?> <span class="badge">({{ count($tomorrow4) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments4" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+3 days'));?> <span class="badge">({{ count($tomorrow4) }})</span>  </a>
 											</li> 
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments5" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+4 days'));?> <span class="badge">({{ count($tomorrow5) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments5" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+4 days'));?> <span class="badge">({{ count($tomorrow5) }})</span>  </a>
 											</li> 
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments6" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+5 days'));?> <span class="badge">({{ count($tomorrow6) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments6" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+5 days'));?> <span class="badge">({{ count($tomorrow6) }})</span>  </a>
 											</li> 
 
 											<li class="nav-item">
-												<a class="nav-link " href="#upcoming-appointments7" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+6 days'));?> <span class="badge">({{ count($tomorrow7) }})</span>  </a>
+												<a class="nav-link " style="font-size: 13px;" href="#upcoming-appointments7" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+6 days'));?> <span class="badge">({{ count($tomorrow7) }})</span>  </a>
 											</li>
 
 
