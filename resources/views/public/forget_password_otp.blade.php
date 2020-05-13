@@ -96,7 +96,7 @@
 											</div>
 
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" minlength="6" maxlength="12">
 												<label class="focus-label">Password</label>
 												<div class="invalid-feedback">Enter Password.</div>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
@@ -104,7 +104,7 @@
 											</div>
 
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" placeholder="Example@123" name="confirm_password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="confirm_password" required="" minlength="6" maxlength="12">
 												<label class="focus-label">Confirm Password</label>
 												<div class="invalid-feedback">Password And Confirm Password Should Be Same.</div>
 

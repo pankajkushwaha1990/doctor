@@ -142,20 +142,36 @@ class DoctorController extends Controller{
        $tom    = date('Y-m-d',strtotime("+1 days"));   
        $tom2    = date('Y-m-d',strtotime("+2 days"));   
        $tom3    = date('Y-m-d',strtotime("+3 days"));   
+       $tom4    = date('Y-m-d',strtotime("+4 days"));   
+       $tom5    = date('Y-m-d',strtotime("+5 days"));   
+       $tom6    = date('Y-m-d',strtotime("+6 days"));   
+       $tom7    = date('Y-m-d',strtotime("+7 days"));   
        $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id];
        $all_patient_count         = DB::table('appointment_booked')->where('doctor_id', '=',$id)->count();           
        $today_patient_count       = DB::table('appointment_booked')->where($condition)->count(); 
        $today_appointment_count   = DB::table('appointment_booked')->where($condition)->count();
 
-       $todat_appointment         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$today'");
+       $todat_appointment         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$today'");
 
-       $tomorrow         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom'");
+       $today_revenue         = DB::select("select sum(appointment_booked.pay_amount) as revenue from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$today'");
 
-       $tomorrow3         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom2'");
 
-       $tomorrow4         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_date='$tom3'");
 
-       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment,'tomorrow'=>$tomorrow,'tomorrow3'=>$tomorrow3,'tomorrow4'=>$tomorrow4);
+       $tomorrow         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom'");
+
+       $tomorrow3         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom2'");
+
+       $tomorrow4         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom3'");
+
+       $tomorrow5         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom4'");
+
+       $tomorrow6         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom5'");
+
+       $tomorrow7         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom6'");
+
+       $tomorrow8         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom7'");
+
+       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment,'tomorrow'=>$tomorrow,'tomorrow3'=>$tomorrow3,'tomorrow4'=>$tomorrow4,'tomorrow5'=>$tomorrow5,'tomorrow6'=>$tomorrow6,'tomorrow7'=>$tomorrow7,'tomorrow8'=>$tomorrow5,'today_revenue'=>$today_revenue[0]->revenue);
        
 
        return view('doctor.dashboard')->with($data);
@@ -163,14 +179,14 @@ class DoctorController extends Controller{
     public function doctor_appointments(Request $request){
        $session = $request->session()->get('member');
        $id      = $session->id;
-       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
+       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
        $data       = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_appointments')->with($data);
     }
     public function doctor_patients(Request $request){
        $session = $request->session()->get('member');
        $id      = $session->id;
-        $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
+        $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' order by appointment_date asc,appointment_slot asc");
        $data    = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_patients')->with($data);
     }

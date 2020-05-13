@@ -55,7 +55,7 @@
 										</div>
 										
 										<!-- Register Form -->
-										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('patient_registration_submit') }}">
+										 <form id="needs-validation" novalidate class="needs-validation"  role="form" enctype="multipart/form-data" method="post" action="{{ url('patient_registration_submit') }}" oninput='confirm_password.setCustomValidity(confirm_password.value != password.value ? "Passwords do not match." : "")'>
            									<input type="hidden" name="_token" value="{{ csrf_token() }}">
            									<input type="hidden" name="type" value="cGF0aWVudA==">
 
@@ -71,11 +71,19 @@
 
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" minlength="6" maxlength="12" >
 												<label class="focus-label">Create Password</label>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>
+
+											<div class="form-group form-focus">
+												<input type="password" class="form-control floating" placeholder="Example@123" name="confirm_password" required="" minlength="6" maxlength="12">
+												<label class="focus-label">Confirm Password</label>
+												<div class="invalid-feedback">Password And Confirm Password Should Be Same.</div>
+											   @if ($errors->has('confirm_password')) <p style="color:red;">{{ $errors->first('confirm_password') }}</p> @endif
+											</div>
+
 											<div class="text-right">
 												<a class="forgot-link" href="{{ url('login') }}">Already have an account?</a>
 											</div>

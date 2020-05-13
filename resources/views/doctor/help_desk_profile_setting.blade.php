@@ -79,7 +79,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Password <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="password" value="{{ $list[0]->password }}" required="" placeholder="Example@123" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars">
+												<input type="text" class="form-control" name="password" value="{{ $list[0]->password }}" required="" minlength="6" maxlength="12">
 												 @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>
@@ -284,7 +284,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Password <span class="text-danger">*</span></label>
-												<input type="text" placeholder="Example@123" class="form-control" name="password" value="" required="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" title="At least 1 Uppercase,1 Lowercase,1 Number,1 Symbol, symbol allowed --> !@#$%^&*_=+-,Min 8 chars and Max 12 chars" value="{{ old('password') }}">
+												<input type="text" placeholder="Example@123" class="form-control" name="password" value="" required="" minlength="6" maxlength="12" value="{{ old('password') }}">
 												 @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>

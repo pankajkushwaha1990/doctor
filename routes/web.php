@@ -79,6 +79,8 @@ Route::get('/patient_logout',function(){ session()->flush(); return redirect('lo
 Route::get('/patient_profile_setting', 'PublicController@patient_profile_setting');
 Route::post('/patient_profile_setting_submit', 'PublicController@patient_profile_setting_submit');
 Route::post('/patient_registration_otp_submit', 'PublicController@patient_registration_otp_submit');
+Route::get('/patient_appointments_checkout_status/{status}/{id}', 'PatientController@patient_appointments_checkout_status');
+
 
 
 

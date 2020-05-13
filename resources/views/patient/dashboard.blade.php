@@ -65,8 +65,22 @@
 																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
 																	<td><?php echo date('d F Y',$created_at); ?></td>
 																	<td>{{ $doctor->doctor_fee }} Rs.</td>
-																	<!-- <td>16 Nov 2019</td> -->
-																	<td><span class="badge badge-pill bg-success-light">Confirm</span></td>
+
+															   <?php
+															    $today_day         = date('Ymd');
+															    $selected_day      = date('Ymd',$timestramp);
+															    $currentTime       = (int) date('Gi');
+															    $end               = explode(' - ',$doctor->appointment_slot);
+															    $selectedTime       = (int) date('Gi',strtotime($end[1]));
+															    if($today_day<=$selected_day && $doctor->appointment_status=='0' && $doctor->status=='1'){ ?>
+															    	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
+																	<td><a href="{{ url('patient_appointments_checkout_status/0/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-danger">Cancel</button></a></td>
+
+																<?php }elseif($doctor->status=='0'){ ?>
+																	<td><span class="badge badge-pill bg-danger-light">Cancled</span></td>
+																<?php }else{ ?>
+																	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
+																<?php } ?>
 																	<td class="text-right">
 																		<div class="table-action">
 																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">

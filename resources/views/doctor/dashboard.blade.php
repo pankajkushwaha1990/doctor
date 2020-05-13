@@ -12,7 +12,7 @@
 									<div class="card dash-card">
 										<div class="card-body">
 											<div class="row">
-												<div class="col-md-12 col-lg-4">
+												<div class="col-md-12 col-lg-3">
 													<div class="dash-widget dct-border-rht">
 														<div class="circle-bar circle-bar1">
 															<div class="circle-graph1" data-percent="75">
@@ -27,7 +27,7 @@
 													</div>
 												</div>
 												
-												<div class="col-md-12 col-lg-4">
+												<div class="col-md-12 col-lg-3">
 													<div class="dash-widget dct-border-rht">
 														<div class="circle-bar circle-bar2">
 															<div class="circle-graph2" data-percent="65">
@@ -42,7 +42,7 @@
 													</div>
 												</div>
 												
-												<div class="col-md-12 col-lg-4">
+												<div class="col-md-12 col-lg-3">
 													<div class="dash-widget">
 														<div class="circle-bar circle-bar3">
 															<div class="circle-graph3" data-percent="50">
@@ -56,6 +56,23 @@
 														</div>
 													</div>
 												</div>
+
+												<div class="col-md-12 col-lg-3">
+													<div class="dash-widget">
+														<div class="circle-bar circle-bar3">
+															<div class="circle-graph3" data-percent="50">
+																<img src="{{asset('template')}}/assets/img/icon-02.png" class="img-fluid" alt="Patient">
+															</div>
+														</div>
+														<div class="dash-widget-info">
+															<h6>Today Revenue</h6>
+															<h3>{{ $today_revenue }} </h3>
+															<p class="text-muted">{{ date('d F Y') }}</p>
+														</div>
+													</div>
+												</div>
+
+
 											</div>
 										</div>
 									</div>
@@ -84,6 +101,18 @@
 											<li class="nav-item">
 												<a class="nav-link " href="#upcoming-appointments4" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+3 days'));?> <span class="badge">({{ count($tomorrow4) }})</span>  </a>
 											</li> 
+
+											<li class="nav-item">
+												<a class="nav-link " href="#upcoming-appointments5" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+4 days'));?> <span class="badge">({{ count($tomorrow5) }})</span>  </a>
+											</li> 
+
+											<li class="nav-item">
+												<a class="nav-link " href="#upcoming-appointments6" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+5 days'));?> <span class="badge">({{ count($tomorrow6) }})</span>  </a>
+											</li> 
+
+											<li class="nav-item">
+												<a class="nav-link " href="#upcoming-appointments7" data-toggle="tab"><?php echo date('d/m/Y',strtotime('+6 days'));?> <span class="badge">({{ count($tomorrow7) }})</span>  </a>
+											</li>
 
 
 										</ul>
@@ -344,6 +373,234 @@
 															<tbody>
 															@if(!empty($tomorrow4))
 						 									 @foreach($tomorrow4 as $doctor)
+																<tr>
+																	<?php 
+																	      $timestramp = strtotime($doctor->date_of_birth); 
+                                                                          $year = date('Y',$timestramp);
+                                                                    ?>
+																	<td>{{ $doctor->patient_name }}<br>
+																		<span style="font-size: 12px;">{{ ucfirst($doctor->patient_gender) }}  <?php echo date('Y')-$year;?> Years</span>
+																	</td>
+																	<td>
+																		<h2 class="table-avatar">
+																			<a  href="{{ url('patient_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
+																				<img class="avatar-img rounded-circle" src="{{asset('patient_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
+																			</a>
+																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->state }} , {{ $doctor->city }}</span> <span>+91 {{ $doctor->mobile }}</span></a>
+																		</h2>
+																	</td>
+																	<?php $timestramp = strtotime($doctor->appointment_date); ?>
+																	<?php $created_at = strtotime($doctor->created_at); ?>
+																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
+																	<td><?php echo date('d F Y',$created_at); ?></td>
+																	<td>{{ $doctor->doctor_fee }} Rs.</td>
+																	<td>{{ $doctor->pay_amount }} Rs.</td>
+																	<!-- <td>16 Nov 2019</td> -->
+																	<!-- <td><span class="badge badge-pill bg-success-light">Confirm</span></td> -->
+																	<td class="text-right">
+																		<div class="table-action">
+																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+																				<i class="fas fa-print"></i> Print
+																			</a> -->
+																		@if($doctor->appointment_status==0)
+																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">In</button></a>
+																		@elseif($doctor->appointment_status==1)
+																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Out</button></a>
+																		@endif
+
+
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="far fa-eye"></i>
+																			</a>
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="fa fa-print"></i>
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+															 @endforeach
+															@endif
+																
+															</tbody>
+														</table>			
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="tab-pane show " id="upcoming-appointments5">
+												<div class="card card-table mb-0">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="datatable table table-hover table-center mb-0">
+															<thead>
+																<tr>
+																	<th>Patient</th>
+																	<th>Booked By</th>
+																	<th>Appt Date</th>
+																	<th>Booking Date</th>
+																	<th>Amount</th>
+																	<th>Paid</th>
+																	<!-- <th>Follow Up</th> -->
+																	<th>Action</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+															@if(!empty($tomorrow5))
+						 									 @foreach($tomorrow5 as $doctor)
+																<tr>
+																	<?php 
+																	      $timestramp = strtotime($doctor->date_of_birth); 
+                                                                          $year = date('Y',$timestramp);
+                                                                    ?>
+																	<td>{{ $doctor->patient_name }}<br>
+																		<span style="font-size: 12px;">{{ ucfirst($doctor->patient_gender) }}  <?php echo date('Y')-$year;?> Years</span>
+																	</td>
+																	<td>
+																		<h2 class="table-avatar">
+																			<a  href="{{ url('patient_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
+																				<img class="avatar-img rounded-circle" src="{{asset('patient_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
+																			</a>
+																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->state }} , {{ $doctor->city }}</span> <span>+91 {{ $doctor->mobile }}</span></a>
+																		</h2>
+																	</td>
+																	<?php $timestramp = strtotime($doctor->appointment_date); ?>
+																	<?php $created_at = strtotime($doctor->created_at); ?>
+																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
+																	<td><?php echo date('d F Y',$created_at); ?></td>
+																	<td>{{ $doctor->doctor_fee }} Rs.</td>
+																	<td>{{ $doctor->pay_amount }} Rs.</td>
+																	<!-- <td>16 Nov 2019</td> -->
+																	<!-- <td><span class="badge badge-pill bg-success-light">Confirm</span></td> -->
+																	<td class="text-right">
+																		<div class="table-action">
+																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+																				<i class="fas fa-print"></i> Print
+																			</a> -->
+																		@if($doctor->appointment_status==0)
+																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">In</button></a>
+																		@elseif($doctor->appointment_status==1)
+																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Out</button></a>
+																		@endif
+
+
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="far fa-eye"></i>
+																			</a>
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="fa fa-print"></i>
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+															 @endforeach
+															@endif
+																
+															</tbody>
+														</table>			
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="tab-pane show " id="upcoming-appointments6">
+												<div class="card card-table mb-0">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="datatable table table-hover table-center mb-0">
+															<thead>
+																<tr>
+																	<th>Patient</th>
+																	<th>Booked By</th>
+																	<th>Appt Date</th>
+																	<th>Booking Date</th>
+																	<th>Amount</th>
+																	<th>Paid</th>
+																	<!-- <th>Follow Up</th> -->
+																	<th>Action</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+															@if(!empty($tomorrow6))
+						 									 @foreach($tomorrow6 as $doctor)
+																<tr>
+																	<?php 
+																	      $timestramp = strtotime($doctor->date_of_birth); 
+                                                                          $year = date('Y',$timestramp);
+                                                                    ?>
+																	<td>{{ $doctor->patient_name }}<br>
+																		<span style="font-size: 12px;">{{ ucfirst($doctor->patient_gender) }}  <?php echo date('Y')-$year;?> Years</span>
+																	</td>
+																	<td>
+																		<h2 class="table-avatar">
+																			<a  href="{{ url('patient_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
+																				<img class="avatar-img rounded-circle" src="{{asset('patient_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
+																			</a>
+																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->state }} , {{ $doctor->city }}</span> <span>+91 {{ $doctor->mobile }}</span></a>
+																		</h2>
+																	</td>
+																	<?php $timestramp = strtotime($doctor->appointment_date); ?>
+																	<?php $created_at = strtotime($doctor->created_at); ?>
+																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
+																	<td><?php echo date('d F Y',$created_at); ?></td>
+																	<td>{{ $doctor->doctor_fee }} Rs.</td>
+																	<td>{{ $doctor->pay_amount }} Rs.</td>
+																	<!-- <td>16 Nov 2019</td> -->
+																	<!-- <td><span class="badge badge-pill bg-success-light">Confirm</span></td> -->
+																	<td class="text-right">
+																		<div class="table-action">
+																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+																				<i class="fas fa-print"></i> Print
+																			</a> -->
+																		@if($doctor->appointment_status==0)
+																			<a patient_name="{{ $doctor->patient_name }}" doctor_fee="{{ $doctor->doctor_fee }}" appointment_on="<?php echo date('d F Y',$timestramp); ?> {{ $doctor->appointment_slot }}" booking_id="{{ $doctor->app_id }}" href="{{ url('doctor_appointments_status/1/'.base64_encode($doctor->app_id))}}" class="check_in_click"><button class="btn btn-sm btn-success">In</button></a>
+																		@elseif($doctor->appointment_status==1)
+																			<a href="{{ url('doctor_appointments_checkout_status/2/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-info">Out</button></a>
+																		@endif
+
+
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="far fa-eye"></i>
+																			</a>
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="fa fa-print"></i>
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+															 @endforeach
+															@endif
+																
+															</tbody>
+														</table>			
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="tab-pane show " id="upcoming-appointments7">
+												<div class="card card-table mb-0">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="datatable table table-hover table-center mb-0">
+															<thead>
+																<tr>
+																	<th>Patient</th>
+																	<th>Booked By</th>
+																	<th>Appt Date</th>
+																	<th>Booking Date</th>
+																	<th>Amount</th>
+																	<th>Paid</th>
+																	<!-- <th>Follow Up</th> -->
+																	<th>Action</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+															@if(!empty($tomorrow7))
+						 									 @foreach($tomorrow7 as $doctor)
 																<tr>
 																	<?php 
 																	      $timestramp = strtotime($doctor->date_of_birth); 
