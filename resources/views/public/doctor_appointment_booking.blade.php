@@ -171,6 +171,10 @@
 								</div>
 							</div>
 							<input type="hidden" class="doctor_id" value="{{ base64_encode(base64_encode($doctor->id)) }}">
+							<?php 
+							$type = request()->get('type');
+							?>
+							<input type="hidden" class="patinet_id" value="{{ $type }}">
 							<div class="row">
 								<div class="col-12 col-sm-4 col-md-3">
 									<?php $timestramp = strtotime($appointment_date); ?>
@@ -180,10 +184,10 @@
 
 								@if($doctor->notification_status=='active')
 
-								<div class="col-12 col-sm-8 col-md-9 text-sm-right">
-									<div class="btn btn-white btn-sm mb-3">
+								 <div class="col-12 col-sm-8 col-md-9 text-sm-right">
+									<img style="width: 50px;height: 50px;" src="https://th.bing.com/th/id/OIP.eZQ161w50lQ3HVZMow7VgQHaHa?pid=Api&rs=1"><marquee><div class="btn btn-white btn-sm mb-3">
 										{{ $doctor->booking_notification }}
-									</div>
+									</div></marquee>
 								</div> 
 								@endif
                             </div>
@@ -194,6 +198,7 @@
 								<div class="schedule-header">
 									<div class="row">
 										<div class="col-md-12">
+												
 										
 											<!-- Day Slot -->
 											<div class="day-slot">
@@ -209,9 +214,15 @@
 													$date = date('Y-m-d',strtotime("+$add_day day"));
 													$stramp = strtotime("+$add_day day",strtotime(date('Y-m-d')));
 													$days = date('l', strtotime("+$add_day day"));
+													$type = request()->get('type');
+													if(!empty($type)){
+														$type = "&type=".request()->get('type');
+													}else{
+														$type = '';
+													}
 													// $date = date('Y-m-d');
 												?>
-												<a href="{{ url('doctor_appointment_booking') }}/{{ base64_encode(base64_encode($doctor->id)) }}?appointment_date={{ $date }}">
+												<a href="{{ url('doctor_appointment_booking') }}/{{ base64_encode(base64_encode($doctor->id)) }}?appointment_date={{ $date }}{{ $type }}">
 														<li <?php if($timestramp==$stramp){ echo 'booking_date="'.$date.'" class="btn btn-success booking_date" style="background-color: #65b2ff;border-radius: 24px;"';}?> >
 															<span><?php echo $days; ?></span>
 															<span class="slot-date"><?php echo date('d F Y',$stramp); ?></span>
@@ -347,7 +358,8 @@
 					var booking_date = $('.booking_date').attr('booking_date');
 					var booking_slot = $('.timing.selected>span').text();
 					var doctor_id    = $('.doctor_id').val();
-					var url_encode   = btoa("booking_date="+booking_date+"&booking_slot="+booking_slot+"&doctor_id="+doctor_id);
+					var patinet_id    = $('.patinet_id').val();
+					var url_encode   = btoa("booking_date="+booking_date+"&booking_slot="+booking_slot+"&doctor_id="+doctor_id+"&patinet_id="+patinet_id);
 					var final_url    = "<?php echo url('patient_appointment_checkout');?>?ref_url="+url_encode;
 					$('.login_to_checkout').attr('href',final_url);
 					$("html, body").animate({ scrollTop: $(document).height() }, 1000);

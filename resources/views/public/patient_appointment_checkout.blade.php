@@ -74,7 +74,7 @@
 											<h4 class="card-title">Patient Information</h4>
 											<div class="row">
 												<?php 
-												if(!empty($patient)){?>
+												if(!empty($patient) && empty($old_patient_name)){?>
 													<div class="col-md-12 col-sm-12">
 													 			<div class="form-group card-label">
 														         <label>Select Patient</label>
@@ -86,14 +86,35 @@
 													 	$family_dob      = json_decode($patient[0]->family_dob,true);
 													 	$family_gender   = json_decode($patient[0]->family_gender,true);
 													 	foreach ($family_name as $key => $value) { ?>
-													 		     	<option value="{{ $family_name[$key] }}||{{ $family_relation[$key] }}||{{ $family_dob[$key] }}||{{ $family_gender[$key] }}">{{ $family_name[$key] }}  ({{ $family_relation[$key] }}) {{ $family_dob[$key] }}</option>
+													 		     	<option <?php if($old_patient_name==$family_name[$key]){ echo 'selected'; } ?>  value="{{ $family_name[$key] }}||{{ $family_relation[$key] }}||{{ $family_dob[$key] }}||{{ $family_gender[$key] }}">{{ $family_name[$key] }}  ({{ $family_relation[$key] }}) {{ $family_dob[$key] }}</option>
 													 	<?php } ?>
 													 		      </select>
 													 			</div>
 															</div>
 
 													 	<?php 
-												}else{ ?>
+												}elseif(!empty($patient) && !empty($old_patient_name)){?>
+													<input type="hidden" name="booking_type" value="old">
+													<div class="col-md-12 col-sm-12">
+													 			<div class="form-group card-label">
+														         <label>Select Patient</label>
+													 		      <select class="form-control" required="" name="patient_details">
+													 		      	
+													 		      	<?php
+														$family_name     = json_decode($patient[0]->family_name,true);
+													 	$family_relation = json_decode($patient[0]->family_relation,true);
+													 	$family_dob      = json_decode($patient[0]->family_dob,true);
+													 	$family_gender   = json_decode($patient[0]->family_gender,true);
+													 	foreach ($family_name as $key => $value) { 
+													 		if($old_patient_name==$family_name[$key]){?>
+													 		     	<option   value="{{ $family_name[$key] }}||{{ $family_relation[$key] }}||{{ $family_dob[$key] }}||{{ $family_gender[$key] }}">{{ $family_name[$key] }}  ({{ $family_relation[$key] }}) {{ $family_dob[$key] }}</option>
+													 	<?php } } ?>
+													 		      </select>
+													 			</div>
+															</div>
+
+													 	<?php 
+												}elseif($session->type=='doctor' || $session->type=='help_desk'){ ?>
 
 										<div class="col-md-6 col-sm-12">
 										<div class="form-group card-label">
@@ -127,7 +148,12 @@
 											</div>
 										</div>
 
-												<?php }
+												<?php
+
+
+
+
+												 }
 												?>
 													<input type="hidden" required="" name="ref_url" value="{{ $ref_url }}">
 													<input type="hidden" required="" name="doctor_fee" value="{{ $doctor->clinic_fee }}">
@@ -196,7 +222,7 @@
 											<div class="terms-accept">
 												<div class="custom-checkbox">
 												   <input type="checkbox" id="terms_accept" required="">
-												   <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
+												   <label for="terms_accept">I have read and accept <a href="{{ url('term_condition') }}" target="_blank">Terms &amp; Conditions</a></label>
 												<div class="invalid-feedback">Please Select Terms And condition.</div>
 
 												</div>

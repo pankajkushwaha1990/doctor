@@ -157,7 +157,12 @@ class DoctorController extends Controller{
        $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id];
        $all_patient_count         = DB::table('appointment_booked')->where('doctor_id', '=',$id)->count();           
        $today_patient_count       = DB::table('appointment_booked')->where($condition)->count(); 
+       $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id,'booking_type'=>null];
+
        $today_appointment_count   = DB::table('appointment_booked')->where($condition)->count();
+       $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id,'booking_type'=>'old'];
+
+       $today_appointment_count_old   = DB::table('appointment_booked')->where($condition)->count();
 
        $todat_appointment         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$today'");
 
@@ -179,11 +184,29 @@ class DoctorController extends Controller{
 
        $tomorrow8         = DB::select("select *,appointment_booked.id as app_id from appointment_booked join admin on admin.id=appointment_booked.patient_id where doctor_id='$id' and appointment_booked.status='1' and appointment_date='$tom7'");
 
-       $data       = array('session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment,'tomorrow'=>$tomorrow,'tomorrow3'=>$tomorrow3,'tomorrow4'=>$tomorrow4,'tomorrow5'=>$tomorrow5,'tomorrow6'=>$tomorrow6,'tomorrow7'=>$tomorrow7,'tomorrow8'=>$tomorrow5,'today_revenue'=>$today_revenue[0]->revenue);
+       $data       = array('today_appointment_count_old'=>$today_appointment_count_old,'session'=>$session,'all_patient_count'=>$all_patient_count,'today_patient_count'=>$today_patient_count,'today_appointment_count'=>$today_appointment_count,'appointment_booked'=>$todat_appointment,'tomorrow'=>$tomorrow,'tomorrow3'=>$tomorrow3,'tomorrow4'=>$tomorrow4,'tomorrow5'=>$tomorrow5,'tomorrow6'=>$tomorrow6,'tomorrow7'=>$tomorrow7,'tomorrow8'=>$tomorrow5,'today_revenue'=>$today_revenue[0]->revenue);
        
 
        return view('doctor.dashboard')->with($data);
     }
+
+    public function doctor_invoice_view(Request $request,$booking_id=null){
+      if($request->session()->get('member') == NULL){
+               return redirect('login');
+      }
+      $booking_id = base64_decode(base64_decode($booking_id));
+      $session    = $request->session()->get('member');
+      $patient_id = $session->id;
+      $list       = DB::select("select *,appointment_booked.id as id from appointment_booked join admin on doctor_id=admin.id join profile_details on profile_details.admin_id=admin.id where appointment_booked.id='$booking_id'");
+      if(!empty($list)){
+        $response = $list[0];
+      }else{
+        $response = [];
+      }
+       $data    = array('appointment'=>$response,'session'=>$session);
+       return view('doctor.doctor_invoice_view')->with($data);
+    }
+
     public function doctor_appointments(Request $request){
        $session = $request->session()->get('member');
 

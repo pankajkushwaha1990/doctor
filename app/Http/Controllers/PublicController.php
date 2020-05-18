@@ -305,6 +305,7 @@ class PublicController extends Controller{
             'clinic_pincode' => 'required|max:10',
             'clinic_fee' => 'required|max:50',
             'old_clinic_fee' => 'required|max:50',
+            'clinic_fee_validity' => 'required|max:50',
             'clinic_services' => 'required|max:50',
             'clinic_specialist' => 'required|max:50',
             'degree' => 'required|max:5000',
@@ -367,6 +368,7 @@ class PublicController extends Controller{
                   'registration_year'=> $request->input('registration_year'),
                   'clinic_open_time'=> $request->input('clinic_open_time'),
                   'clinic_close_time'=> $request->input('clinic_close_time'),
+                  'clinic_fee_validity'=> $request->input('clinic_fee_validity'),
                   'degree'=> json_encode($request->input('degree')),
                   'institute'=> json_encode($request->input('institute')),
                   'completion_year'=> json_encode($request->input('completion_year')),
@@ -388,7 +390,7 @@ class PublicController extends Controller{
             if($status){
               return redirect('/doctor_dashboard')->with('success', 'Profile has been updated successfully'); 
             }else{
-              return redirect('/doctor_profile_setting')->with('success', 'Some Problem Occured Try Again'); 
+              return redirect('/doctor_dashboard')->with('success', 'Profile has been updated successfully');  
             }
         }
     }
@@ -506,9 +508,17 @@ class PublicController extends Controller{
        $id               = base64_decode(base64_decode($ref_url['doctor_id']));
        $appointment_date = $ref_url['booking_date'];
        $booking_slot     = $ref_url['booking_slot'];
+       $patinet_id       = str_replace('rebook/','',base64_decode($ref_url['patinet_id']));
+
        $list             =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
+       $old_patient_name = '';
+       if(!empty($patinet_id)){
+        $list[0]->clinic_fee = $list[0]->old_clinic_fee;
+        $old_patient             =    DB::select("select * from appointment_booked where id='$patinet_id'");
+        $old_patient_name        =  $old_patient[0]->patient_name;
+       }
        $patient             =    DB::select("select * from admin where type='patient' and id='$patient_id'");
-       $data    = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot,'patient'=>$patient,'ref_url'=>$ref_url2);
+       $data    = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot,'patient'=>$patient,'ref_url'=>$ref_url2,'old_patient_name'=>$old_patient_name);
        return view('public.patient_appointment_checkout')->with($data);
     }
     public function patient_appointment_checkout_submit(Request $request){
@@ -567,6 +577,8 @@ class PublicController extends Controller{
                               'appointment_slot'=>$booking_slot,
                               'status'=>1,
                               'doctor_fee'=>$request->input('doctor_fee'),
+                              
+                              'booking_type'=>$request->input('booking_type'),
                               'patient_name'=>$patient_details[0],
                               'patient_relation'=>$patient_details[1],
                               'patient_dob'=>$patient_details[2],
