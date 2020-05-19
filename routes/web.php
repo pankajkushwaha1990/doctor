@@ -62,6 +62,7 @@ Route::get('/doctor_booking_message', 'DoctorController@doctor_booking_message')
 Route::post('/help_desk_profile_setting_submit', 'DoctorController@help_desk_profile_setting_submit');
 Route::get('/help_desk_profile_setting_status/{status}/{id}', 'DoctorController@help_desk_profile_setting_status');
 Route::get('/doctor_invoice_view/{id}', 'DoctorController@doctor_invoice_view');
+Route::get('/doctor_booking_report', 'DoctorController@doctor_booking_report');
 
 
 

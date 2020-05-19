@@ -207,6 +207,56 @@ class DoctorController extends Controller{
        return view('doctor.doctor_invoice_view')->with($data);
     }
 
+    public function doctor_booking_report(Request $request){
+       $session = $request->session()->get('member');
+
+      if($session->type=='doctor'){
+       $id      = $session->id;       
+      }else{
+       $id      = $session->created_by;    
+      }
+
+      $where   = ' and 1=1';
+        if(!empty($request->get('patient_id'))){
+           $patient_id = $request->get('patient_id');
+           $where .= " and patient_id='$patient_id'";
+        }
+
+        if(!empty($request->get('from'))){
+          $from                 = explode("/",$request->get('from'));
+          $from                 = $from[2]."-".$from[1]."-".$from[0];
+          $where .= " and appointment_date>='$from'";
+
+        }
+
+        if(!empty($request->get('appointment_type'))){
+          $appointment_type = $request->get('appointment_type');
+          if($appointment_type=='old'){
+           $where .= " and booking_type='$appointment_type'";
+          }
+        }
+
+        if(!empty($request->get('to'))){
+          $to                 = explode("/",$request->get('to'));
+          $to                 = $to[2]."-".$to[1]."-".$to[0];
+          $where .= " and appointment_date<='$to'";
+        }
+
+
+      $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and   appointment_status=2 $where order by appointment_date asc,appointment_slot asc");
+
+      $patient_list =    DB::select("select * from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status=2 order by appointment_date asc,appointment_slot asc");
+
+      $patient_lists = [];
+      if(!empty($patient_list)){
+        foreach ($patient_list as $key => $patient) {
+          $patient_lists[$patient->patient_id] = $patient;
+        }
+      }
+       $data       = array('session'=>$session,'appointment_booked'=>$appointment,'patient_list'=>$patient_lists);
+       return view('doctor.doctor_booking_report')->with($data);
+    }
+
     public function doctor_appointments(Request $request){
        $session = $request->session()->get('member');
 
