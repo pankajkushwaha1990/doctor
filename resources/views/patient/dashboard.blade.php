@@ -39,8 +39,8 @@
 														<table class="table table-hover table-center mb-0">
 															<thead>
 																<tr>
-																	<th>Doctor</th>
 																	<th>Patient</th>
+																	<th>Doctor</th>
 																	<th>Appt Date</th>
 																	<th>Booking Date</th>
 																	<th>Amount</th>
@@ -94,7 +94,13 @@
 																	$type = base64_encode('rebook/'.$doctor->id);
 																	?>
 																	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
-																	<td><a href="{{ url('doctor_appointment_booking/'.base64_encode(base64_encode($doctor->doc_id)))}}?type={{ $type }}"><button class="btn btn-sm btn-warning">Rebook</button></a></td>
+																	<td>
+																		<?php 
+																		if($doctor->booking_type!='old'){?>
+																		<a href="{{ url('doctor_appointment_booking/'.base64_encode(base64_encode($doctor->doc_id)))}}?type={{ $type }}"><button class="btn btn-sm btn-warning">Rebook</button></a>
+																	<?php } ?>
+
+																	</td>
 																<?php }elseif($doctor->status=='0'){ ?>
 																	<td><span class="badge badge-pill bg-danger-light">Cancled</span></td>
 																<?php }else{ ?>

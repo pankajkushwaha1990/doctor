@@ -236,5 +236,9 @@
                 @endif
               </div>
               <!-- /Profile Sidebar -->
+              <script type="text/javascript">
+                var qs = decodeURIComponent(location.search);
+                $('a[href="' + qs + '"]').parents('li').addClass('active');
+              </script>
               
             </div>

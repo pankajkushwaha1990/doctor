@@ -45,7 +45,7 @@
                         </a>
                       </li>
                        <li class="">
-                        <a  href="{{ url('patient_dashboard') }}">
+                        <a  href="{{ url('patient_my_appointment') }}">
                           <i class="fas fa-columns"></i>
                           <span>My Appointment</span>
                         </a>

@@ -557,6 +557,7 @@ class PublicController extends Controller{
                               'appointment_date'=>$appointment_date,
                               'appointment_slot'=>$booking_slot,
                               'status'=>1,
+                              'created_at'=>date('Y-m-d H:i:s'),
                               'doctor_fee'=>$request->input('doctor_fee'),
                               'patient_name'=>$request->input('patient_name'),
                               'patient_relation'=>'N/A',
@@ -577,7 +578,7 @@ class PublicController extends Controller{
                               'appointment_slot'=>$booking_slot,
                               'status'=>1,
                               'doctor_fee'=>$request->input('doctor_fee'),
-                              
+                               'created_at'=>date('Y-m-d H:i:s'),
                               'booking_type'=>$request->input('booking_type'),
                               'patient_name'=>$patient_details[0],
                               'patient_relation'=>$patient_details[1],

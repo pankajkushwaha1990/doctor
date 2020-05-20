@@ -102,13 +102,13 @@
                     </div>       
                     <ul class="nav header-navbar-rht">
                         <li class="nav-item contact-item">
-                            <div class="header-contact-img">
+                           <!--  <div class="header-contact-img">
                                 <i class="far fa-hospital"></i>                         
-                            </div>
-                            <div class="header-contact-detail">
+                            </div> -->
+                          <!--   <div class="header-contact-detail">
                                 <p class="contact-header">Contact Us</p>
                                 <p class="contact-info-header"> +91 8299801056</p>
-                            </div>
+                            </div> -->
                         </li>
                         <li class="nav-item">
                             <?php 
