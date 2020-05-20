@@ -20,6 +20,44 @@ class PatientController extends Controller{
           }
         });
     }
+
+    public function patient_change_password_submit(Request $request){
+        $session = $request->session()->get('member');
+        $id      = $session->id;
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|max:100',
+            'new_password' => 'required|max:100',
+            'confirm_password' => 'required|max:100',
+        ]);
+        if ($validator->fails()){
+            return redirect('patient_change_password')->withErrors($validator)->withInput();
+        }else{
+            $old_password      = $request->input('old_password');
+            $new_password      = $request->input('new_password');
+            $confirm_password  = $request->input('confirm_password');
+            $agent             =  DB::select("select * from admin where id='$id' and password='$old_password'");
+            if($new_password!=$confirm_password){
+                 return redirect('patient_change_password')->with('failure', 'New Password And Confirm Password Mismatch'); 
+            }elseif(empty($agent)){
+                 return redirect('patient_change_password')->with('failure', 'Please Enter Valid Old Password'); 
+            }else{
+               $status = DB::table('admin')->where('id', $id)->update(array('password'=>$new_password));
+               if($status){
+                    return redirect('patient_change_password')->with('success', 'Password has been Changed Successfully'); 
+               }else{
+                    return redirect('patient_change_password')->with('failure', 'Some Problem Occured Try again'); 
+               }
+            }
+        }
+    }
+
+    public function patient_change_password(Request $request){
+       $session = $request->session()->get('member');
+       $id      = $session->id;
+       $list    =    DB::select("select * from admin where id='$id' and type='patient'");
+       $data    = array('session'=>$session,'list'=>$list);
+       return view('patient.patient_change_password')->with($data);
+    }
     public function patient_dashboard(Request $request){
       $session = $request->session()->get('member');
       $id      = $session->id;

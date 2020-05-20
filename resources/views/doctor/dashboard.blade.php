@@ -186,7 +186,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -268,7 +268,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -348,7 +348,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -429,7 +429,7 @@
 																		<!-- 	<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -509,7 +509,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -589,7 +589,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>
@@ -669,7 +669,7 @@
 																			<!-- <a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="far fa-eye"></i>
 																			</a> -->
-																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																			<a href="{{ url('doctor_invoice_view')}}/{{ base64_encode(base64_encode($doctor->app_id)) }} " class="btn btn-sm bg-info-light">
 																				<i class="fa fa-print"></i>
 																			</a>
 																		</div>

@@ -73,6 +73,94 @@
 								</div>
 							</form>
 							</div>
+							<?php 
+							$all_patient_count = 0;
+							$total_new_appointment = 0;
+							$total_old_appointment = 0;
+							$today_revenue = 0;
+							if(!empty($appointment_booked)){
+							 $all_patient_count = count($appointment_booked); 	
+						 	 foreach($appointment_booked as $doctor){
+						 	 	if($doctor->booking_type=='old'){
+						 	 		$total_old_appointment+=1;
+						 	 	}else{
+						 	 		$total_new_appointment+=1;
+						 	 	}
+						 	 	$today_revenue += $doctor->pay_amount;
+						 	 }
+							}
+							?>
+							<div class="col-md-12">
+									<div class="card dash-card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-12 col-lg-3">
+													<div class="dash-widget dct-border-rht">
+														<div class="circle-bar circle-bar1">
+															<div class="circle-graph1" data-percent="75">
+																<img src="{{asset('template')}}/assets/img/icon-01.png" class="img-fluid" alt="patient">
+															</div>
+														</div>
+														<div class="dash-widget-info">
+															<h6>Total Patient</h6>
+															<h3>{{ $all_patient_count }}</h3>
+															<p class="text-muted">Till Today</p>
+														</div>
+													</div>
+												</div>
+												
+												
+												
+												<div class="col-md-12 col-lg-3">
+													<div class="dash-widget dct-border-rht">
+														<div class="circle-bar circle-bar3">
+															<div class="circle-graph3" data-percent="50">
+																<img src="{{asset('template')}}/assets/img/icon-03.png" class="img-fluid" alt="Patient">
+															</div>
+														</div>
+														<div class="dash-widget-info">
+															<h6>New Appoinments</h6>
+															<h3><span style="font-size: 12px;">New</span> {{ $total_new_appointment }}</h3>
+															<p class="text-muted"></p>
+														</div>
+													</div>
+												</div>
+
+												<div class="col-md-12 col-lg-3">
+													<div class="dash-widget dct-border-rht">
+														<div class="circle-bar circle-bar3">
+															<div class="circle-graph3" data-percent="50">
+																<img src="{{asset('template')}}/assets/img/icon-03.png" class="img-fluid" alt="Patient">
+															</div>
+														</div>
+														<div class="dash-widget-info">
+															<h6>Old Appoinments</h6>
+															<h3><span style="font-size: 12px;">Old</span> {{ $total_old_appointment }}</h3>
+															<p class="text-muted"></p>
+														</div>
+													</div>
+												</div>
+
+												<div class="col-md-12 col-lg-3">
+													<div class="dash-widget dct-border-rht">
+														<div class="circle-bar circle-bar3">
+															<div class="circle-graph3" data-percent="50">
+																<img src="{{asset('template')}}/assets/img/icon-02.png" class="img-fluid" alt="Patient">
+															</div>
+														</div>
+														<div class="dash-widget-info">
+															<h6>Today Revenue</h6>
+															<h3>{{ $today_revenue }} </h3>
+															<p class="text-muted"></p>
+														</div>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
 							<div class="card">
 								<div class="card-body pt-0">
 										<div class="login-header" style="text-align: center;">

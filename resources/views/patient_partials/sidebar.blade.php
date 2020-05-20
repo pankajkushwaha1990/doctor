@@ -39,7 +39,7 @@
                         </a>
                       </li>
                        <li class="">
-                        <a target="_blank" href="{{ url('') }}">
+                        <a href="{{ url('') }}">
                           <i class="fas fa-columns"></i>
                           <span>Book Appointment</span>
                         </a>
@@ -70,7 +70,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="change-password.html">
+                        <a href="patient_change_password">
                           <i class="fas fa-lock"></i>
                           <span>Change Password</span>
                         </a>

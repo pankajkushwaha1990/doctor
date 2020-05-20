@@ -73,6 +73,7 @@
 											<div class="form-group form-focus">
 												<input type="password" class="form-control floating" placeholder="Example@123" name="password" required="" minlength="6" maxlength="12" >
 												<label class="focus-label">Create Password</label>
+												<div class="invalid-feedback">Password Should Be Minlength 6 Maxlength 12</div>
                                                @if ($errors->has('password')) <p style="color:red;">{{ $errors->first('password') }}</p> @endif
 
 											</div>

@@ -185,7 +185,7 @@
 								@if($doctor->notification_status=='active')
 
 								 <div class="col-12 col-sm-8 col-md-9 text-sm-right">
-									<img style="width: 50px;height: 50px;" src="https://th.bing.com/th/id/OIP.eZQ161w50lQ3HVZMow7VgQHaHa?pid=Api&rs=1"><marquee><div class="btn btn-white btn-sm mb-3">
+									<img style="width: 50px;height: 50px;" src="https://th.bing.com/th/id/OIP.eZQ161w50lQ3HVZMow7VgQHaHa?pid=Api&rs=1"><marquee><div style="background-color: #faa;" class="btn btn-white btn-sm mb-3">
 										{{ $doctor->booking_notification }}
 									</div></marquee>
 								</div> 

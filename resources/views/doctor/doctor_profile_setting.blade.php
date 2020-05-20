@@ -261,21 +261,21 @@
 									<h4 class="card-title">Pricing</h4>
 
 										<div class="row form-row">
-										<div class="col-md-5">
+										<div class="col-md-4">
 											<div class="form-group">
 												<label>New Appointment Fee</label>
 												<input type="text" class="form-control" name="clinic_fee" required="" value="{{ $list[0]->clinic_fee }}">
 												 @if($errors->has('clinic_fee')) <p style="color:red;">{{ $errors->first('clinic_fee') }}</p> @endif
 											</div>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-4">
 											<div class="form-group">
 												<label>Appointment Validity</label>
 												<input type="number" class="form-control" name="clinic_fee_validity" required="" value="{{ $list[0]->clinic_fee_validity }}" placeholder="in days">
 												 @if($errors->has('clinic_fee_validity')) <p style="color:red;">{{ $errors->first('clinic_fee_validity') }}</p> @endif
 											</div>
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-4">
 											<div class="form-group">
 												<label>Old Appointment Fee</label>
 												<input type="text" class="form-control" name="old_clinic_fee" required="" value="{{ $list[0]->old_clinic_fee }}">

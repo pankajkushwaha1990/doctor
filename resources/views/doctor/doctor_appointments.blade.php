@@ -90,7 +90,7 @@
 																       $currentTime       = (int) date('Gi');
 																       $end               = explode(' - ',$doctor->appointment_slot);
 																       $selectedTime       = (int) date('Gi',strtotime($end[1]));
-																      if($today_day==$selected_day && $currentTime>=$selectedTime && $doctor->appointment_status==0){ ?>
+																      if($today_day==$selected_day && $currentTime>=$selectedTime && $doctor->appointment_status==0 && $doctor->status==1 ){ ?>
 																      <a href="{{ url('doctor_appointments_checkout_status/3/'.base64_encode($doctor->app_id))}}"><button class="btn btn-sm btn-warning" onclick="return confirm('Are you sure Not Show to this patient?');">Not Show</button></a>
 																      <?php } ?>
 

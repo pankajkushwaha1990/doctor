@@ -40,10 +40,10 @@
 															<thead>
 																<tr>
 																	<th>Doctor</th>
+																	<th>Patient</th>
 																	<th>Appt Date</th>
 																	<th>Booking Date</th>
 																	<th>Amount</th>
-																	<!-- <th>Follow Up</th> -->
 																	<th>Status</th>
 																	<th></th>
 																</tr>
@@ -52,6 +52,13 @@
 															@if(!empty($appointment_booked))
 						 									 @foreach($appointment_booked as $doctor)
 																<tr>
+																	<?php 
+																	      $timestramp = strtotime($doctor->patient_dob); 
+                                                                          $year = date('Y',$timestramp);
+                                                                    ?>
+																	<td>{{ $doctor->patient_name }}<br>
+																		<span style="font-size: 12px;">{{ ucfirst($doctor->patient_gender) }}  <?php echo date('Y')-$year;?> Years</span>
+																	</td>
 																	<td>
 																		<h2 class="table-avatar">
 																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
