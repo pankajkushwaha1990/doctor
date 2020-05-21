@@ -10,6 +10,20 @@
     <link rel="stylesheet" href="{{asset('template/admin')}}/assets/css/feathericon.min.css">
     <link rel="stylesheet" href="{{asset('template/admin')}}/assets/plugins/morris/morris.css">
     <link rel="stylesheet" href="{{asset('template/admin')}}/assets/css/style.css">
+    <style type="text/css">
+      @media screen and (max-width: 849px) {
+
+.div-no-mobile {
+    visibility: hidden;
+}
+
+.div-only-mobile {
+    visibility: visible;
+    display: block;
+}
+
+}
+    </style>
      @yield('styles')
     </head>
 <body> 

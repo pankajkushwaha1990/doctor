@@ -20,6 +20,13 @@
         
         <!-- Main CSS -->
         <link rel="stylesheet" href="{{asset('template/')}}/assets/css/style.css">
+            <style type="text/css">
+            .div-desktop {
+              display:none;
+            }
+
+
+    </style>
         
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>

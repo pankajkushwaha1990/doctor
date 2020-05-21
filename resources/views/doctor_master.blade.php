@@ -198,5 +198,18 @@
     <script src="{{asset('template')}}/assets/js/circle-progress.min.js"></script>
     @yield('scripts')
     <script src="{{asset('template')}}/assets/js/script.js"></script> 
+      <script type="text/javascript">
+      var path = window.location.pathname;
+      $('.dashboard-menu ul li').removeClass('active');
+      $('.dashboard-menu ul li a').each( function( index, element ){
+          var href = $( this ).attr('href');
+          if(href.indexOf(path) !== -1){
+            $(this).parent().addClass('active');
+          }else{
+            $(this).parent().addClass('');
+          }
+      });
+ 
+    </script>
   </body>
 </html>   

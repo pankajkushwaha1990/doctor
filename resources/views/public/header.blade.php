@@ -25,6 +25,7 @@
                             <li class="active">
                                 <a href="{{ url('') }}">Home</a>
                             </li>
+                           
                           <!--   <li class="has-submenu">
                                 <a href="#">Doctors <i class="fas fa-chevron-down"></i></a>
                                 <ul class="submenu">

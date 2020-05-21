@@ -26,6 +26,9 @@
               <li>
                 <a href="{{ url('doctor_dashboard') }}">Home</a>
               </li>
+              <li class="div-only-mobile" style="display: none;">
+                <a href="{{ url('doctor_dashboard') }}">Home</a>
+              </li>
              <!--  <li class="has-submenu active">
                 <a href="#">Doctors <i class="fas fa-chevron-down"></i></a>
                 <ul class="submenu">
