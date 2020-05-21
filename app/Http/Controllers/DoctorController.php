@@ -18,7 +18,7 @@ class DoctorController extends Controller{
               $id = $request->session()->get('member')->id;
               $check_profile = $this->check_profile_by_doctor_id($id);
               if(empty($check_profile) && $request->session()->get('member')->type=='doctor'){
-                return redirect('doctor_profile_setting4');
+                return redirect('doctor_profile_setting');
               }
               return $next($request);
           }
