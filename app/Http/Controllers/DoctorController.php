@@ -266,7 +266,7 @@ class DoctorController extends Controller{
        $id      = $session->created_by;    
       }
 
-       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status,appointment_booked.created_at as created_at from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 order by appointment_date asc,appointment_slot asc");
+       $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status,appointment_booked.created_at as created_at from appointment_booked left join admin on appointment_booked.patient_id=admin.id where doctor_id='$id' and appointment_status<2 and appointment_booked.status='1'  order by appointment_date asc,appointment_slot asc");
        $data       = array('session'=>$session,'appointment_booked'=>$appointment);
        return view('doctor.doctor_appointments')->with($data);
     }
