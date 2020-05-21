@@ -9,11 +9,11 @@ class DoctorController extends Controller{
     public function __construct(){
         $this->middleware(function ($request, $next) {
           if($request->session()->get('member') == NULL){
-               return redirect('login1');
+               return redirect('login');
           }elseif($request->session()->get('member')->type!='doctor'  && $request->session()->get('member')->type!='help_desk'){
-               return redirect('login2');
+               return redirect('login');
           }elseif($request->session()->get('member')->type!='help_desk' && $request->session()->get('member')->type!='doctor'){
-               return redirect('login3');
+               return redirect('login');
           }else{
               $id = $request->session()->get('member')->id;
               $check_profile = $this->check_profile_by_doctor_id($id);
