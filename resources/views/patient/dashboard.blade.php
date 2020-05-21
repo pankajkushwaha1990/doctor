@@ -122,21 +122,8 @@
 
 															@if(!empty($appointment_rebook))
 						 									 @foreach($appointment_rebook as $doctor)
-
-						 									 <?php 
-															      $timestramp     = strtotime($doctor->appointment_date);
-															      $validity       =  $doctor->clinic_fee_validity;
-															      $date1=date_create($doctor->appointment_date);
-																  $date2=date_create("2020-05-18");
-															      $diff           =  date_diff($date1,$date2);
-															      $validity_upto =  $diff->format("%a");
-															      if($doctor->status=='1' && $doctor->appointment_status=='2' && $validity_upto<$validity){
-																	 ?>
-
-
+						 									<?php if($doctor->booking_type!='old'){?>
 																<tr>
-
-
 																	<?php 
 																	      $timestramp = strtotime($doctor->patient_dob); 
                                                                           $year = date('Y',$timestramp);
@@ -152,7 +139,14 @@
 																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->designation }}</span></a>
 																		</h2>
 																	</td>
-																	
+																	<?php 
+															      $timestramp     = strtotime($doctor->appointment_date);
+															      $validity       =  $doctor->clinic_fee_validity;
+															      $date1=date_create($doctor->appointment_date);
+																  $date2=date_create("2020-05-18");
+															      $diff           =  date_diff($date1,$date2);
+															      $validity_upto =  $diff->format("%a");
+																	 ?>
 																	<?php $created_at = strtotime($doctor->created_at); ?>
 																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
 																	<td><?php echo date('d F Y',$created_at); ?></td>
