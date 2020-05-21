@@ -119,6 +119,77 @@
 																</tr>
 															 @endforeach
 															@endif
+
+															@if(!empty($appointment_rebook))
+						 									 @foreach($appointment_rebook as $doctor)
+																<tr>
+																	<?php 
+																	      $timestramp = strtotime($doctor->patient_dob); 
+                                                                          $year = date('Y',$timestramp);
+                                                                    ?>
+																	<td>{{ $doctor->patient_name }}<br>
+																		<span style="font-size: 12px;">{{ ucfirst($doctor->patient_gender) }}  <?php echo date('Y')-$year;?> Years</span>
+																	</td>
+																	<td>
+																		<h2 class="table-avatar">
+																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" target="_blank" class="avatar avatar-sm mr-2">
+																				<img class="avatar-img rounded-circle" src="{{asset('doctor_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
+																			</a>
+																			<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }} <span>{{ $doctor->designation }}</span></a>
+																		</h2>
+																	</td>
+																	<?php 
+															      $timestramp     = strtotime($doctor->appointment_date);
+															      $validity       =  $doctor->clinic_fee_validity;
+															      $date1=date_create($doctor->appointment_date);
+																  $date2=date_create("2020-05-18");
+															      $diff           =  date_diff($date1,$date2);
+															      $validity_upto =  $diff->format("%a");
+																	 ?>
+																	<?php $created_at = strtotime($doctor->created_at); ?>
+																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
+																	<td><?php echo date('d F Y',$created_at); ?></td>
+																	<td>{{ $doctor->doctor_fee }} Rs.</td>
+
+															   <?php
+															    $today_day         = date('Ymd');
+															    $selected_day      = date('Ymd',$timestramp);
+															    $currentTime       = (int) date('Gi');
+															    $end               = explode(' - ',$doctor->appointment_slot);
+															    $selectedTime       = (int) date('Gi',strtotime($end[1]));
+															    if($today_day<=$selected_day && $doctor->appointment_status=='0' && $doctor->status=='1'){ ?>
+															    	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
+																	<td><a href="{{ url('patient_appointments_checkout_status/0/'.base64_encode($doctor->id))}}"><button class="btn btn-sm btn-danger">Cancel</button></a></td>
+
+																<?php }elseif($doctor->status=='1' && $doctor->appointment_status=='2' && $validity_upto<$validity){
+																	$type = base64_encode('rebook/'.$doctor->id);
+																	?>
+																	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
+																	<td>
+																		<?php 
+																		if($doctor->booking_type!='old'){?>
+																		<a href="{{ url('doctor_appointment_booking/'.base64_encode(base64_encode($doctor->doc_id)))}}?type={{ $type }}"><button class="btn btn-sm btn-warning">Rebook</button></a>
+																	<?php } ?>
+
+																	</td>
+																<?php }elseif($doctor->status=='0'){ ?>
+																	<td><span class="badge badge-pill bg-danger-light">Cancled</span></td>
+																<?php }else{ ?>
+																	<td><span class="badge badge-pill bg-success-light">Booked</span></td>
+																<?php } ?>
+																	<td class="text-right">
+																		<div class="table-action">
+																			<!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+																				<i class="fas fa-print"></i> Print
+																			</a> -->
+																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
+																				<i class="far fa-eye"></i> View
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+															 @endforeach
+															@endif
 																
 															</tbody>
 														</table>

@@ -62,8 +62,11 @@ class PatientController extends Controller{
       $session = $request->session()->get('member');
       $id      = $session->id;
       $today   = date('Y-m-d');
-      $appointment =    DB::select("select *,admin.id as doc_id,appointment_booked.id as id,appointment_booked.status as status from admin left join profile_details on profile_details.admin_id=admin.id join appointment_booked on doctor_id=admin.id  where patient_id='$id' and appointment_date>='$today' and appointment_booked.status='1'  order by appointment_date asc,appointment_slot asc");
-      $data       = array('session'=>$session,'appointment_booked'=>$appointment);
+      $appointment =    DB::select("select *,admin.id as doc_id,appointment_booked.id as id,appointment_booked.status as status from admin left join profile_details on profile_details.admin_id=admin.id join appointment_booked on doctor_id=admin.id  where patient_id='$id' and appointment_date>='$today' and appointment_booked.status='1' and appointment_status='0' order by appointment_date asc,appointment_slot asc");
+
+      $appointment_rebook =    DB::select("select *,admin.id as doc_id,appointment_booked.id as id,appointment_booked.status as status from admin left join profile_details on profile_details.admin_id=admin.id join appointment_booked on doctor_id=admin.id  where patient_id='$id' and appointment_booked.status='1' and appointment_status='2'  order by appointment_date asc,appointment_slot asc");
+
+      $data       = array('session'=>$session,'appointment_booked'=>$appointment,'appointment_rebook'=>$appointment_rebook);
       return view('patient.dashboard')->with($data);
     }
 
