@@ -17,6 +17,8 @@
                       <div class="patient-details">
                     <?php 
                        if(!empty($session->date_of_birth)){ 
+                        $dob = explode('/',$session->date_of_birth);
+                        $session->date_of_birth = $dob[2]."-".$dob[1]."-".$dob[0];
                          $timestramp = strtotime($session->date_of_birth); 
                          $year = date('Y',$timestramp); ?>
                           <h5><i class="fas fa-birthday-cake"></i> <?php echo date('d M Y',$timestramp); ?>, <?php echo date('Y')-$year;?> Years</h5>

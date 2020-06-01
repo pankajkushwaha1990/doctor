@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('template')}}/assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="{{asset('template')}}/assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="{{asset('template')}}/assets/css/style.css">  
+    <meta http-equiv="Refresh" content="300">
      @yield('styles')
   </head>
   <body>
