@@ -263,13 +263,14 @@ class PublicController extends Controller{
 
     public function search_doctor(Request $request){
        $where   = ' and 1=1';
+       $location = '';
        if(!empty($request->get('location'))){
            $location = $request->get('location');
            $where .= " and (profile_details.clinic_city Like '%$location%' or profile_details.clinic_state Like '%$location%')";
        }
 
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' $where");
-       $data    = array('list'=>$list);
+       $data    = array('list'=>$list,'location'=>$location);
        return view('public.search_doctor')->with($data);
     }
     public function doctor_profile_view(Request $request,$id){

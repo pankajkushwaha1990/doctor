@@ -112,47 +112,22 @@
 								</div>
 								<div class="filter-widget">
 									<h4>Select Specialist</h4>
+									 <form  role="form" enctype="multipart/form-data" method="get" action="{{ url('search_doctor') }}">
 									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist" checked>
-											<span class="checkmark"></span> Urology
-										</label>
+											<input type="text" class="form-control" placeholder="Search Location" name="location" value="{{ $location }}">
+										
 									</div>
+									<br>
 									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist" checked>
-											<span class="checkmark"></span> Neurology
-										</label>
+										 <input type="text" class="form-control" name="keywords" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc">
 									</div>
-									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist">
-											<span class="checkmark"></span> Dentist
-										</label>
-									</div>
-									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist">
-											<span class="checkmark"></span> Orthopedic
-										</label>
-									</div>
-									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist">
-											<span class="checkmark"></span> Cardiologist
-										</label>
-									</div>
-									<div>
-										<label class="custom_check">
-											<input type="checkbox" name="select_specialist">
-											<span class="checkmark"></span> Cardiologist
-										</label>
-									</div>
+									
 								</div>
 									<div class="btn-search">
-										<button type="button" class="btn btn-block">Search</button>
+										<button type="submit" class="btn btn-block">Search</button>
 									</div>	
 								</div>
+							</form>
 							</div>
 							<!-- /Search Filter -->
 							
