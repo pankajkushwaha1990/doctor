@@ -106,11 +106,11 @@
                            <!--  <div class="header-contact-img">
                                 <i class="far fa-hospital"></i>                         
                             </div> -->
-                          <!--   <div class="header-contact-detail">
-                                <p class="contact-header">Contact Us</p>
-                                <p class="contact-info-header"> +91 8299801056</p>
-                            </div> -->
+                            <div class="header-contact-detail">
+                               <div id="google_translate_element"></div>
+                            </div>
                         </li>
+
                         <li class="nav-item">
                             <?php 
                                 if(session()->has('member')){
@@ -132,3 +132,9 @@
                     </ul>
                 </nav>
             </header>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <script type="text/javascript">
+            function googleTranslateElementInit() {
+              new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+            </script>
