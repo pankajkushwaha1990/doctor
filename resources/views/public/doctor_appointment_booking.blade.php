@@ -313,7 +313,7 @@
 							 <div class="submit-section proceed-btn text-right">
 								<a href="javascript:void(0)" class="btn btn-primary submit-btn login_to_procced">Login To Proceed</a>
 							 </div>
-							<?php }elseif(!empty($slots) && !empty($session)){?>
+							<?php }elseif(!empty($session)){?>
 								<div class="submit-section proceed-btn text-right">
 									<a href="javascript:void(0)" class="btn btn-primary submit-btn login_to_checkout">Proceed to Book</a>
 								 </div>

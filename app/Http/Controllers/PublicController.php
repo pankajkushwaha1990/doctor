@@ -515,7 +515,11 @@ class PublicController extends Controller{
        $id               = base64_decode(base64_decode($ref_url['doctor_id']));
        $appointment_date = $ref_url['booking_date'];
        $booking_slot     = $ref_url['booking_slot'];
+       $patinet_id ='';
+       if(!empty($ref_url['patinet_id'])){
+
        $patinet_id       = str_replace('rebook/','',base64_decode($ref_url['patinet_id']));
+       }
 
        $list             =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
        $old_patient_name = '';
