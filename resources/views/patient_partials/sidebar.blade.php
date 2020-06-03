@@ -17,7 +17,12 @@
                       <div class="patient-details">
                     <?php 
                        if(!empty($session->date_of_birth)){ 
-                        $dob = explode('/',$session->date_of_birth);
+                        if(strpos($session->date_of_birth,'/')>0){
+                          $dob = explode('/',$session->date_of_birth);
+                        }elseif(strpos($session->date_of_birth,'-')>0){
+                          $dob = explode('-',$session->date_of_birth);
+
+                        }
                         $session->date_of_birth = $dob[2]."-".$dob[1]."-".$dob[0];
                          $timestramp = strtotime($session->date_of_birth); 
                          $year = date('Y',$timestramp); ?>
@@ -50,6 +55,12 @@
                         <a  href="{{ url('patient_my_appointment') }}">
                           <i class="fas fa-columns"></i>
                           <span>My Appointment</span>
+                        </a>
+                      </li>
+                      <li class="">
+                        <a  href="{{ url('patient_member') }}">
+                          <i class="fas fa-columns"></i>
+                          <span>My Member</span>
                         </a>
                       </li>
                      <!--  <li>

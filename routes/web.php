@@ -87,6 +87,7 @@ Route::get('/patient_appointments_checkout_status/{status}/{id}', 'PatientContro
 Route::get('/patient_change_password', 'PatientController@patient_change_password');
 Route::post('/patient_change_password_submit', 'PatientController@patient_change_password_submit');
 Route::get('/patient_my_appointment', 'PatientController@patient_my_appointment');
+Route::get('/patient_member', 'PatientController@patient_member');
 
 
 

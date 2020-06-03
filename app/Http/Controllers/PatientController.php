@@ -79,6 +79,27 @@ class PatientController extends Controller{
       return view('patient.dashboard')->with($data);
     }
 
+    private function family_details($name=null,$gender=null,$relation=null,$dob=null){
+       $name  = json_decode($name,true);
+    }
+
+    public function patient_member(Request $request){
+      $session = $request->session()->get('member');
+      $id      = $session->id;
+      $today   = date('Y-m-d');
+      $member_list =    DB::select("select * from admin where type='patient' and id='$id'");
+      if(!empty($member_list)){
+        foreach ($member_list as $key => $value) {
+          $value->family_details = $this->family_details($value->family_name,$value->family_gender,$value->family_relation,$value->family_dob);
+        }
+      }
+
+      echo "<pre>";
+      print_r($member_list);
+      $data       = array('session'=>$session,'member_list'=>$member_list);
+      return view('patient.patient_member')->with($data);
+    }
+
     public function patient_appointments_checkout_status(Request $request,$status=null,$amenities_id=null){
       $amenities_id = base64_decode($amenities_id);
       $status1   = DB::table('appointment_booked')->where('id', $amenities_id)->update(array('status'=>$status));
