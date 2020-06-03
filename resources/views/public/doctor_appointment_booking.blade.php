@@ -309,7 +309,7 @@
 							<!-- Submit Section -->
 							
 							<?php 
-							if(empty($session) && empty($slots)){?>
+							if(empty($session)){?>
 							 <div class="submit-section proceed-btn text-right">
 								<a href="javascript:void(0)" class="btn btn-primary submit-btn login_to_procced">Login To Proceed</a>
 							 </div>
