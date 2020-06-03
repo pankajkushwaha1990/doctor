@@ -12,7 +12,7 @@
                                 <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Patients</h2>
                                     <ul>
-                                        <li><a href="{{ url('search_doctor') }}">Search for Doctors</a></li>
+                                        <li><a href="{{ url('') }}">Search for Doctors</a></li>
                                         <li><a href="{{ url('login') }}">Login</a></li>
                                         <li><a href="{{ url('patient_registration') }}">Register</a></li>
                                         <li><a href="{{ url('patient_dashboard') }}">Booking</a></li>
