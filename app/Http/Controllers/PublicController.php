@@ -773,9 +773,27 @@ class PublicController extends Controller{
           }
         } 
     }
-    public function index(){
+
+
+
+    public function index(Request $request){
+      $member_session = $request->session()->get('member');
+      if($member_session != NULL){
+          if(empty($member_session->city) && $member_session->type=='patient'){
+            return redirect('patient_profile_setting');
+          }
+
+          $id = $request->session()->get('member')->id;
+          $check_profile = $this->check_profile_by_doctor_id($id);
+          if(empty($check_profile) && $request->session()->get('member')->type=='doctor'){
+                return redirect('doctor_profile_setting');
+          }
+      }
+
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and admin.premenum_status='1' and clinic_city!=''");
        $data    = array('list'=>$list);
+
+
       return view('public.welcome')->with($data);
     }
     public function patient_invoice_view(Request $request,$booking_id=null){
