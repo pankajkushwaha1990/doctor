@@ -130,8 +130,8 @@
 															      $diff           =  date_diff($date1,$date2);
 															      $validity_upto =  $diff->format("%a");
 																	 ?>
-																	 
-						 									<?php if($doctor->booking_type!='old' && && $validity_upto<$validity){?>
+
+						 									<?php if($doctor->booking_type!='old' && $validity_upto<$validity){?>
 																<tr>
 																	<?php 
 																	      $timestramp2 = strtotime($doctor->patient_dob); 
