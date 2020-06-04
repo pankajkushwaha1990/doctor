@@ -59,7 +59,7 @@
 
 										<div class="col-md-6">
 											<div class="form-group mb-0">
-												<label>Profile Name</label>
+												<label>Profile Name <span class="text-danger">*</span></label>
 												<input type="text" required="" name="profile_name" class="form-control"  value="{{ $list[0]->name }}">
 												 @if ($errors->has('profile_name')) <p style="color:red;">{{ $errors->first('profile_name') }}</p> @endif
 											</div>
@@ -86,7 +86,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Gender</label>
+												<label>Gender <span class="text-danger">*</span></label>
 												<select class="form-control" name="gender" required="">
 													<option value='' >Select</option>
 													<option value="male" @if($list[0]->gender=='male'){{ 'selected' }} @endif >Male</option>
@@ -98,7 +98,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group mb-0">
-												<label>Date of Birth (DD/MM/YYYY)</label>
+												<label>Date of Birth (DD/MM/YYYY) <span class="text-danger">*</span></label>
 												<input type="text" required="" name="date_of_birth" class="form-control datetimepicker1"  value="{{ $list[0]->date_of_birth }}">
 												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
 
@@ -115,7 +115,7 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Address Line </label>
-												<input type="text" class="form-control" name="address" required="" value="{{ $list[0]->address }}">
+												<input type="text" class="form-control" name="address" value="{{ $list[0]->address }}">
 												 @if($errors->has('address')) <p style="color:red;">{{ $errors->first('address') }}</p> @endif
 											</div>
 										</div>
@@ -123,7 +123,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">City</label>
-												<input type="text" class="form-control" name="city" required="" value="{{ $list[0]->city }}">
+												<input type="text" class="form-control" name="city" value="{{ $list[0]->city }}">
 												@if($errors->has('city')) <p style="color:red;">{{ $errors->first('city') }}</p> @endif
 											</div>
 										</div>
@@ -131,7 +131,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">State / Province</label>
-												<input type="text" class="form-control" name="state" required="" value="{{ $list[0]->state }}">
+												<input type="text" class="form-control" name="state" value="{{ $list[0]->state }}">
 												@if($errors->has('state')) <p style="color:red;">{{ $errors->first('state') }}</p> @endif
 
 											</div>
@@ -139,7 +139,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Country</label>
-												<input type="text" class="form-control" name="country" required="" value="{{ $list[0]->country }}">
+												<input type="text" class="form-control" name="country" value="{{ $list[0]->country }}">
 												@if($errors->has('country')) <p style="color:red;">{{ $errors->first('country') }}</p> @endif
 
 											</div>
@@ -147,7 +147,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control" name="pincode" required="" value="{{ $list[0]->pincode }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+												<input type="text" class="form-control" name="pincode"  value="{{ $list[0]->pincode }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												@if($errors->has('pincode')) <p style="color:red;">{{ $errors->first('pincode') }}</p> @endif
 											</div>
 										</div>
@@ -290,7 +290,7 @@
 
 										<div class="col-md-6">
 											<div class="form-group mb-0">
-												<label>Profile Name</label>
+												<label>Profile Name <span class="text-danger">*</span></label>
 												<input type="text" required="" name="profile_name" class="form-control"  value="{{ old('profile_name') }}">
 												 @if ($errors->has('profile_name')) <p style="color:red;">{{ $errors->first('profile_name') }}</p> @endif
 											</div>
@@ -317,7 +317,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Gender</label>
+												<label>Gender <span class="text-danger">*</span></label>
 												<select class="form-control" name="gender" required="">
 													<option value='' >Select</option>
 													<option value="male"   >Male</option>
@@ -329,7 +329,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group mb-0">
-												<label>Date of Birth (DD/MM/YYYY)</label>
+												<label>Date of Birth (DD/MM/YYYY) <span class="text-danger">*</span></label>
 												<input type="text" required="" name="date_of_birth" class="form-control datetimepicker1"  value="{{ old('date_of_birth') }}">
 												 @if($errors->has('date_of_birth')) <p style="color:red;">{{ $errors->first('date_of_birth') }}</p> @endif
 
@@ -346,7 +346,7 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Address Line </label>
-												<input type="text" class="form-control" name="address" required="" value="{{ old('address') }}">
+												<input type="text" class="form-control" name="address"  value="{{ old('address') }}">
 												 @if($errors->has('address')) <p style="color:red;">{{ $errors->first('address') }}</p> @endif
 											</div>
 										</div>
@@ -354,7 +354,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">City</label>
-												<input type="text" class="form-control" name="city" required="" value="{{ old('city') }}">
+												<input type="text" class="form-control" name="city"  value="{{ old('city') }}">
 												@if($errors->has('city')) <p style="color:red;">{{ $errors->first('city') }}</p> @endif
 											</div>
 										</div>
@@ -362,7 +362,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">State / Province</label>
-												<input type="text" class="form-control" name="state" required="" value="{{ old('state') }}">
+												<input type="text" class="form-control" name="state"  value="{{ old('state') }}">
 												@if($errors->has('state')) <p style="color:red;">{{ $errors->first('state') }}</p> @endif
 
 											</div>
@@ -370,7 +370,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Country</label>
-												<input type="text" class="form-control" name="country" required="" value="{{ old('country') }}">
+												<input type="text" class="form-control" name="country" value="{{ old('country') }}">
 												@if($errors->has('country')) <p style="color:red;">{{ $errors->first('country') }}</p> @endif
 
 											</div>
@@ -378,7 +378,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control" name="pincode" required="" value="{{ old('pincode') }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+												<input type="text" class="form-control" name="pincode"  value="{{ old('pincode') }}" maxlength="6" minlength="6" min='111111' max='999999' onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 												@if($errors->has('pincode')) <p style="color:red;">{{ $errors->first('pincode') }}</p> @endif
 											</div>
 										</div>
