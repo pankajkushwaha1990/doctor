@@ -358,7 +358,7 @@ class PublicController extends Controller{
                   'clinic_city'=> $request->input('clinic_city'),
                   'clinic_state'=> $request->input('clinic_state'),
                   'clinic_country'=> !empty($request->input('clinic_country'))?$request->input('clinic_country'):"",
-                  'clinic_pincode'=> $request->input('clinic_pincode'),
+                  'clinic_pincode'=> !empty($request->input('clinic_pincode'))?$request->input('clinic_pincode'):"",
                   'clinic_fee'=> $request->input('clinic_fee'),
                   'old_clinic_fee'=> !empty($request->input('old_clinic_fee'))?$request->input('old_clinic_fee'):"",
                   'clinic_services'=> !empty($request->input('clinic_services'))?$request->input('clinic_services'):"",
