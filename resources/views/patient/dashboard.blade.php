@@ -71,7 +71,7 @@
 															      $timestramp     = strtotime($doctor->appointment_date);
 															      $validity       =  $doctor->clinic_fee_validity;
 															      $date1=date_create($doctor->appointment_date);
-																  $date2=date_create("2020-05-18");
+																  $date2=date_create(date('Y-m-d'));
 															      $diff           =  date_diff($date1,$date2);
 															      $validity_upto =  $diff->format("%a");
 																	 ?>
@@ -143,7 +143,7 @@
 															      $timestramp     = strtotime($doctor->appointment_date);
 															      $validity       =  $doctor->clinic_fee_validity;
 															      $date1=date_create($doctor->appointment_date);
-																  $date2=date_create("2020-05-18");
+																  $date2=date_create(date('Y-m-d'));
 															      $diff           =  date_diff($date1,$date2);
 															      $validity_upto =  $diff->format("%a");
 																	 ?>
