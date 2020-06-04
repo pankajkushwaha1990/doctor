@@ -9,7 +9,7 @@
               <div class="profile-sidebar">
                 <div class="widget-profile pro-widget-content">
                   <div class="profile-info-widget">
-                    <a href="#" class="booking-doc-img">
+                    <a href="{{ url('patient_dashboard') }}" class="booking-doc-img">
                       <img src="{{asset('patient_files')}}/{{ $session->profile_picture }}" alt="User Image">
                     </a>
                     <div class="profile-det-info">
