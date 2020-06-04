@@ -86,7 +86,7 @@ class PatientController extends Controller{
     public function patient_member_history(Request $request,$name=null){
        $session = $request->session()->get('member');
        $id      = $session->id;
-       $list    = DB::select("select *,appointment_booked.id as id,admin.id as doc_id from appointment_booked join admin on admin.id=appointment_booked.doctor_id where patient_id='$id' and patient_name='$name' order by appointment_date asc,appointment_slot asc");
+       $list    = DB::select("select *,appointment_booked.id as id,admin.id as doc_id,appointment_booked.status as status from appointment_booked join admin on admin.id=appointment_booked.doctor_id where patient_id='$id' and patient_name='$name' order by appointment_date asc,appointment_slot asc");
        $data    = ['session'=>$session,'list'=>$list];
        return view('patient.patient_member_history')->with($data);
 

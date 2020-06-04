@@ -52,7 +52,11 @@
 																	<?php 
 															     
 																	 ?>
-																	<?php $created_at = strtotime($doctor->created_at); ?>
+																	<?php 
+																	$created_at = strtotime($doctor->created_at);
+																	$timestramp = strtotime($doctor->appointment_date);
+
+																	 ?>
 																	<td><?php echo date('d F Y',$timestramp); ?><span class="d-block text-info">{{ $doctor->appointment_slot }}</span></td>
 																	<td><?php echo date('d F Y',$created_at); ?></td>
 																	<td>{{ $doctor->doctor_fee }} Rs.</td>
