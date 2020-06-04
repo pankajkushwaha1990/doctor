@@ -79,8 +79,17 @@ class PatientController extends Controller{
       return view('patient.dashboard')->with($data);
     }
 
-    private function family_details($name=null,$gender=null,$relation=null,$dob=null){
-       $name  = json_decode($name,true);
+    private function family_appointment($id=null,$name=null){
+       return DB::select("select count(id) as total from appointment_booked where patient_id='$id' and patient_name='$name'");
+    }
+
+    public function patient_member_history(Request $request,$name=null){
+       $session = $request->session()->get('member');
+       $id      = $session->id;
+       $list    = DB::select("select *,appointment_booked.id as id,admin.id as doc_id from appointment_booked join admin on admin.id=appointment_booked.doctor_id where patient_id='$id' and patient_name='$name' order by appointment_date asc,appointment_slot asc");
+       $data    = ['session'=>$session,'list'=>$list];
+       return view('patient.patient_member_history')->with($data);
+
     }
 
     public function patient_member(Request $request){
@@ -90,13 +99,19 @@ class PatientController extends Controller{
       $member_list =    DB::select("select * from admin where type='patient' and id='$id'");
       if(!empty($member_list)){
         foreach ($member_list as $key => $value) {
-          $value->family_details = $this->family_details($value->family_name,$value->family_gender,$value->family_relation,$value->family_dob);
+          $family_name     = json_decode($value->family_name,true);
+          $family_relation = json_decode($value->family_relation,true);
+          $family_dob      = json_decode($value->family_dob,true);
+          $family_gender   = json_decode($value->family_gender,true);
+          foreach ($family_name as $key => $value2) {
+            $asd = $this->family_appointment($id,$value2);
+            $value->family_appointment[] = ['name'=>$family_name[$key],'family_relation'=>$family_relation[$key],'family_dob'=>$family_dob[$key],'family_gender'=>$family_gender[$key],'appointment'=>$asd[0]->total];
+          }
+
         }
       }
 
-      echo "<pre>";
-      print_r($member_list);
-      $data       = array('session'=>$session,'member_list'=>$member_list);
+      $data       = array('session'=>$session,'member_list'=>$member_list[0]);
       return view('patient.patient_member')->with($data);
     }
 

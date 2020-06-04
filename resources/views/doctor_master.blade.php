@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="{{asset('template')}}/assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="{{asset('template')}}/assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="{{asset('template')}}/assets/css/style.css">  
+    <style type="text/css">
+#mobileshow { 
+display:none; 
+}
+@media screen and (max-width: 500px) {
+#mobileshow { 
+display:block; }
+}
+</style>
     <meta http-equiv="Refresh" content="300">
      @yield('styles')
   </head>

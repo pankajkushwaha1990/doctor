@@ -56,7 +56,8 @@
 														</div>
 													</div>
 												</div>
-
+											<?php 
+											if($session->type=='doctor'){?>
 												<div class="col-md-12 col-lg-3">
 													<div class="dash-widget dct-border-rht">
 														<div class="circle-bar circle-bar3">
@@ -71,6 +72,7 @@
 														</div>
 													</div>
 												</div>
+											<?php } ?>
 
 
 											</div>

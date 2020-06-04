@@ -25,6 +25,24 @@
                             <li class="active">
                                 <a href="{{ url('') }}">Home</a>
                             </li>
+
+                            <li id="mobileshow"><?php 
+                                if(session()->has('member')){
+                                    $session_data = session()->get('member');
+                                    if($session_data->type=='doctor'){ ?>
+                                         <a  href="{{ url('doctor_dashboard') }}">Dashboard</a>
+                                    <?php }elseif($session_data->type=='patient'){?>
+                                        <a href="{{ url('patient_dashboard') }}">Dashboard</a>
+                                    <?php }else{ ?>
+                                        <a  href="{{ url('login') }}">Login/Sign Up</a>
+                                   <?php }
+
+                                }else{ ?>
+                                        <a  href="{{ url('login') }}">Login/Sign Up</a>
+
+                                <?php }
+                            ?>
+                        </li>
                            
                           <!--   <li class="has-submenu">
                                 <a href="#">Doctors <i class="fas fa-chevron-down"></i></a>

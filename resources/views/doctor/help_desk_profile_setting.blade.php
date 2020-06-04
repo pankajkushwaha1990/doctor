@@ -232,10 +232,10 @@
 								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
 							@if($list[0]->status =='1')         
                                 <a href="{{ url('help_desk_profile_setting_status/0/'.base64_encode($list[0]->id))}}">
-                                	<button type="button" class="btn btn-primary submit-btn">Active</button></a>         
+                                	<button type="button" class="btn btn-danger submit-btn">Deactive</button></a>         
                             @else
                                <a href="{{ url('help_desk_profile_setting_status/1/'.base64_encode($list[0]->id))}}">
-                               	<button type="button" class="btn btn-danger submit-btn">Deactive</button>
+                               	<button type="button" class="btn btn-primary submit-btn">Active</button>
                                </a>
                             @endif
 

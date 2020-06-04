@@ -27,6 +27,15 @@
 
 
     </style>
+    <style type="text/css">
+#mobileshow { 
+display:none; 
+}
+@media screen and (max-width: 500px) {
+#mobileshow { 
+display:block; }
+}
+</style>
         
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
