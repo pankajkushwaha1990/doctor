@@ -66,7 +66,6 @@ class DoctorController extends Controller{
                 'email_verify' => 0,
                 'profile_picture'=>$images,
                 'type' =>  'help_desk',
-                'status'=> 0,
                 'mobile' => 'help_desk',
                 'mobile_otp' => '',
                 'created_by'=>$id,
