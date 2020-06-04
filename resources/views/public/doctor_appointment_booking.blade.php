@@ -161,11 +161,11 @@ display:block; }
 							<div class="card">
 								<div class="card-body">
 									<div class="booking-doc-info">
-										<a href="doctor-profile.html" class="booking-doc-img">
+										<a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" class="booking-doc-img">
 											<img src="{{asset('doctor_files')}}/{{ $doctor->profile_picture }}" alt="User Image">
 										</a>
 										<div class="booking-info">
-											<h4><a href="doctor-profile.html">{{ $doctor->name }}</a></h4>
+											<h4><a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }}</a></h4>
 											<!-- <div class="rating">
 												<i class="fas fa-star filled"></i>
 												<i class="fas fa-star filled"></i>
