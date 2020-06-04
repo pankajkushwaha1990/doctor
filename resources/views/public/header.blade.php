@@ -133,7 +133,7 @@
                             <?php 
                                 if(session()->has('member')){
                                     $session_data = session()->get('member');
-                                    if($session_data->type=='doctor'){ ?>
+                                    if($session_data->type=='doctor' || $session_data->type=='help_desk'){ ?>
                                          <a class="nav-link header-login" href="{{ url('doctor_dashboard') }}">Dashboard</a>
                                     <?php }elseif($session_data->type=='patient'){?>
                                         <a class="nav-link header-login" href="{{ url('patient_dashboard') }}">Dashboard</a>
