@@ -356,7 +356,7 @@
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>Degree</label>
-																	<input type="text" class="form-control" name="degree[]" required="" value="">
+																	<input type="text" class="form-control" name="degree[]" value="">
 									@if($errors->has('degree')) <p style="color:red;">{{ $errors->first('degree') }}</p> @endif
 
 																</div> 
@@ -364,7 +364,7 @@
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>College/Institute</label>
-																	<input type="text" class="form-control" name="institute[]" required="" value="">
+																	<input type="text" class="form-control" name="institute[]" value="">
 									@if($errors->has('institute')) <p style="color:red;">{{ $errors->first('institute') }}</p> @endif
 
 																</div> 
@@ -372,7 +372,7 @@
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>Year of Completion</label>
-																	<input type="text" class="form-control" name="completion_year[]" required="" value="">
+																	<input type="text" class="form-control" name="completion_year[]" value="">
 									@if($errors->has('completion_year')) <p style="color:red;">{{ $errors->first('completion_year') }}</p> @endif
 
 																</div> 
