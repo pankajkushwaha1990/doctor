@@ -32,7 +32,6 @@ class DoctorController extends Controller{
             'password' => 'required|max:50',
             'gender' => 'required|max:50',
             'date_of_birth' => 'required|max:50',
-            'pincode' => 'required|max:200',
             'menu' => 'required|max:200',
         ]);
         if ($validator->fails()){
