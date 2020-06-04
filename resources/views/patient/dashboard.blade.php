@@ -112,7 +112,7 @@
 																				<i class="fas fa-print"></i> Print
 																			</a> -->
 																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
-																				<i class="far fa-eye"></i> View
+																				<i class="far fa-eye"></i> View1
 																			</a>
 																		</div>
 																	</td>
@@ -184,7 +184,7 @@
 																				<i class="fas fa-print"></i> Print
 																			</a> -->
 																			<a href="{{ url('patient_invoice_view')}}/{{ base64_encode(base64_encode($doctor->id)) }} " class="btn btn-sm bg-info-light">
-																				<i class="far fa-eye"></i> View
+																				<i class="far fa-eye"></i> View2
 																			</a>
 																		</div>
 																	</td>
