@@ -32,10 +32,6 @@ class DoctorController extends Controller{
             'password' => 'required|max:50',
             'gender' => 'required|max:50',
             'date_of_birth' => 'required|max:50',
-            'address' => 'required|max:2000',
-            'city' => 'required|max:200',
-            'state' => 'required|max:200',
-            'country' => 'required|max:200',
             'pincode' => 'required|max:200',
             'menu' => 'required|max:200',
         ]);
