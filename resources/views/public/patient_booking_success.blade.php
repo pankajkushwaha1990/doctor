@@ -70,7 +70,7 @@
 										<?php $timestramp = strtotime($appointment->appointment_date); ?>
 										<p>Appointment booked with <strong>{{ $appointment->name }}</strong><br> on <strong><?php echo date('d F Y',$timestramp); ?> {{ $appointment->appointment_slot }}</strong></p>
 										@if($appointment->booked_by_type=='doctor')
-										<a href="{{ url('doctor_appointments') }}" class="btn btn-primary view-inv-btn">Goto Appointments</a>
+										<a href="{{ url('doctor_appointments') }}" class="btn btn-primary view-inv-btn">Go to Appointments</a>
 										@else
 										<a href="{{ url('patient_invoice_view') }}/{{ base64_encode(base64_encode($appointment->id)) }}" class="btn btn-primary view-inv-btn">View Invoice</a>
 										@endif
