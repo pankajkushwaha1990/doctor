@@ -329,19 +329,19 @@
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>Degree</label>
-																	<input type="text" class="form-control" name="degree[]" required="" value="{{ $degree[$key] }}">
+																	<input type="text" class="form-control" name="degree[]" value="{{ $degree[$key] }}">
 																</div> 
 															</div>
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>College/Institute</label>
-																	<input type="text" class="form-control" name="institute[]" required="" value="{{ $institute[$key] }}">
+																	<input type="text" class="form-control" name="institute[]"  value="{{ $institute[$key] }}">
 																</div> 
 															</div>
 															<div class="col-12 col-md-6 col-lg-4">
 																<div class="form-group">
 																	<label>Year of Completion</label>
-																	<input type="text" class="form-control" name="completion_year[]" required="" value="{{ $completion_year[$key] }}">
+																	<input type="text" class="form-control" name="completion_year[]" value="{{ $completion_year[$key] }}">
 																</div> 
 															</div>
 														</div>
