@@ -1,4 +1,4 @@
-<!-- Header -->
+Header -->
             <div class="header">
       
         <!-- Logo -->
@@ -34,10 +34,10 @@
 
           <!-- Notifications -->
           <li class="nav-item dropdown noti-dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <i class="fe fe-bell"></i> <span class="badge badge-pill">3</span>
-            </a>
-            <div class="dropdown-menu notifications">
+            </a> -->
+            <!-- <div class="dropdown-menu notifications">
               <div class="topnav-dropdown-header">
                 <span class="notification-title">Notifications</span>
                 <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
@@ -101,7 +101,7 @@
               <div class="topnav-dropdown-footer">
                 <a href="#">View all Notifications</a>
               </div>
-            </div>
+            </div> -->
           </li>
           <!-- /Notifications -->
           
@@ -121,7 +121,7 @@
                 </div>
               </div>
               <a class="dropdown-item" href="{{ url('admin_profile_view') }}">My Profile</a>
-              <a class="dropdown-item" href="settings.html">Settings</a>
+              <!-- <a class="dropdown-item" href="settings.html">Settings</a> -->
               <a class="dropdown-item" href="{{ url('admin_logout') }}">Logout</a>
             </div>
           </li>
@@ -131,4 +131,4 @@
         <!-- /Header Right Menu -->
         
             </div>
-      <!-- /Header -->
+      <!-- /Header

@@ -17,6 +17,25 @@ class AdminController extends Controller{
           }
         });
     }
+
+    public function admin_social_link_update(Request $request){
+        $session = $request->session()->get('member');
+        $id      = $session->id;
+        $amenities = array(
+                'facebook' => $request->input('facebook'),
+                'twitter'=> $request->input('twitter'),
+                'linkedin'=> $request->input('linkedin'),
+                'instagram'=> $request->input('instagram'),
+          );
+
+          $status = DB::table('admin_social_link')->where(['id'=>1])->update($amenities);
+          if(!empty($status)){
+             return redirect('/admin_social_link')->with('success', 'Social Link added successfully');
+          }else{
+             return redirect('/admin_social_link')->with('failure', 'Some Problem Occured Try Again');
+          }
+    }
+
     public function dashboard(Request $request){
         $session = $request->session()->get('member');
         $id      = $session->id;
@@ -67,6 +86,16 @@ class AdminController extends Controller{
         $data       = array('session'=>$session,'list'=>$list);
         return view('admin.patients_list')->with($data);
     }
+
+    public function admin_social_link(Request $request){
+        $session = $request->session()->get('member');
+        $id      = $session->id;
+        $list     =    DB::select("select * from admin_social_link");
+        $list       = empty($list)?[]:$list[0];
+        $data       = array('session'=>$session,'list'=>$list);
+        return view('admin.admin_social_link')->with($data);
+    }
+
     public function admin_patient_change_status(Request $request,$status=null,$ids=null){
       $session = $request->session()->get('member');
       $id      = $session->id;

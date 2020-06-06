@@ -51,7 +51,7 @@
                           <td>
                             <h2 class="table-avatar">
                               <a target="_blank" href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{asset('doctor_files')}}/{{ $doctor->profile_picture }}" alt="User Image"></a>
-                              <a href="profile.html">{{ $doctor->name }}</a>
+                              <a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }}</a>
                             </h2>
                           </td>
                           <td>{{ $doctor->clinic_specialist }}</td>

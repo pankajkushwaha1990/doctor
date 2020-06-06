@@ -15,6 +15,9 @@ Sidebar -->
               <li> 
                 <a href="{{ url('admin_patients_list') }}"><i class="fe fe-user"></i> <span>Patients</span></a>
               </li>
+              <li> 
+                <a href="{{ url('admin_social_link') }}"><i class="fe fe-user"></i> <span>Social Link</span></a>
+              </li>
 
 
 

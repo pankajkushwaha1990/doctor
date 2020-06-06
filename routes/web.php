@@ -4,12 +4,15 @@ Route::get('/admin_login', function () { return view('public.admin_login'); });
 Route::post('/admin_login_submit', 'PublicController@admin_login_submit');
 Route::get('/admin_dashboard', 'AdminController@dashboard');
 Route::get('/admin_profile_view', 'AdminController@my_profile_view');
+Route::get('/admin_social_link', 'AdminController@admin_social_link');
 Route::get('/admin_logout',function(){ session()->flush(); return redirect('admin_login'); });
 Route::get('/admin_doctors_list','AdminController@doctors_list');
 Route::get('/admin_patients_list','AdminController@patients_list');
 Route::get('/admin_patient_change_status/{status}/{id}', 'AdminController@admin_patient_change_status');
 Route::get('/admin_doctor_change_status/{status}/{id}', 'AdminController@admin_doctor_change_status');
 Route::get('/admin_doctor_change_premium_status/{status}/{id}', 'AdminController@admin_doctor_change_premium_status');
+Route::post('/admin_social_link_update', 'AdminController@admin_social_link_update');
+
 
 
 
