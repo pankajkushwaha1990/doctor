@@ -18,6 +18,10 @@ Sidebar -->
               <li> 
                 <a href="{{ url('admin_social_link') }}"><i class="fe fe-user"></i> <span>Social Link</span></a>
               </li>
+              <li> 
+                <a href="{{ url('admin_booking_report') }}"><i class="fe fe-user"></i> <span>Report</span></a>
+              </li>
+              
 
 
 

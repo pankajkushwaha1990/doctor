@@ -36,18 +36,76 @@ class AdminController extends Controller{
           }
     }
 
+    public function admin_booking_report(Request $request){
+      $session = $request->session()->get('member');
+      $where   = ' and 1=1';
+        if(!empty($request->get('doctor_id'))){
+           $doctor_id = $request->get('doctor_id');
+           $where .= " and doctor_id='$doctor_id'";
+        }
+
+        if(!empty($request->get('from'))){
+          $from                 = explode("/",$request->get('from'));
+          $from                 = $from[2]."-".$from[1]."-".$from[0];
+          $where .= " and appointment_date>='$from'";
+
+        }
+
+        if(!empty($request->get('appointment_type'))){
+          $appointment_type = $request->get('appointment_type');
+          if($appointment_type=='old'){
+           $where .= " and booking_type='$appointment_type'";
+          }else{
+            $where .= " and booking_type IS NULL";
+          }
+        }
+
+        if(!empty($request->get('to'))){
+          $to                 = explode("/",$request->get('to'));
+          $to                 = $to[2]."-".$to[1]."-".$to[0];
+          $where .= " and appointment_date<='$to'";
+        }
+
+
+      $appointment =    DB::select("select *,admin.id as id,appointment_booked.id as app_id,appointment_booked.status as status from appointment_booked left join admin on appointment_booked.patient_id=admin.id where appointment_status=2 $where order by appointment_date asc,appointment_slot asc");
+
+      $patient_list =    DB::select("select * from appointment_booked left join admin on appointment_booked.doctor_id=admin.id where appointment_status=2 order by appointment_date asc,appointment_slot asc");
+
+      $patient_lists = [];
+      if(!empty($patient_list)){
+        foreach ($patient_list as $key => $patient) {
+          $patient_lists[$patient->doctor_id] = $patient;
+        }
+      }
+       $data       = array('session'=>$session,'appointment_booked'=>$appointment,'patient_list'=>$patient_lists);
+       return view('admin.admin_booking_report')->with($data);
+    }
+
+
     public function dashboard(Request $request){
         $session = $request->session()->get('member');
         $id      = $session->id;
         $today   = date('Y-m-d');
-        if($session->type=='admin'){
-            $doctor_count   =      DB::table('admin')->where('type', '=','doctor')->count();           
-            $patient_count   =     DB::table('admin')->where('type', '=','patient')->count();           
-            $appointment_count   = DB::table('appointment_booked')->where('id', '!=','0')->count();           
-        }else{
+        $doctor_count = $patient_count = $appointment_count = 0 ;
+        $list    = DB::select("select type from admin where created_at like '%$today%'");
+        if(!empty($list)){
+           foreach ($list as $key => $value) {
+              if($value->type=='doctor'){
+                $doctor_count += 1;
+              }elseif($value->type=='patient'){
+                $patient_count += 1;
+              }
+           }
+        }
+        $appointment_count    = DB::select("select count(id) as total from appointment_booked where appointment_date like '%$today%'")[0]->total;
+        $revenue              = DB::select("select sum(pay_amount) as total from appointment_booked where appointment_date like '%$today%'")[0]->total;
 
-        }       
-        $data       = array('doctor_count'=>$doctor_count,'session'=>$session,'patient_count'=>$patient_count,'appointment_count'=>$appointment_count);
+
+        // $doctor_count   =      DB::table('admin')->where($where)->count();           
+        // $patient_count   =     DB::table('admin')->where('type', '=','patient')->count();           
+        // $appointment_count   = DB::table('appointment_booked')->where('id', '!=','0')->count();           
+          
+        $data       = array('doctor_count'=>$doctor_count,'session'=>$session,'patient_count'=>$patient_count,'appointment_count'=>$appointment_count,'revenue'=>$revenue);
         return view('admin.dashboard')->with($data);
     }
     public function my_profile_view(Request $request){

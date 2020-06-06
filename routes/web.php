@@ -12,6 +12,7 @@ Route::get('/admin_patient_change_status/{status}/{id}', 'AdminController@admin_
 Route::get('/admin_doctor_change_status/{status}/{id}', 'AdminController@admin_doctor_change_status');
 Route::get('/admin_doctor_change_premium_status/{status}/{id}', 'AdminController@admin_doctor_change_premium_status');
 Route::post('/admin_social_link_update', 'AdminController@admin_social_link_update');
+Route::get('/admin_booking_report', 'AdminController@admin_booking_report');
 
 
 
