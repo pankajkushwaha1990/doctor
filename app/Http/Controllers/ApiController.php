@@ -216,7 +216,7 @@ class ApiController extends Controller{
                 $user_details = $this->user_details_by_mobile_number($patient_mobile);
                 $response = ['status'=>'success','message'=>'registration complete successfully','result'=>$user_details];             
               }else{
-                  $response = ['status'=>'success','message'=>'Some Problem Occured Try Again'];
+                  $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again'];
               }
 
             }
@@ -230,7 +230,9 @@ class ApiController extends Controller{
         if(!empty($list)){
              $list->profile_picture = asset('patient_files')."/".$list->profile_picture;
              $list->id              = base64_encode(base64_encode($list->id));
-             unset($list->password);
+             $list->profile_status  = empty($list->state)?'incomplete':'complete';
+             unset($list->password,$list->user_id,$list->type,$list->menu_allow,$list->mobile_otp,$list->booking_notification,$list->notification_status);
+             unset($list->created_by,$list->family_dob,$list->family_relation,$list->family_name,$list->family_gender);
            return $list;
         }else{
             return false; 
@@ -253,6 +255,223 @@ class ApiController extends Controller{
              $response = ['status'=>'failure','message'=>'user blocked please contact to admin'];            
           }else{
             $response = ['status'=>'success','message'=>'user loged in successfully','result'=>$user_details];
+          }
+        }
+        return response()->json($response);
+    }
+    private function doctor_details_by_location_and_keywords($location=null,$keywords=null){
+      $where    = ' and 1=1';
+      if(!empty($location)){
+           $where .= " and (profile_details.clinic_city Like '%$location%' or profile_details.clinic_state Like '%$location%')";
+       }
+       if(!empty($keywords)){
+           $where .= " and (admin.name Like '%$keywords%' or profile_details.clinic_name Like '%$keywords%' or profile_details.clinic_services like '%$keywords%')";
+       }
+       $list    =    DB::select("select admin.id as id,name,designation,gender,profile_picture,clinic_address,clinic_city,clinic_state,clinic_country,clinic_pincode,clinic_fee,clinic_services from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' $where");
+       if(!empty($list)){
+        foreach ($list as $key => $value) {
+          $value->profile_picture = asset('doctor_files')."/".$value->profile_picture;
+          $value->id              = base64_encode(base64_encode($value->id));
+        }
+        return $list;
+       }else{
+        return false;
+       }
+    }
+    public function search_doctor(Request $request){
+       $location = $request->get('location');
+       $keywords = $request->get('keywords');
+       $list     = $this->doctor_details_by_location_and_keywords($location,$keywords);
+       if(!empty($list)){
+            $response = ['status'=>'success','message'=>'doctor list fetch successfully','result'=>$list];             
+        }else{
+            $response = ['status'=>'failure','message'=>'doctor not found'];
+        }
+        return response()->json($response);
+    }
+    private function doctor_eucation($degree=null,$institute=null,$completion_year=null){
+      $degree          = json_decode($degree,true);
+      $institute       = json_decode($institute,true); 
+      $completion_year = json_decode($completion_year,true);
+      $education       = [];
+      if(!empty($degree)){
+        foreach($degree as $key=>$value){
+          $education[] = ['institute'=>$institute[$key],'degree'=>$degree[$key],'completion_year'=>$completion_year[$key]];
+        }
+        return $education;
+      }
+    }
+    private function work_experience($hospital_name=null,$experience_from=null,$experience_to=null,$experience_designation=null){
+      $hospital_name         = json_decode($hospital_name,true);  
+      $experience_from       = json_decode($experience_from,true); 
+      $experience_to         = json_decode($experience_to,true);
+      $designation           = json_decode($experience_designation,true);
+      $experience       =     [];
+      if(!empty($hospital_name)){
+        foreach($hospital_name as $key=>$value){
+         $experience[] = ['hospital_name'=>$hospital_name[$key],'from'=>$experience_from[$key],'to'=>$experience_to[$key],'designation'=>$designation[$key]];
+        }
+        return $experience;
+      }
+    }
+    private function award($name=null,$year=null){
+      $name          = json_decode($name,true);
+      $year       = json_decode($year,true); 
+      $award       = [];
+      if(!empty($name)){
+        foreach($name as $key=>$value){
+          $award[] = ['name'=>$name[$key],'year'=>$year[$key]];
+        }
+        return $award;
+      }
+    }
+    private function doctor_details_by_id($doctor_id=null){
+     $list    =    DB::select("select admin.id as id,name,designation,gender,profile_picture,clinic_address,clinic_city,clinic_state,clinic_country,clinic_pincode,clinic_fee,clinic_services,about_us,degree,institute,completion_year,hospital_name,experience_from,experience_to,experience_designation,award_name,award_year,clinic_specialist,clinic_name,clinic_open_time,clinic_close_time from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' and admin.id='$doctor_id'");
+       if(!empty($list)){
+        foreach ($list as $key => $value) {
+          $value->profile_picture = asset('doctor_files')."/".$value->profile_picture;
+          $value->id              = base64_encode(base64_encode($value->id));
+          $value->education       = $this->doctor_eucation($value->degree,$value->institute,$value->completion_year);
+          $value->award           = $this->award($value->award_name,$value->award_year);
+          $value->work_experience=$this->work_experience($value->hospital_name,$value->experience_from,$value->experience_to,$value->experience_designation);
+          unset($value->degree,$value->institute,$value->completion_year,$value->hospital_name,$value->experience_from,$value->experience_to,$value->experience_designation,$value->award_name,$value->award_year);
+        }
+        return $list;
+       }else{
+        return false;
+       }
+    }
+    public function doctor_profile_view(Request $request){
+      $doctor_id = $request->get('doctor_id');
+      if(empty($doctor_id)){
+          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+      }else{
+       $doctor_id = base64_decode(base64_decode($doctor_id));
+       $list     = $this->doctor_details_by_id($doctor_id);
+       if(!empty($list)){
+            $response = ['status'=>'success','message'=>'doctor details fetch successfully','result'=>$list];             
+        }else{
+            $response = ['status'=>'failure','message'=>'doctor not found'];
+        }
+      }
+        return response()->json($response);        
+    }
+    private function check_booked_slot($date=null,$slot=null,$doctor_id=null){
+          $list    = DB::select("select id from appointment_booked where appointment_date='$date' and appointment_slot='$slot' and doctor_id='$doctor_id' and status='1' limit 1");
+          if(empty($list)){
+             return 'available';
+          }else{
+            return 'booked';
+          }
+    }
+    private function check_lapsed_slot($date=null,$slot=null){
+      $today_day         = date('l');
+      $selected_day     = date('l',strtotime($date));
+      $currentTime       = (int) date('Gi');
+      $selectedTime      = (int) date('Gi',strtotime($slot));
+      if($today_day==$selected_day && $currentTime>=$selectedTime){
+       return 'lapsed';
+      }else{
+        return 'available';
+      }
+    }
+    private function doctor_slot_by_id_day($doctor_id=null,$slot_day=null,$appointment_date=null){
+      if(ucfirst($slot_day)=='Saturday'){
+          $slot_from = 'saturday_start_time';
+          $slot_to   = 'saturday_end_time';
+        }elseif(ucfirst($slot_day)=='Sunday'){
+          $slot_from = 'sunday_start_time';
+          $slot_to   = 'sunday_end_time';
+        }elseif(ucfirst($slot_day)=='Monday'){
+          $slot_from = 'monday_start_time';
+          $slot_to   = 'monday_end_time';
+        }elseif(ucfirst($slot_day)=='Tuesday'){
+          $slot_from = 'tuesday_start_time';
+          $slot_to   = 'tuesday_end_time';
+        }elseif(ucfirst($slot_day)=='Wednesday'){
+          $slot_from = 'wednesday_start_time';
+          $slot_to   = 'wednesday_end_time';
+        }elseif(ucfirst($slot_day)=='Thursday'){
+          $slot_from = 'thursday_start_time';
+          $slot_to   = 'thursday_end_time';
+        }elseif(ucfirst($slot_day)=='Friday'){
+          $slot_from = 'friday_start_time';
+          $slot_to   = 'friday_end_time';
+        }
+        $result = [];
+        $list   = DB::select("select $slot_from as start,$slot_to as end from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$doctor_id' limit 1");
+        if(!empty($list)){
+          $start = json_decode($list[0]->start,true);
+          $end   = json_decode($list[0]->end,true);
+          foreach ($start as $key => $value) {
+              $slot = $start[$key]." - ".$end[$key];
+              $booked_status = $this->check_booked_slot($appointment_date,$slot,$doctor_id);
+              $lapsed_status = $this->check_lapsed_slot($appointment_date,$end[$key]);
+              $result[]       = ['start'=>$start[$key],'end'=>$end[$key],'booked_status'=>$booked_status,'lapsed_status'=>$lapsed_status];
+            }
+           return $result; 
+        }else{
+          return $result;
+        }
+    }
+    private function doctor_by_id($doctor_id=null,$app_date=null){
+     $list    =    DB::select("select admin.id as id,name,designation,gender,profile_picture,clinic_address,clinic_city,clinic_state,clinic_country,clinic_pincode,notification_status,booking_notification from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' and admin.id='$doctor_id'");
+       if(!empty($list)){
+        foreach ($list as $key => $value) {
+          $value->profile_picture   = asset('doctor_files')."/".$value->profile_picture;
+          $value->id                = base64_encode(base64_encode($value->id));
+          $value->appointment_date  = $app_date;
+          $value->appointment_day   = date('l',strtotime($app_date));
+          $value->appointment_slot  = $this->doctor_slot_by_id_day($doctor_id,$value->appointment_day,$app_date);
+        }
+        return $list;
+       }else{
+        return false;
+       }
+    }
+    public function doctor_slot_view(Request $request){
+      $doctor_id = $request->get('doctor_id');
+      $app_date  = $request->get('appointment_date')?$request->get('appointment_date'):date('Y-m-d');
+      if(empty($doctor_id)){
+          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+      }else{
+       $doctor_id = base64_decode(base64_decode($doctor_id));
+       $list     = $this->doctor_by_id($doctor_id,$app_date);
+       if(!empty($list)){
+            $response = ['status'=>'success','message'=>'doctor slot fetch successfully','result'=>$list];             
+        }else{
+            $response = ['status'=>'failure','message'=>'doctor not found'];
+        }
+      }
+        return response()->json($response);        
+    }
+    private function patient_details_by_id($patient_id=null){
+        $condition      =    ['id'=>$patient_id,'type'=>'patient'];
+        $list     =    DB::table('admin')->where($condition)->first();
+        if(!empty($list)){
+             $list->profile_picture = asset('patient_files')."/".$list->profile_picture;
+             $list->id              = base64_encode(base64_encode($list->id));
+             $list->profile_status  = empty($list->state)?'incomplete':'complete';
+             unset($list->password,$list->user_id,$list->type,$list->menu_allow,$list->mobile_otp,$list->booking_notification,$list->notification_status);
+             unset($list->created_by,$list->family_dob,$list->family_relation,$list->family_name,$list->family_gender);
+           return $list;
+        }else{
+            return false; 
+        }
+    }
+    public function patient_profile_view(Request $request){
+      $patient_id    = $request->input('patient_id');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id'];
+      }else{
+          $patient_id     = base64_decode(base64_decode($patient_id));
+          $user_details   = $this->patient_details_by_id($patient_id);
+          if(empty($user_details)){
+             $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+          }elseif($user_details->status=='0'){
+             $response = ['status'=>'failure','message'=>'patient blocked please contact to admin'];            
+          }else{
+            $response = ['status'=>'success','message'=>'patient profile fetch successfully','result'=>$user_details];
           }
         }
         return response()->json($response);
