@@ -23,6 +23,11 @@ Route::middleware('guest:api')->group(function () {
     Route::get('/doctor_profile_view', 'ApiController@doctor_profile_view');
     Route::get('/doctor_slot_view', 'ApiController@doctor_slot_view');
     Route::get('/patient_profile_view', 'ApiController@patient_profile_view');
+    Route::post('/patient_appointment_submit', 'ApiController@patient_appointment_submit');
+    Route::get('/patient_booking_history', 'ApiController@patient_booking_history');
+    Route::get('/patient_appointment_details', 'ApiController@patient_appointment_details');
+    
+
 
 
     Route::get('/get-config', 'ApiController@get_config');

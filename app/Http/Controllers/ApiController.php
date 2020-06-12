@@ -445,6 +445,19 @@ class ApiController extends Controller{
       }
         return response()->json($response);        
     }
+    private function family_member($name=null,$gender=null,$relation=null,$dob=null){
+      $name         = json_decode($name,true);  
+      $gender       = json_decode($gender,true); 
+      $relation     = json_decode($relation,true);
+      $dob          = json_decode($dob,true);
+      $family       =     [];
+      if(!empty($name)){
+        foreach($name as $key=>$value){
+         $family[] = ['name'=>$name[$key],'gender'=>$gender[$key],'relation'=>$relation[$key],'dob'=>$dob[$key]];
+        }
+        return $family;
+      }
+    }
     private function patient_details_by_id($patient_id=null){
         $condition      =    ['id'=>$patient_id,'type'=>'patient'];
         $list     =    DB::table('admin')->where($condition)->first();
@@ -452,6 +465,7 @@ class ApiController extends Controller{
              $list->profile_picture = asset('patient_files')."/".$list->profile_picture;
              $list->id              = base64_encode(base64_encode($list->id));
              $list->profile_status  = empty($list->state)?'incomplete':'complete';
+             $list->family_member   = $this->family_member($list->family_name,$list->family_gender,$list->family_relation,$list->family_dob);
              unset($list->password,$list->user_id,$list->type,$list->menu_allow,$list->mobile_otp,$list->booking_notification,$list->notification_status);
              unset($list->created_by,$list->family_dob,$list->family_relation,$list->family_name,$list->family_gender);
            return $list;
@@ -475,6 +489,145 @@ class ApiController extends Controller{
           }
         }
         return response()->json($response);
+    }
+    private function appointment_details_by_id($apoointment_id=null){
+        $condition      =    ['id'=>$apoointment_id];
+        $list           =    DB::table('appointment_booked')->where($condition)->first();
+        if(!empty($list)){
+           $list->id              = base64_encode(base64_encode($list->id));
+           unset($list->patient_id,$list->doctor_id);
+           return $list;
+        }else{
+            return (object) []; 
+        }
+    } 
+    public function patient_appointment_submit(Request $request){
+      $patient_id       = $request->input('patient_id');
+      $doctor_id        = $request->input('doctor_id');
+      $booking_date     = $request->input('booking_date');
+      $booking_slot     = $request->input('booking_slot');
+      $booking_type     = $request->input('booking_type');
+      $patient_name     = $request->input('patient_name');
+      $patient_gender   = $request->input('patient_gender');
+      $patient_relation = $request->input('patient_relation');
+      $patient_dob      = $request->input('patient_dob');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id'];
+      }elseif(empty($doctor_id)){
+          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+      }elseif(empty($booking_date)){
+          $response = ['status'=>'failure','message'=>'please enter booking date'];
+      }elseif(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$booking_date)){
+          $response = ['status'=>'failure','message'=>'please enter valid booking date format yyyy-mm-dd'];
+      }elseif(empty($booking_slot)){
+          $response = ['status'=>'failure','message'=>'please enter booking slot'];
+      }elseif(empty($booking_type)){
+          $response = ['status'=>'failure','message'=>'please enter booking type new or old'];
+      }elseif(empty($patient_name)){
+          $response = ['status'=>'failure','message'=>'please enter booking family member name'];
+      }elseif(empty($patient_gender)){
+          $response = ['status'=>'failure','message'=>'please enter booking family member gender'];
+      }elseif(empty($patient_relation)){
+          $response = ['status'=>'failure','message'=>'please enter booking family member relation'];
+      }elseif(empty($patient_dob)){
+          $response = ['status'=>'failure','message'=>'please enter booking family member date of birth'];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+      }elseif(empty($doctor_details = $this->doctor_details_by_id(base64_decode(base64_decode($doctor_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid doctor id'];
+      }elseif($this->check_booked_slot($booking_date,$booking_slot,base64_decode(base64_decode($doctor_id)))=='booked'){
+          $response = ['status'=>'failure','message'=>'selected slot already booked try another slot'];
+      }else{
+          $patient_id     = base64_decode(base64_decode($patient_id));
+          $doctor_id      = base64_decode(base64_decode($doctor_id));
+          $insert         = array(
+                                'patient_id'=>$patient_id,
+                                'doctor_id'=>$doctor_id,
+                                'appointment_date'=>$booking_date,
+                                'appointment_slot'=>$booking_slot,
+                                'booking_type'=>$booking_type,
+                                'patient_name'=>$patient_name,
+                                'patient_relation'=>$patient_relation,
+                                'patient_dob'=>$patient_dob,
+                                'patient_gender'=>$patient_gender,
+                                'created_at'=>date('Y-m-d H:i:s'),
+                                'status'=>1,
+                                'doctor_fee'=>$doctor_details[0]->clinic_fee,
+                                'booked_by_type'=>'patient',
+                            );
+          $status         = DB::table('appointment_booked')->insert($insert);
+          $last_id        = DB::getPdo()->lastInsertId();
+          if(empty($status)){
+             $response = ['status'=>'failure','message'=>'booking failed some problem occured, try again'];
+          }else{
+            $response = ['status'=>'success','message'=>'appointment booked successfully','result'=>$this->appointment_details_by_id($last_id)];
+          }
+        } 
+        return response()->json($response);      
+    }
+    public function booking_history_by_patient_id($patient_id=null){
+      $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' order by appointment_date asc,appointment_slot asc");
+      if(!empty($appointment)){
+        foreach ($appointment as $key => $list) {
+           $list->id              = base64_encode(base64_encode($list->id));
+           $list->doctor_details  = !empty($this->doctor_details_by_id($list->doctor_id))?$this->doctor_details_by_id($list->doctor_id):[];
+           unset($list->patient_id,$list->doctor_id);
+        }
+          return $appointment;
+      }else{
+        return [];
+      }
+    }
+    public function patient_booking_history(Request $request){
+      $patient_id       = $request->input('patient_id');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id'];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+      }else{
+        $patient_id = base64_decode(base64_decode($patient_id));
+        $result     = $this->booking_history_by_patient_id($patient_id);
+        if(empty($result)){
+             $response = ['status'=>'failure','message'=>'booking history not available'];
+          }else{
+            $response = ['status'=>'success','message'=>'booking history fetched successfully','result'=>$result];
+          }
+      }
+      return response()->json($response);
+    }
+    public function booking_details_by_id($patient_id=null,$appointment_id=null){
+      $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' and id='$appointment_id' order by appointment_date asc,appointment_slot asc");
+      if(!empty($appointment)){
+        foreach ($appointment as $key => $list) {
+           $list->id              = base64_encode(base64_encode($list->id));
+           $list->doctor_details  = !empty($this->doctor_details_by_id($list->doctor_id))?$this->doctor_details_by_id($list->doctor_id):[];
+           unset($list->patient_id,$list->doctor_id);
+        }
+          return $appointment;
+      }else{
+        return [];
+      }
+    }
+    public function patient_appointment_details(Request $request){
+      $patient_id       = $request->input('patient_id');
+      $appointment_id   = $request->input('appointment_id');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id'];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+      }elseif(empty($appointment_id)){
+          $response = ['status'=>'failure','message'=>'please enter appointment id'];
+      }else{
+        $patient_id     = base64_decode(base64_decode($patient_id));
+        $appointment_id = base64_decode(base64_decode($appointment_id));
+        $result     = $this->booking_details_by_id($patient_id,$appointment_id);
+        if(empty($result)){
+             $response = ['status'=>'failure','message'=>'booking details not available'];
+          }else{
+            $response = ['status'=>'success','message'=>'booking details fetched successfully','result'=>$result];
+          }
+      }
+      return response()->json($response);
     }
 
 
