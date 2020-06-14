@@ -85,26 +85,26 @@ class ApiController extends Controller{
         $patient_mobile = $request->input('patient_mobile');
         $otp            = $this->generate_random_otp();
         if(empty($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter mobile number','data'=>[]];
           }elseif(!$this->check_10_digit_mobile($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number','data'=>[]];
           }else{
             $temp_status = $this->check_otp_record_by_mobile($patient_mobile);  
             if(!empty($temp_status)){
               $insert_otp_status = $this->update_otp($patient_mobile,$otp);
               if($insert_otp_status){
                  $this->sendSms($patient_mobile,$otp);
-                 $response = ['status'=>'success','message'=>'otp send successfully'];
+                 $response = ['status'=>'success','message'=>'otp send successfully','data'=>[]];
               }else{
-                 $response = ['status'=>'failure','message'=>'otp failled to generate'];
+                 $response = ['status'=>'failure','message'=>'otp failled to generate','data'=>[]];
               }
             }else{
               $insert_otp_status = $this->insert_otp($patient_mobile,$otp);
               if($insert_otp_status){
                  $this->sendSms($patient_mobile,$otp);
-                 $response = ['status'=>'success','message'=>'otp send successfully'];
+                 $response = ['status'=>'success','message'=>'otp send successfully','data'=>[]];
               }else{
-                 $response = ['status'=>'failure','message'=>'otp failled to generate'];
+                 $response = ['status'=>'failure','message'=>'otp failled to generate','data'=>[]];
               }
             }
           }
@@ -123,19 +123,19 @@ class ApiController extends Controller{
        $patient_mobile = $request->input('patient_mobile');
        $patient_otp    = $request->input('patient_otp');
         if(empty($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter mobile number','data'=>[]];
         }elseif(!$this->check_10_digit_mobile($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number','data'=>[]];
         }elseif(empty($patient_otp)){
-            $response = ['status'=>'failure','message'=>'please enter otp'];
+            $response = ['status'=>'failure','message'=>'please enter otp','data'=>[]];
         }elseif(!$this->check_5_digit_otp($patient_otp)){
-            $response = ['status'=>'failure','message'=>'please enter 5 digit otp'];
+            $response = ['status'=>'failure','message'=>'please enter 5 digit otp','data'=>[]];
         }else{
             $verify_otp = $this->validate_otp_by_mobile_and_otp($patient_mobile,$patient_otp);
             if($verify_otp){
-                 $response = ['status'=>'success','message'=>'otp verified successfully'];
+                 $response = ['status'=>'success','message'=>'otp verified successfully','data'=>[]];
             }else{
-                 $response = ['status'=>'failure','message'=>'otp failled to verify'];
+                 $response = ['status'=>'failure','message'=>'otp failled to verify','data'=>[]];
             }
         } 
         return response()->json($response);
@@ -172,29 +172,29 @@ class ApiController extends Controller{
         $patient_mobile_otp =  $request->input('patient_mobile_otp');
         $patient_password   =  $request->input('patient_password');
         if(empty($patient_name)){
-          $response = ['status'=>'failure','message'=>'please enter patient name'];
+          $response = ['status'=>'failure','message'=>'please enter patient name','data'=>[]];
         }elseif(!$this->check_less_100_char_name($patient_name)){
-          $response = ['status'=>'failure','message'=>'patient name length less than 100 character'];
+          $response = ['status'=>'failure','message'=>'patient name length less than 100 character','data'=>[]];
         }elseif(empty($patient_mobile)){
-          $response = ['status'=>'failure','message'=>'please enter patient mobile number'];
+          $response = ['status'=>'failure','message'=>'please enter patient mobile number','data'=>[]];
         }elseif(!$this->check_10_digit_mobile($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number','data'=>[]];
         }elseif(empty($patient_mobile_otp)){
-          $response = ['status'=>'failure','message'=>'Please Enter OTP'];
+          $response = ['status'=>'failure','message'=>'Please Enter OTP','data'=>[]];
         }elseif(!$this->check_5_digit_otp($patient_mobile_otp)){
-            $response = ['status'=>'failure','message'=>'please enter 5 digit otp'];
+            $response = ['status'=>'failure','message'=>'please enter 5 digit otp','data'=>[]];
         }elseif(empty($patient_password)){
-          $response = ['status'=>'failure','message'=>'Please Enter Password'];
+          $response = ['status'=>'failure','message'=>'Please Enter Password','data'=>[]];
         }elseif(!$this->check_more_6_less_12_password($patient_password)){
-            $response = ['status'=>'failure','message'=>'password must be more than 6 character and less than 12 character'];
+            $response = ['status'=>'failure','message'=>'password must be more than 6 character and less than 12 character','data'=>[]];
         }else{
           $user_details = $this->user_details_by_mobile_number($patient_mobile);
           if(!empty($user_details)){
-            $response = ['status'=>'failure','message'=>'mobile number already registered'];
+            $response = ['status'=>'failure','message'=>'mobile number already registered','data'=>[]];
           }else{
             $verify_otp = $this->validate_otp_by_mobile_and_otp($patient_mobile,$patient_mobile_otp);
             if(!$verify_otp){
-              $response = ['status'=>'failure','message'=>'please enter valid otp'];
+              $response = ['status'=>'failure','message'=>'please enter valid otp','data'=>[]];
             }else{
               $insert = array(
                 'name' => $patient_name,
@@ -214,9 +214,9 @@ class ApiController extends Controller{
               $status = DB::table('admin')->insert($insert);
               if(!empty($status)){
                 $user_details = $this->user_details_by_mobile_number($patient_mobile);
-                $response = ['status'=>'success','message'=>'registration complete successfully','result'=>$user_details];             
+                $response = ['status'=>'success','message'=>'registration complete successfully','data'=>$user_details];             
               }else{
-                  $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again'];
+                  $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again','data'=>[]];
               }
 
             }
@@ -242,19 +242,19 @@ class ApiController extends Controller{
       $patient_mobile    = $request->input('patient_mobile');
       $patient_password  = $request->input('patient_password');
       if(empty($patient_mobile)){
-          $response = ['status'=>'failure','message'=>'please enter mobile number'];
+          $response = ['status'=>'failure','message'=>'please enter mobile number','data'=>[]];
       }elseif(!$this->check_10_digit_mobile($patient_mobile)){
-            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number'];
+            $response = ['status'=>'failure','message'=>'please enter 10 digit mobile number','data'=>[]];
       }elseif(empty($patient_password)){
-          $response = ['status'=>'failure','message'=>'please enter password'];
+          $response = ['status'=>'failure','message'=>'please enter password','data'=>[]];
       }else{
           $user_details   =    $this->user_details_by_mobile_and_password($patient_mobile,$patient_password);
           if(empty($user_details)){
-             $response = ['status'=>'failure','message'=>'please enter valid credential'];
+             $response = ['status'=>'failure','message'=>'please enter valid credential','data'=>[]];
           }elseif($user_details->status=='0'){
-             $response = ['status'=>'failure','message'=>'user blocked please contact to admin'];            
+             $response = ['status'=>'failure','message'=>'user blocked please contact to admin','data'=>[]];            
           }else{
-            $response = ['status'=>'success','message'=>'user loged in successfully','result'=>$user_details];
+            $response = ['status'=>'success','message'=>'user loged in successfully','data'=>$user_details];
           }
         }
         return response()->json($response);
@@ -283,7 +283,7 @@ class ApiController extends Controller{
        $keywords = $request->get('keywords');
        $list     = $this->doctor_details_by_location_and_keywords($location,$keywords);
        if(!empty($list)){
-            $response = ['status'=>'success','message'=>'doctor list fetch successfully','result'=>$list];             
+            $response = ['status'=>'success','message'=>'doctor list fetch successfully','data'=>$list];             
         }else{
             $response = ['status'=>'failure','message'=>'doctor not found'];
         }
@@ -344,14 +344,14 @@ class ApiController extends Controller{
     public function doctor_profile_view(Request $request){
       $doctor_id = $request->get('doctor_id');
       if(empty($doctor_id)){
-          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+          $response = ['status'=>'failure','message'=>'please enter doctor id','data'=>[]];
       }else{
        $doctor_id = base64_decode(base64_decode($doctor_id));
        $list     = $this->doctor_details_by_id($doctor_id);
        if(!empty($list)){
-            $response = ['status'=>'success','message'=>'doctor details fetch successfully','result'=>$list];             
+            $response = ['status'=>'success','message'=>'doctor details fetch successfully','data'=>$list];             
         }else{
-            $response = ['status'=>'failure','message'=>'doctor not found'];
+            $response = ['status'=>'failure','message'=>'doctor not found','data'=>[]];
         }
       }
         return response()->json($response);        
@@ -433,14 +433,14 @@ class ApiController extends Controller{
       $doctor_id = $request->get('doctor_id');
       $app_date  = $request->get('appointment_date')?$request->get('appointment_date'):date('Y-m-d');
       if(empty($doctor_id)){
-          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+          $response = ['status'=>'failure','message'=>'please enter doctor id','data'=>[]];
       }else{
        $doctor_id = base64_decode(base64_decode($doctor_id));
        $list     = $this->doctor_by_id($doctor_id,$app_date);
        if(!empty($list)){
-            $response = ['status'=>'success','message'=>'doctor slot fetch successfully','result'=>$list];             
+            $response = ['status'=>'success','message'=>'doctor slot fetch successfully','data'=>$list];             
         }else{
-            $response = ['status'=>'failure','message'=>'doctor not found'];
+            $response = ['status'=>'failure','message'=>'doctor not found','data'=>[]];
         }
       }
         return response()->json($response);        
@@ -476,16 +476,16 @@ class ApiController extends Controller{
     public function patient_profile_view(Request $request){
       $patient_id    = $request->input('patient_id');
       if(empty($patient_id)){
-          $response = ['status'=>'failure','message'=>'please enter patient id'];
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
       }else{
           $patient_id     = base64_decode(base64_decode($patient_id));
           $user_details   = $this->patient_details_by_id($patient_id);
           if(empty($user_details)){
-             $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+             $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
           }elseif($user_details->status=='0'){
-             $response = ['status'=>'failure','message'=>'patient blocked please contact to admin'];            
+             $response = ['status'=>'failure','message'=>'patient blocked please contact to admin','data'=>[]];            
           }else{
-            $response = ['status'=>'success','message'=>'patient profile fetch successfully','result'=>$user_details];
+            $response = ['status'=>'success','message'=>'patient profile fetch successfully','data'=>$user_details];
           }
         }
         return response()->json($response);
@@ -512,31 +512,31 @@ class ApiController extends Controller{
       $patient_relation = $request->input('patient_relation');
       $patient_dob      = $request->input('patient_dob');
       if(empty($patient_id)){
-          $response = ['status'=>'failure','message'=>'please enter patient id'];
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
       }elseif(empty($doctor_id)){
-          $response = ['status'=>'failure','message'=>'please enter doctor id'];
+          $response = ['status'=>'failure','message'=>'please enter doctor id','data'=>[]];
       }elseif(empty($booking_date)){
-          $response = ['status'=>'failure','message'=>'please enter booking date'];
+          $response = ['status'=>'failure','message'=>'please enter booking date','data'=>[]];
       }elseif(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$booking_date)){
-          $response = ['status'=>'failure','message'=>'please enter valid booking date format yyyy-mm-dd'];
+          $response = ['status'=>'failure','message'=>'please enter valid booking date format yyyy-mm-dd','data'=>[]];
       }elseif(empty($booking_slot)){
-          $response = ['status'=>'failure','message'=>'please enter booking slot'];
+          $response = ['status'=>'failure','message'=>'please enter booking slot','data'=>[]];
       }elseif(empty($booking_type)){
-          $response = ['status'=>'failure','message'=>'please enter booking type new or old'];
+          $response = ['status'=>'failure','message'=>'please enter booking type new or old','data'=>[]];
       }elseif(empty($patient_name)){
-          $response = ['status'=>'failure','message'=>'please enter booking family member name'];
+          $response = ['status'=>'failure','message'=>'please enter booking family member name','data'=>[]];
       }elseif(empty($patient_gender)){
-          $response = ['status'=>'failure','message'=>'please enter booking family member gender'];
+          $response = ['status'=>'failure','message'=>'please enter booking family member gender','data'=>[]];
       }elseif(empty($patient_relation)){
-          $response = ['status'=>'failure','message'=>'please enter booking family member relation'];
+          $response = ['status'=>'failure','message'=>'please enter booking family member relation','data'=>[]];
       }elseif(empty($patient_dob)){
-          $response = ['status'=>'failure','message'=>'please enter booking family member date of birth'];
+          $response = ['status'=>'failure','message'=>'please enter booking family member date of birth','data'=>[]];
       }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
-          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
       }elseif(empty($doctor_details = $this->doctor_details_by_id(base64_decode(base64_decode($doctor_id))))){
-          $response = ['status'=>'failure','message'=>'please enter valid doctor id'];
+          $response = ['status'=>'failure','message'=>'please enter valid doctor id','data'=>[]];
       }elseif($this->check_booked_slot($booking_date,$booking_slot,base64_decode(base64_decode($doctor_id)))=='booked'){
-          $response = ['status'=>'failure','message'=>'selected slot already booked try another slot'];
+          $response = ['status'=>'failure','message'=>'selected slot already booked try another slot','data'=>[]];
       }else{
           $patient_id     = base64_decode(base64_decode($patient_id));
           $doctor_id      = base64_decode(base64_decode($doctor_id));
@@ -558,14 +558,14 @@ class ApiController extends Controller{
           $status         = DB::table('appointment_booked')->insert($insert);
           $last_id        = DB::getPdo()->lastInsertId();
           if(empty($status)){
-             $response = ['status'=>'failure','message'=>'booking failed some problem occured, try again'];
+             $response = ['status'=>'failure','message'=>'booking failed some problem occured, try again','data'=>[]];
           }else{
-            $response = ['status'=>'success','message'=>'appointment booked successfully','result'=>$this->appointment_details_by_id($last_id)];
+            $response = ['status'=>'success','message'=>'appointment booked successfully','data'=>$this->appointment_details_by_id($last_id)];
           }
         } 
         return response()->json($response);      
     }
-    public function booking_history_by_patient_id($patient_id=null){
+    private function booking_history_by_patient_id($patient_id=null){
       $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' order by appointment_date asc,appointment_slot asc");
       if(!empty($appointment)){
         foreach ($appointment as $key => $list) {
@@ -581,21 +581,21 @@ class ApiController extends Controller{
     public function patient_booking_history(Request $request){
       $patient_id       = $request->input('patient_id');
       if(empty($patient_id)){
-          $response = ['status'=>'failure','message'=>'please enter patient id'];
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
       }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
-          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
       }else{
         $patient_id = base64_decode(base64_decode($patient_id));
         $result     = $this->booking_history_by_patient_id($patient_id);
         if(empty($result)){
-             $response = ['status'=>'failure','message'=>'booking history not available'];
+             $response = ['status'=>'failure','message'=>'booking history not available','data'=>[]];
           }else{
-            $response = ['status'=>'success','message'=>'booking history fetched successfully','result'=>$result];
+            $response = ['status'=>'success','message'=>'booking history fetched successfully','data'=>$result];
           }
       }
       return response()->json($response);
     }
-    public function booking_details_by_id($patient_id=null,$appointment_id=null){
+    private function booking_details_by_id($patient_id=null,$appointment_id=null){
       $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' and id='$appointment_id' order by appointment_date asc,appointment_slot asc");
       if(!empty($appointment)){
         foreach ($appointment as $key => $list) {
@@ -612,19 +612,19 @@ class ApiController extends Controller{
       $patient_id       = $request->input('patient_id');
       $appointment_id   = $request->input('appointment_id');
       if(empty($patient_id)){
-          $response = ['status'=>'failure','message'=>'please enter patient id'];
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
       }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
-          $response = ['status'=>'failure','message'=>'please enter valid patient id'];
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
       }elseif(empty($appointment_id)){
-          $response = ['status'=>'failure','message'=>'please enter appointment id'];
+          $response = ['status'=>'failure','message'=>'please enter appointment id','data'=>[]];
       }else{
         $patient_id     = base64_decode(base64_decode($patient_id));
         $appointment_id = base64_decode(base64_decode($appointment_id));
         $result     = $this->booking_details_by_id($patient_id,$appointment_id);
         if(empty($result)){
-             $response = ['status'=>'failure','message'=>'booking details not available'];
+             $response = ['status'=>'failure','message'=>'booking details not available','data'=>[]];
           }else{
-            $response = ['status'=>'success','message'=>'booking details fetched successfully','result'=>$result];
+            $response = ['status'=>'success','message'=>'booking details fetched successfully','data'=>$result];
           }
       }
       return response()->json($response);
