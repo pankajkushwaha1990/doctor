@@ -681,7 +681,7 @@ class ApiController extends Controller{
                $image = $request->file('profile_picture');
                $filename = str_replace(' ','_',time().'_patient_'.$image->getClientOriginalName());
                $image->move(public_path('patient_files'), $filename); 
-               $session->profile_picture = $images = $filename;
+               $images = $filename;
           }else{
               $images = $request->input('profile_picture_old')?$request->input('profile_picture_old'):'default_patient_profile_picture.png';
           }
@@ -706,7 +706,7 @@ class ApiController extends Controller{
                 $user_details = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)));
                 $response = ['status'=>'success','message'=>'profile updated successfully','data'=>$user_details];             
             }else{
-                  $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again','data'=>[]];
+                  $response = ['status'=>'failure','message'=>'not change found','data'=>[]];
             }         
         }
         return response()->json($response);
