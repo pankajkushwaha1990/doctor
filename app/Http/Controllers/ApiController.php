@@ -710,7 +710,25 @@ class ApiController extends Controller{
                     'family_dob' => json_encode(array_column($family_json,'dob')),
               );
               $update = array_merge($update,$update2);  
-            }
+            }else{
+              $family_data = [];
+              $family_json = array_map("unserialize", array_unique(array_map("serialize",$family)));
+               foreach ($family_json as $key => $value) {
+                 if($value['relation']=='self'){
+                  $value[$key] = array('name'=>$profile_name,'gender'=>$gender,'relation' =>'self','dob'=>$date_of_birth);
+                 }
+                 $family_data[] = $value;
+               }
+              if(!empty($family_data)){
+               $update2 = array(
+                  'family_name'=> json_encode(array_column($family_data,'name')),
+                  'family_gender'=> json_encode(array_column($family_data,'gender')),
+                  'family_relation' => json_encode(array_column($family_data,'relation')),
+                  'family_dob' => json_encode(array_column($family_data,'dob')),
+                );
+               $update = array_merge($update,$update2);
+             }
+            } 
 
             $where   = ['id'=>base64_decode(base64_decode($patient_id))];
             $status  = DB::table('admin')->where($where)->update($update);
