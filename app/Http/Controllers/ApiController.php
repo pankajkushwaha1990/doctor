@@ -629,6 +629,88 @@ class ApiController extends Controller{
       }
       return response()->json($response);
     }
+    public function get_state_list(){
+        $result     = DB::select("select name,id from states order by name asc");
+        if(empty($result)){
+               $response = ['status'=>'failure','message'=>'state list not available','data'=>[]];
+        }else{
+              $response = ['status'=>'success','message'=>'state list fetched successfully','data'=>$result];
+        }
+        return response()->json($response);
+    }
+    public function patient_profile_update(Request $request){
+        $patient_id         =  $request->input('patient_id');
+        $profile_name       =  $request->input('profile_name');
+        $first_name         =  $request->input('first_name');
+        $last_name          =  $request->input('last_name');
+        $date_of_birth      =  $request->input('date_of_birth');
+        $gender             =  $request->input('gender');
+        $blood_group        =  $request->input('blood_group');
+        $address            =  $request->input('address');
+        $city               =  $request->input('city');
+        $state              =  $request->input('state');
+        $pincode            =  $request->input('pincode');
+        $country            =  $request->input('country');
+        $email              =  $request->input('email');
+        if(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+        }elseif(empty($profile_name)){
+          $response = ['status'=>'failure','message'=>'please enter profile name','data'=>[]];
+        }elseif(empty($first_name)){
+          $response = ['status'=>'failure','message'=>'please enter patient first name','data'=>[]];
+        }elseif(empty($last_name)){
+          $response = ['status'=>'failure','message'=>'please enter patient last name','data'=>[]];
+        }elseif(empty($date_of_birth)){
+          $response = ['status'=>'failure','message'=>'please enter patient date of birth','data'=>[]];
+        }elseif(empty($gender)){
+          $response = ['status'=>'failure','message'=>'please enter patient gender','data'=>[]];
+        }elseif(empty($blood_group)){
+          $response = ['status'=>'failure','message'=>'please enter patient blood group','data'=>[]];
+        }elseif(empty($address)){
+          $response = ['status'=>'failure','message'=>'please enter patient address','data'=>[]];
+        }elseif(empty($city)){
+          $response = ['status'=>'failure','message'=>'please enter patient city','data'=>[]];
+        }elseif(empty($state)){
+          $response = ['status'=>'failure','message'=>'please enter patient state','data'=>[]];
+        }elseif(empty($pincode)){
+          $response = ['status'=>'failure','message'=>'please enter patient pincode','data'=>[]];
+        }elseif(empty($country)){
+          $response = ['status'=>'failure','message'=>'please enter patient country','data'=>[]];
+        }else{
+          if($request->hasFile('profile_picture')){
+               $image = $request->file('profile_picture');
+               $filename = str_replace(' ','_',time().'_patient_'.$image->getClientOriginalName());
+               $image->move(public_path('patient_files'), $filename); 
+               $session->profile_picture = $images = $filename;
+          }else{
+              $images = $request->input('profile_picture_old')?$request->input('profile_picture_old'):'default_patient_profile_picture.png';
+          }
+          $update = array(
+                  'name'=> $profile_name,
+                  'email'=> $email,
+                  'first_name' => $first_name,
+                  'last_name' => $last_name,
+                  'date_of_birth'=> $date_of_birth,
+                  'gender'=> $gender,
+                  'blood_group'=> $blood_group,
+                  'address'=> $address,
+                  'city'=> $city,
+                  'state'=> $state,
+                  'pincode'=> $pincode,
+                  'country'=> $country,
+                  'profile_picture'=> $images,
+            );
+            $where   = ['id'=>base64_decode(base64_decode($patient_id))];
+            $status  = DB::table('admin')->where($where)->update($update);
+            if(!empty($status)){
+                $user_details = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)));
+                $response = ['status'=>'success','message'=>'profile updated successfully','data'=>$user_details];             
+            }else{
+                  $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again','data'=>[]];
+            }         
+        }
+        return response()->json($response);
+    }
 
 
 
