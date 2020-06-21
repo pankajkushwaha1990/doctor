@@ -208,7 +208,7 @@ class ApiController extends Controller{
                 'type' =>  'patient',
                 'status'=> 1,
                 'mobile' => $patient_mobile,
-                'user_id' => $patient_mobile,
+                'user_id' => $patient_mobile."P",
                 'mobile_otp' => $patient_mobile_otp,
               );
               $status = DB::table('admin')->insert($insert);
@@ -685,7 +685,7 @@ class ApiController extends Controller{
           }else{
               $images = $request->input('profile_picture_old')?$request->input('profile_picture_old'):'default_patient_profile_picture.png';
           }
-          $update = array(
+            $update = array(
                   'name'=> $profile_name,
                   'email'=> $email,
                   'first_name' => $first_name,
@@ -700,6 +700,18 @@ class ApiController extends Controller{
                   'country'=> $country,
                   'profile_picture'=> $images,
             );
+            $family = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)))->family_member;
+            if(empty($family)){
+              $family_json = array(array('name'=>$profile_name,'gender'=>$gender,'relation' =>'self','dob'=>$date_of_birth));
+                $update2 = array(
+                    'family_name'=> json_encode(array_column($family_json,'name')),
+                    'family_gender'=> json_encode(array_column($family_json,'gender')),
+                    'family_relation' => json_encode(array_column($family_json,'relation')),
+                    'family_dob' => json_encode(array_column($family_json,'dob')),
+              );
+              $update = array_merge($update,$update2);  
+            }
+
             $where   = ['id'=>base64_decode(base64_decode($patient_id))];
             $status  = DB::table('admin')->where($where)->update($update);
             if(!empty($status)){
