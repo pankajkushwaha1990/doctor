@@ -208,7 +208,7 @@ class ApiController extends Controller{
                 'type' =>  'patient',
                 'status'=> 1,
                 'mobile' => $patient_mobile,
-                'user_id' => '',
+                'user_id' => $patient_mobile,
                 'mobile_otp' => $patient_mobile_otp,
               );
               $status = DB::table('admin')->insert($insert);
