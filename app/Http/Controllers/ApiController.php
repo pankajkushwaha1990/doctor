@@ -711,6 +711,100 @@ class ApiController extends Controller{
         }
         return response()->json($response);
     }
+    public function patient_family_update(Request $request){
+        $patient_id         =  $request->input('patient_id');
+        $family_name        =  $request->input('family_name');
+        $family_gender      =  $request->input('family_gender');
+        $family_relation    =  $request->input('family_relation');
+        $family_dob         =  $request->input('family_dob');
+        if(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+        }elseif(empty($family_name)){
+          $response = ['status'=>'failure','message'=>'please enter family name','data'=>[]];
+        }elseif(empty($family_gender)){
+          $response = ['status'=>'failure','message'=>'please enter family gender name','data'=>[]];
+        }elseif(empty($family_relation)){
+          $response = ['status'=>'failure','message'=>'please enter family relation','data'=>[]];
+        }elseif(empty($family_dob)){
+          $response = ['status'=>'failure','message'=>'please enter family date of birth','data'=>[]];
+        }else{
+          $family_member = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)))->family_member;
+          $family_json = array(array('name'=>$family_name,'gender'=>$family_gender,'relation' =>$family_relation,'dob'=>$family_dob));
+          if(!empty($family_member)){
+             $family_json = array_map("unserialize", array_unique(array_map("serialize",array_merge($family_member,$family_json))));
+          }
+          $name     = count(array_column($family_json,'name'));
+          $gender   = count(array_column($family_json,'gender'));
+          $relation = count(array_column($family_json,'relation'));
+          $dob      = count(array_column($family_json,'dob'));
+          if($name!=$gender || $relation!=$name || $dob!=$name){
+            $response = ['status'=>'failure','message'=>'please enter all details of member','data'=>[]];
+          }else{
+            $update = array(
+                  'family_name'=> json_encode(array_column($family_json,'name')),
+                  'family_gender'=> json_encode(array_column($family_json,'gender')),
+                  'family_relation' => json_encode(array_column($family_json,'relation')),
+                  'family_dob' => json_encode(array_column($family_json,'dob')),
+            );
+            $where   = ['id'=>base64_decode(base64_decode($patient_id))];
+            $status  = DB::table('admin')->where($where)->update($update);
+            if(!empty($status)){
+                $user_details = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)));
+                $response = ['status'=>'success','message'=>'family member updated successfully','data'=>$user_details];             
+            }else{
+                $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again','data'=>[]];
+            }    
+          }              
+        }
+        return response()->json($response);
+    }
+    public function patient_family_remove(Request $request){
+        $patient_id         =  $request->input('patient_id');
+        $family_name        =  $request->input('family_name');
+        $family_dob         =  $request->input('family_dob');
+        if(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+        }elseif(empty($family_name)){
+          $response = ['status'=>'failure','message'=>'please enter family name','data'=>[]];
+        }elseif(empty($family_dob)){
+          $response = ['status'=>'failure','message'=>'please enter family date of birth','data'=>[]];
+        }else{
+          $family_member = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)))->family_member;
+          if(empty($family_member)){
+            $response = ['status'=>'failure','message'=>'family member not exist','data'=>[]];
+          }else{
+             $delete_status = 0;
+             $family_json = array_map("unserialize", array_unique(array_map("serialize",$family_member)));
+             foreach ($family_json as $key => $value) {
+               if($value['name']==$family_name && $family_dob==$value['dob']){
+                unset($value);
+                $delete_status = 1;
+                continue;
+               }
+               $family_data[] = $value;
+             }
+             if($delete_status==0 || empty($family_data)){
+              $response = ['status'=>'failure','message'=>'family member not exist in given criteria','data'=>[]];
+             }else{
+               $update = array(
+                  'family_name'=> json_encode(array_column($family_data,'name')),
+                  'family_gender'=> json_encode(array_column($family_data,'gender')),
+                  'family_relation' => json_encode(array_column($family_data,'relation')),
+                  'family_dob' => json_encode(array_column($family_data,'dob')),
+                );
+                $where   = ['id'=>base64_decode(base64_decode($patient_id))];
+                $status  = DB::table('admin')->where($where)->update($update);
+                if(!empty($status)){
+                    $user_details = $this->patient_details_by_id(base64_decode(base64_decode($patient_id)));
+                    $response = ['status'=>'success','message'=>'family member updated successfully','data'=>$user_details];             
+                }else{
+                    $response = ['status'=>'failure','message'=>'Some Problem Occured Try Again','data'=>[]];
+                } 
+             }
+          }     
+        }
+        return response()->json($response);
+    }
 
 
 

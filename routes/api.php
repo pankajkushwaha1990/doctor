@@ -28,6 +28,8 @@ Route::middleware('guest:api')->group(function () {
     Route::get('/patient_appointment_details', 'ApiController@patient_appointment_details');
     Route::get('/get_state_list', 'ApiController@get_state_list');
     Route::post('/patient_profile_update', 'ApiController@patient_profile_update');
+    Route::post('/patient_family_update', 'ApiController@patient_family_update');
+    Route::post('/patient_family_remove', 'ApiController@patient_family_remove');
     
     
 
