@@ -835,6 +835,27 @@ class ApiController extends Controller{
         }
         return response()->json($response);
     }
+    public function patient_appointment_cancel(Request $request){
+      $patient_id       = $request->input('patient_id');
+      $appointment_id   = $request->input('appointment_id');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+      }elseif(empty($appointment_id)){
+          $response = ['status'=>'failure','message'=>'please enter appointment id','data'=>[]];
+      }elseif(empty($this->booking_details_by_id(base64_decode(base64_decode($patient_id)),base64_decode(base64_decode($appointment_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid appointment id','data'=>[]];
+      }else{
+          $patient_id     = base64_decode(base64_decode($patient_id));
+          $appointment_id = base64_decode(base64_decode($appointment_id));
+          $update         = array('status'=>0);
+          $status         = DB::table('appointment_booked')->where(['patient_id'=>$patient_id,'id'=>$appointment_id])->update($update);
+          $result         = $this->booking_history_by_patient_id($patient_id);
+          $response       = ['status'=>'success','message'=>'appointment canceled successfully','data'=>$result];
+      } 
+        return response()->json($response);      
+    }
 
 
 
