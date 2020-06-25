@@ -31,6 +31,8 @@ Route::middleware('guest:api')->group(function () {
     Route::post('/patient_family_update', 'ApiController@patient_family_update');
     Route::post('/patient_family_remove', 'ApiController@patient_family_remove');
     Route::post('/patient_appointment_cancel', 'ApiController@patient_appointment_cancel');
+    Route::post('/patient_member_history', 'ApiController@patient_member_history');
+    Route::post('/patient_appointment_rating', 'ApiController@patient_appointment_rating');
     
     
 

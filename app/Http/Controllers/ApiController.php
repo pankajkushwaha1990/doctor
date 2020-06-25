@@ -326,7 +326,7 @@ class ApiController extends Controller{
       }
     }
     private function doctor_details_by_id($doctor_id=null){
-     $list    =    DB::select("select admin.id as id,name,designation,gender,profile_picture,clinic_address,clinic_city,clinic_state,clinic_country,clinic_pincode,clinic_fee,clinic_services,about_us,degree,institute,completion_year,hospital_name,experience_from,experience_to,experience_designation,award_name,award_year,clinic_specialist,clinic_name,clinic_open_time,clinic_close_time from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' and admin.id='$doctor_id'");
+     $list    =    DB::select("select admin.id as id,name,designation,gender,profile_picture,clinic_address,clinic_city,clinic_state,clinic_country,clinic_pincode,clinic_fee,old_clinic_fee,clinic_services,about_us,degree,institute,completion_year,hospital_name,experience_from,experience_to,experience_designation,award_name,award_year,clinic_specialist,clinic_name,clinic_open_time,clinic_close_time from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' and admin.id='$doctor_id'");
        if(!empty($list)){
         foreach ($list as $key => $value) {
           $value->profile_picture = asset('doctor_files')."/".$value->profile_picture;
@@ -511,6 +511,7 @@ class ApiController extends Controller{
       $patient_gender   = $request->input('patient_gender');
       $patient_relation = $request->input('patient_relation');
       $patient_dob      = $request->input('patient_dob');
+      $booking_type     = $request->input('booking_type');
       if(empty($patient_id)){
           $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
       }elseif(empty($doctor_id)){
@@ -538,6 +539,14 @@ class ApiController extends Controller{
       }elseif($this->check_booked_slot($booking_date,$booking_slot,base64_decode(base64_decode($doctor_id)))=='booked'){
           $response = ['status'=>'failure','message'=>'selected slot already booked try another slot','data'=>[]];
       }else{
+          if($booking_type=='old'){
+            $doctor_fee = $doctor_details[0]->old_clinic_fee;
+            if(empty($doctor_fee) || $doctor_fee=='0'){
+              $doctor_fee = $doctor_details[0]->clinic_fee;
+            }
+          }else{
+            $doctor_fee = $doctor_details[0]->clinic_fee;
+          }
           $patient_id     = base64_decode(base64_decode($patient_id));
           $doctor_id      = base64_decode(base64_decode($doctor_id));
           $insert         = array(
@@ -552,7 +561,7 @@ class ApiController extends Controller{
                                 'patient_gender'=>$patient_gender,
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'status'=>1,
-                                'doctor_fee'=>$doctor_details[0]->clinic_fee,
+                                'doctor_fee'=>$doctor_fee,
                                 'booked_by_type'=>'patient',
                             );
           $status         = DB::table('appointment_booked')->insert($insert);
@@ -565,11 +574,21 @@ class ApiController extends Controller{
         } 
         return response()->json($response);      
     }
+    private function check_rebooking($appointment_date=null,$appointment_status=null,$status=null){
+           $current_date  = strtotime(date('Y-m-d'));
+           $after_15      =  strtotime("+15 day",strtotime($appointment_date));
+           if($current_date<=$after_15 && $appointment_status=='2' && $status=='1'){
+             return 'available';
+           }else{
+             return 'not available';
+           }
+    }
     private function booking_history_by_patient_id($patient_id=null){
       $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' order by appointment_date asc,appointment_slot asc");
       if(!empty($appointment)){
         foreach ($appointment as $key => $list) {
            $list->id              = base64_encode(base64_encode($list->id));
+           $list->rebooking       = $this->check_rebooking($list->appointment_date,$list->appointment_status,$list->status);
            $list->doctor_details  = !empty($this->doctor_details_by_id($list->doctor_id))?$this->doctor_details_by_id($list->doctor_id):[];
            unset($list->patient_id,$list->doctor_id);
         }
@@ -856,6 +875,67 @@ class ApiController extends Controller{
       } 
         return response()->json($response);      
     }
+    private function booking_history_by_member($patient_id=null,$member_name=null){
+      $appointment =    DB::select("select * from appointment_booked where patient_id='$patient_id' and patient_name='$member_name' order by appointment_date asc,appointment_slot asc");
+      if(!empty($appointment)){
+        foreach ($appointment as $key => $list) {
+           $list->id              = base64_encode(base64_encode($list->id));
+           $list->rebooking       = $this->check_rebooking($list->appointment_date,$list->appointment_status,$list->status);
+           $list->doctor_details  = !empty($this->doctor_details_by_id($list->doctor_id))?$this->doctor_details_by_id($list->doctor_id):[];
+           unset($list->patient_id,$list->doctor_id);
+        }
+          return $appointment;
+      }else{
+        return [];
+      }
+    }
+    public function patient_member_history(Request $request){
+      $patient_id       = $request->input('patient_id');
+      $member_name      = $request->input('member_name');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+      }elseif(empty($member_name)){
+          $response = ['status'=>'failure','message'=>'please enter member name','data'=>[]];
+      }else{
+        $patient_id = base64_decode(base64_decode($patient_id));
+        $result     = $this->booking_history_by_member($patient_id,$member_name);
+        if(empty($result)){
+             $response = ['status'=>'failure','message'=>'booking history not available','data'=>[]];
+          }else{
+            $response = ['status'=>'success','message'=>'booking history fetched successfully','data'=>$result];
+          }
+      }
+      return response()->json($response);
+    }
+    public function patient_appointment_rating(Request $request){
+      $patient_id       = $request->input('patient_id');
+      $appointment_id   = $request->input('appointment_id');
+      $appointment_id   = $request->input('appointment_id');
+      $rating           = $request->input('rating');
+      $review           = $request->input('review');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+      }elseif(empty($appointment_id)){
+          $response = ['status'=>'failure','message'=>'please enter appointment id','data'=>[]];
+      }elseif(empty($this->booking_details_by_id(base64_decode(base64_decode($patient_id)),base64_decode(base64_decode($appointment_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid appointment id','data'=>[]];
+      }elseif(empty($rating)){
+          $response = ['status'=>'failure','message'=>'please enter appointment rating','data'=>[]];
+      }else{
+          $patient_id     = base64_decode(base64_decode($patient_id));
+          $appointment_id = base64_decode(base64_decode($appointment_id));
+          $update         = array('rating_status'=>1,'rating'=>$rating,'review'=>$review);
+          $status         = DB::table('appointment_booked')->where(['patient_id'=>$patient_id,'id'=>$appointment_id])->update($update);
+          $result         = $this->booking_history_by_patient_id($patient_id);
+          $response       = ['status'=>'success','message'=>'appointment canceled successfully','data'=>$result];
+      } 
+        return response()->json($response);      
+    }
+    
 
 
 
