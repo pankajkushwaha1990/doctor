@@ -133,7 +133,13 @@ class ApiController extends Controller{
         }else{
             $verify_otp = $this->validate_otp_by_mobile_and_otp($patient_mobile,$patient_otp);
             if($verify_otp){
-                 $response = ['status'=>'success','message'=>'otp verified successfully','data'=>[]];
+                 $status = $this->user_details_by_mobile_number($patient_mobile);
+                 if(!empty($status)){
+                  $data = $status;
+                 }else{
+                  $data = [];
+                 }
+                 $response = ['status'=>'success','message'=>'otp verified successfully','data'=>$data];
             }else{
                  $response = ['status'=>'failure','message'=>'otp failled to verify','data'=>[]];
             }
@@ -934,6 +940,65 @@ class ApiController extends Controller{
           $response       = ['status'=>'success','message'=>'appointment canceled successfully','data'=>$result];
       } 
         return response()->json($response);      
+    }
+    private function user_details_by_id_and_password($id=null,$password=null){
+        $condition      =    ['id'=>$id,'password'=>$password,'type'=>'patient'];
+        $list     =    DB::table('admin')->where($condition)->first();
+        if(!empty($list)){
+             $list->profile_picture = asset('patient_files')."/".$list->profile_picture;
+             $list->id              = base64_encode(base64_encode($list->id));
+             $list->profile_status  = empty($list->state)?'incomplete':'complete';
+             unset($list->password,$list->user_id,$list->type,$list->menu_allow,$list->mobile_otp,$list->booking_notification,$list->notification_status);
+             unset($list->created_by,$list->family_dob,$list->family_relation,$list->family_name,$list->family_gender);
+           return $list;
+        }else{
+            return false; 
+        }
+    } 
+    public function patient_change_password(Request $request){
+      $patient_id                 = $request->input('patient_id');
+      $patient_old_password       = $request->input('patient_old_password');
+      $patient_new_password       = $request->input('patient_new_password');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
+      }elseif(empty($this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+      }elseif(empty($patient_new_password)){
+          $response = ['status'=>'failure','message'=>'please enter new password','data'=>[]];
+      }elseif(empty($result = $this->user_details_by_id_and_password(base64_decode(base64_decode($patient_id)),$patient_old_password))){
+          $response = ['status'=>'failure','message'=>'please enter valid current password','data'=>[]];
+      }else{
+        $patient_id = base64_decode(base64_decode($patient_id));
+        $update         = array('password'=>$patient_new_password);
+        $status         = DB::table('admin')->where(['id'=>$patient_id])->update($update);
+        if(!empty($status)){
+             $response = ['status'=>'success','message'=>'patient password changed successfully','data'=>$result];
+        }else{
+            $response = ['status'=>'failure','message'=>'please enter current and new password must be diffrent','data'=>[]];
+        }
+      }
+      return response()->json($response);
+    }
+    public function patient_forget_password(Request $request){
+      $patient_id                 = $request->input('patient_id');
+      $patient_new_password       = $request->input('patient_new_password');
+      if(empty($patient_id)){
+          $response = ['status'=>'failure','message'=>'please enter patient id','data'=>[]];
+      }elseif(empty($result = $this->patient_details_by_id(base64_decode(base64_decode($patient_id))))){
+          $response = ['status'=>'failure','message'=>'please enter valid patient id','data'=>[]];
+      }elseif(empty($patient_new_password)){
+          $response = ['status'=>'failure','message'=>'please enter new password','data'=>[]];
+      }else{
+        $patient_id     = base64_decode(base64_decode($patient_id));
+        $update         = array('password'=>$patient_new_password);
+        $status         = DB::table('admin')->where(['id'=>$patient_id])->update($update);
+        if(!empty($status)){
+             $response = ['status'=>'success','message'=>'patient password changed successfully','data'=>$result];
+        }else{
+            $response = ['status'=>'failure','message'=>'please enter current and new password must be diffrent','data'=>[]];
+        }
+      }
+      return response()->json($response);
     }
     
 
