@@ -19,7 +19,15 @@ display:none;
 display:block; }
 }
 </style>
+  <?php 
+     if(Request::is('doctor_profile_setting')){
+
+     }elseif(Request::is('doctor_schedule_timings')){
+
+     }else{ ?>
     <meta http-equiv="Refresh" content="300">
+
+     <?php } ?>
      @yield('styles')
   </head>
   <body>
