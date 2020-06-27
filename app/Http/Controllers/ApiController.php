@@ -955,7 +955,7 @@ class ApiController extends Controller{
             return false; 
         }
     } 
-    public function patient_change_password(Request $request){
+    public function patient_change_password(Request $request){ 
       $patient_id                 = $request->input('patient_id');
       $patient_old_password       = $request->input('patient_old_password');
       $patient_new_password       = $request->input('patient_new_password');
