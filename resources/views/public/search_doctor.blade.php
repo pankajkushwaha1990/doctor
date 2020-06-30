@@ -174,6 +174,15 @@ display:block; }
 													<?php } } ?>
 													<span class="d-inline-block average-rating">{{ $doctor->rating->total }}</span>
 												</div>
+											<?php }else{ ?>
+												<div class="rating">
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<span class="d-inline-block average-rating">0</span>
+												</div>
 											<?php } ?>
 												<div class="clinic-details">
 													<p class="doc-location"><i class="fas fa-map-marker-alt"></i> {{ ucfirst($doctor->clinic_address) }}, {{ ucfirst($doctor->clinic_city) }},{{ ucfirst($doctor->clinic_country) }}</p>
