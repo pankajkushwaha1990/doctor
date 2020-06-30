@@ -465,13 +465,33 @@ display:block; }
 														<div class="meta-data">
 															<span class="comment-author">{{ $value->name }}</span>
 															<span class="comment-date">Reviewed {{ date('d/m/Y',strtotime($value->date)) }}</span>
-															<div class="review-count rating" style="position: unset;">
-																<i class="fas fa-star filled"></i>
-																<i class="fas fa-star filled"></i>
-																<i class="fas fa-star filled"></i>
-																<i class="fas fa-star filled"></i>
-																<i class="fas fa-star"></i>
-															</div>
+															
+
+
+															<?php 
+												if(!empty($value->rating)){ ?>
+												<div class="review-count rating" style="position: unset;">
+													<?php 
+													$checked = round($value->rating);
+													for($k=1;$k<=5;$k++){
+														if($k<=$checked){?>
+														<i class="fas fa-star filled"></i>
+													<?php }else{?>
+														<i class="fas fa-star"></i>
+													<?php } } ?>
+													
+												</div>
+											<?php }else{ ?>
+												<!-- <div class="rating">
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<span class="d-inline-block average-rating">0</span>
+												</div> -->
+											<?php } ?>
+
 														</div>
 														<!-- <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p> -->
 														<p class="comment-content">
