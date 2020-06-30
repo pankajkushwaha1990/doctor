@@ -82,14 +82,29 @@ display:block; }
 										<h4 class="doc-name">{{ $doctor->name }}</h4>
 										<p class="doc-speciality">{{ $doctor->designation }}</p>
 										<!-- <p class="doc-department"><img src="{{asset('template')}}/assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</p> -->
-										<!-- <div class="rating">
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star"></i>
-											<span class="d-inline-block average-rating">(35)</span>
-										</div> -->
+									<?php 
+												if(!empty($doctor->rating)){ ?>
+												<div class="rating">
+													<?php 
+													$checked = round($doctor->rating->star);
+													for($k=1;$k<=5;$k++){
+														if($k<=$checked){?>
+														<i class="fas fa-star filled"></i>
+													<?php }else{?>
+														<i class="fas fa-star"></i>
+													<?php } } ?>
+													<span class="d-inline-block average-rating">{{ $doctor->rating->total }}</span>
+												</div>
+											<?php }else{ ?>
+												<!-- <div class="rating">
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<span class="d-inline-block average-rating">0</span>
+												</div> -->
+											<?php } ?>
 										<div class="clinic-details">
 											<p class="doc-location"><i class="fas fa-map-marker-alt"></i>  {{ ucfirst($doctor->clinic_address) }}, {{ ucfirst($doctor->clinic_city) }},{{ ucfirst($doctor->clinic_country) }} </p>
 											<!-- <ul class="clinic-gallery">
@@ -177,9 +192,12 @@ display:block; }
 									<li class="nav-item">
 										<a class="nav-link" href="#doc_locations" data-toggle="tab">Locations</a>
 									</li>
-									<!-- <li class="nav-item">
+									<?php 
+												if(!empty($doctor->rating)){ ?>
+									<li class="nav-item">
 										<a class="nav-link" href="#doc_reviews" data-toggle="tab">Reviews</a>
-									</li> -->
+									</li>
+								<?php } ?>
 									<!-- <li class="nav-item"> -->
 										<!-- <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a> -->
 									<!-- </li> -->
@@ -436,16 +454,18 @@ display:block; }
 									<!-- Review Listing -->
 									<div class="widget review-listing">
 										<ul class="comments-list">
-										
-											<!-- Comment List -->
-											<li>
+
+									    <?php 
+									    if(!empty($doctor->rating->review_details)){
+									    	foreach ($doctor->rating->review_details as $key => $value) { ?>
+									    		<li>
 												<div class="comment">
-													<img class="avatar avatar-sm rounded-circle" alt="User Image" src="{{asset('template')}}/assets/img/patients/patient.jpg">
+													<img class="avatar avatar-sm rounded-circle" alt="User Image" src="{{asset('patient_files')}}/{{ $value->profile_picture }}">
 													<div class="comment-body">
 														<div class="meta-data">
-															<span class="comment-author">Richard Wilson</span>
-															<span class="comment-date">Reviewed 2 Days ago</span>
-															<div class="review-count rating">
+															<span class="comment-author">{{ $value->name }}</span>
+															<span class="comment-date">Reviewed {{ date('d/m/Y',strtotime($value->date)) }}</span>
+															<div class="review-count rating" style="position: unset;">
 																<i class="fas fa-star filled"></i>
 																<i class="fas fa-star filled"></i>
 																<i class="fas fa-star filled"></i>
@@ -453,14 +473,11 @@ display:block; }
 																<i class="fas fa-star"></i>
 															</div>
 														</div>
-														<p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p>
+														<!-- <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p> -->
 														<p class="comment-content">
-															Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-															sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-															Ut enim ad minim veniam, quis nostrud exercitation.
-															Curabitur non nulla sit amet nisl tempus
+															{{ $value->review }}
 														</p>
-														<div class="comment-reply">
+													<!-- 	<div class="comment-reply">
 															<a class="comment-btn" href="#">
 																<i class="fas fa-reply"></i> Reply
 															</a>
@@ -473,58 +490,23 @@ display:block; }
 																<i class="far fa-thumbs-down"></i> No
 															</a>
 														</p>
-														</div>
+														</div> -->
 													</div>
 												</div>
 												
-												<!-- Comment Reply -->
-												<ul class="comments-reply">
-													<li>
-														<div class="comment">
-															<img class="avatar avatar-sm rounded-circle" alt="User Image" src="{{asset('template')}}/assets/img/patients/patient1.jpg">
-															<div class="comment-body">
-																<div class="meta-data">
-																	<span class="comment-author">Charlene Reed</span>
-																	<span class="comment-date">Reviewed 3 Days ago</span>
-																	<div class="review-count rating">
-																		<i class="fas fa-star filled"></i>
-																		<i class="fas fa-star filled"></i>
-																		<i class="fas fa-star filled"></i>
-																		<i class="fas fa-star filled"></i>
-																		<i class="fas fa-star"></i>
-																	</div>
-																</div>
-																<p class="comment-content">
-																	Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-																	sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-																	Ut enim ad minim veniam.
-																	Curabitur non nulla sit amet nisl tempus
-																</p>
-																<div class="comment-reply">
-																	<a class="comment-btn" href="#">
-																		<i class="fas fa-reply"></i> Reply
-																	</a>
-																	<p class="recommend-btn">
-																		<span>Recommend?</span>
-																		<a href="#" class="like-btn">
-																			<i class="far fa-thumbs-up"></i> Yes
-																		</a>
-																		<a href="#" class="dislike-btn">
-																			<i class="far fa-thumbs-down"></i> No
-																		</a>
-																	</p>
-																</div>
-															</div>
-														</div>
-													</li>
-												</ul>
-												<!-- /Comment Reply -->
+												
 												
 											</li>
+									    	<?php }
+									    	?>
+										
+											<!-- Comment List -->
+											
+										<?php } ?>
 											<!-- /Comment List -->
 											
 											<!-- Comment List -->
-											<li>
+										<!-- 	<li>
 												<div class="comment">
 													<img class="avatar avatar-sm rounded-circle" alt="User Image" src="{{asset('template')}}/assets/img/patients/patient2.jpg">
 													<div class="comment-body">
@@ -561,28 +543,28 @@ display:block; }
 														</div>
 													</div>
 												</div>
-											</li>
+											</li> -->
 											<!-- /Comment List -->
 											
 										</ul>
 										
 										<!-- Show All -->
-										<div class="all-feedback text-center">
+										<!-- <div class="all-feedback text-center">
 											<a href="#" class="btn btn-primary btn-sm">
 												Show all feedback <strong>(167)</strong>
 											</a>
-										</div>
+										</div> -->
 										<!-- /Show All -->
 										
 									</div>
 									<!-- /Review Listing -->
 								
 									<!-- Write Review -->
-									<div class="write-review">
-										<h4>Write a review for <strong>Dr. Darren Elder</strong></h4>
+									<!-- <div class="write-review"> -->
+										<!-- <h4>Write a review for <strong>Dr. Darren Elder</strong></h4> -->
 										
 										<!-- Write Review Form -->
-										<form>
+										<!-- <form>
 											<div class="form-group">
 												<label>Review</label>
 												<div class="star-rating">
@@ -630,10 +612,10 @@ display:block; }
 											<div class="submit-section">
 												<button type="submit" class="btn btn-primary submit-btn">Add Review</button>
 											</div>
-										</form>
+										</form> -->
 										<!-- /Write Review Form -->
 										
-									</div>
+									<!-- </div> -->
 									<!-- /Write Review -->
 						
 								</div>

@@ -166,14 +166,29 @@ display:block; }
 										</a>
 										<div class="booking-info">
 											<h4><a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }}</a></h4>
-											<!-- <div class="rating">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">35</span>
-											</div> -->
+<?php 
+												if(!empty($doctor->rating)){ ?>
+												<div class="rating">
+													<?php 
+													$checked = round($doctor->rating->star);
+													for($k=1;$k<=5;$k++){
+														if($k<=$checked){?>
+														<i class="fas fa-star filled"></i>
+													<?php }else{?>
+														<i class="fas fa-star"></i>
+													<?php } } ?>
+													<span class="d-inline-block average-rating">{{ $doctor->rating->total }}</span>
+												</div>
+											<?php }else{ ?>
+												<!-- <div class="rating">
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<i class="fas fa-star"></i>
+													<span class="d-inline-block average-rating">0</span>
+												</div> -->
+											<?php } ?>
 											<p class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> {{ ucfirst($doctor->clinic_address) }}, {{ ucfirst($doctor->clinic_city) }},{{ ucfirst($doctor->clinic_country) }}</p>
 										</div>
 									</div>

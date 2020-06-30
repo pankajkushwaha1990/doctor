@@ -264,6 +264,7 @@ class PublicController extends Controller{
     private function calculate_rating($doctor_id=null){
       $list    =    DB::select("select avg(rating) as star,count(rating) as total from appointment_booked where appointment_status='2' and rating_status='1' and doctor_id='$doctor_id' group by doctor_id");
       if(!empty($list)){
+        $list[0]->review_details = DB::select("select review,rating,name,profile_picture,appointment_booked.created_at as date from appointment_booked join admin on appointment_booked.patient_id=admin.id where appointment_status='2' and rating_status='1' and doctor_id='$doctor_id' order by appointment_booked.created_at desc");
         return $list[0];
       }else{
         return [];
@@ -288,6 +289,8 @@ class PublicController extends Controller{
     public function doctor_profile_view(Request $request,$id){
        $id      =    base64_decode(base64_decode($id));
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
+       $list[0]->rating = $this->calculate_rating($list[0]->id);
+
        $data    = array('doctor'=>$list[0]);
        return view('public.doctor_profile_view')->with($data);
     }
@@ -448,6 +451,8 @@ class PublicController extends Controller{
        $appointment  = date('l',$timestramp);
        $id           =    base64_decode(base64_decode($id));
        $list         =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
+       $list[0]->rating = $this->calculate_rating($list[0]->id);
+
        $doctor       =  $list[0];
        if(ucfirst($appointment)=='Saturday'){
           $start = $doctor->saturday_start_time?json_decode($doctor->saturday_start_time,true):[];
@@ -527,12 +532,14 @@ class PublicController extends Controller{
 
        $list             =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.id='$id'");
        $old_patient_name = '';
+        $list[0]->rating = $this->calculate_rating($list[0]->id);
        if(!empty($patinet_id)){
         $list[0]->clinic_fee = $list[0]->old_clinic_fee;
         $old_patient             =    DB::select("select * from appointment_booked where id='$patinet_id'");
         $old_patient_name        =  $old_patient[0]->patient_name;
        }
        $patient             =    DB::select("select * from admin where type='patient' and id='$patient_id'");
+
        $data    = array('doctor'=>$list[0],'appointment_date'=>$appointment_date,'session'=>$session,'booking_slot'=>$booking_slot,'patient'=>$patient,'ref_url'=>$ref_url2,'old_patient_name'=>$old_patient_name);
        return view('public.patient_appointment_checkout')->with($data);
     }
