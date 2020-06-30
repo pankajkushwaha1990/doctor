@@ -261,6 +261,15 @@ class PublicController extends Controller{
         }
     }
 
+    private function calculate_rating($doctor_id=null){
+      $list    =    DB::select("select avg(rating) as star,count(rating) as total from appointment_booked where appointment_status='2' and rating_status='1' and doctor_id='$doctor_id' group by doctor_id");
+      if(!empty($list)){
+        return $list[0];
+      }else{
+        return [];
+      }
+    }
+
     public function search_doctor(Request $request){
        $where   = ' and 1=1';
        $location = '';
@@ -270,6 +279,9 @@ class PublicController extends Controller{
        }
 
        $list    =    DB::select("select *,admin.id as id from admin left join profile_details on profile_details.admin_id=admin.id where type='doctor' and admin.status='1' and clinic_city!='' $where");
+       foreach ($list as $key => $value) {
+         $value->rating = $this->calculate_rating($value->id);
+       }
        $data    = array('list'=>$list,'location'=>$location);
        return view('public.search_doctor')->with($data);
     }

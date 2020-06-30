@@ -161,14 +161,20 @@ display:block; }
 												<h4 class="doc-name"><a href="{{ url('doctor_profile_view') }}/{{ base64_encode(base64_encode($doctor->id)) }}">{{ $doctor->name }}</a></h4>
 												<p class="doc-speciality">{{ $doctor->designation }}</p>
 												<!-- <h5 class="doc-department"><img src="{{asset('template')}}/assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</h5> -->
-												<!-- <div class="rating">
-													<i class="fas fa-star filled"></i>
-													<i class="fas fa-star filled"></i>
-													<i class="fas fa-star filled"></i>
-													<i class="fas fa-star filled"></i>
-													<i class="fas fa-star"></i>
-													<span class="d-inline-block average-rating">(17)</span>
-												</div> -->
+												<?php 
+												if(!empty($doctor->rating)){ ?>
+												<div class="rating">
+													<?php 
+													$checked = round($doctor->rating->star);
+													for($k=1;$k<=5;$k++){
+														if($k<=$checked){?>
+														<i class="fas fa-star filled"></i>
+													<?php }else{?>
+														<i class="fas fa-star"></i>
+													<?php } } ?>
+													<span class="d-inline-block average-rating">{{ $doctor->rating->total }}</span>
+												</div>
+											<?php } ?>
 												<div class="clinic-details">
 													<p class="doc-location"><i class="fas fa-map-marker-alt"></i> {{ ucfirst($doctor->clinic_address) }}, {{ ucfirst($doctor->clinic_city) }},{{ ucfirst($doctor->clinic_country) }}</p>
 													<!-- <ul class="clinic-gallery">
