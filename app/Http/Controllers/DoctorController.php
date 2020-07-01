@@ -151,9 +151,9 @@ class DoctorController extends Controller{
        $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id];
        $all_patient_count         = DB::table('appointment_booked')->where('doctor_id', '=',$id)->count();           
        $today_patient_count       = DB::table('appointment_booked')->where($condition)->count(); 
-       $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id,'booking_type'=>'new'];
+       $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id];
 
-       $today_appointment_count   = DB::table('appointment_booked')->where($condition)->orWhereNull('booking_type')->count();
+       $today_appointment_count   = DB::table('appointment_booked')->where($condition)->whereNotIn('booking_type',['old'])->count();
        $condition = ['appointment_date'=>date('Y-m-d'),'doctor_id'=>$id,'booking_type'=>'old'];
 
        $today_appointment_count_old   = DB::table('appointment_booked')->where($condition)->count();
