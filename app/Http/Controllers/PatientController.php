@@ -21,6 +21,15 @@ class PatientController extends Controller{
         });
     }
 
+    private function calculate_rating($doctor_id=null){
+      $list    =    DB::select("select appointment_date,appointment_slot,name,profile_picture,appointment_booked.id as id from appointment_booked join admin on appointment_booked.doctor_id=admin.id where appointment_status='2' and rating_status='0' and appointment_booked.status='1' limit 1");
+      if(!empty($list)){
+        return $list[0];
+      }else{
+        return [];
+      }
+    }
+
     public function patient_change_password_submit(Request $request){
         $session = $request->session()->get('member');
         $id      = $session->id;
@@ -66,7 +75,9 @@ class PatientController extends Controller{
 
       $appointment_rebook =    DB::select("select *,admin.id as doc_id,appointment_booked.id as id,appointment_booked.status as status from admin left join profile_details on profile_details.admin_id=admin.id join appointment_booked on doctor_id=admin.id  where patient_id='$id' and appointment_booked.status='1' and appointment_status='2'  order by appointment_date asc,appointment_slot asc");
 
-      $data       = array('session'=>$session,'appointment_booked'=>$appointment,'appointment_rebook'=>$appointment_rebook);
+      $review = $this->calculate_rating($id);
+
+      $data       = array('session'=>$session,'appointment_booked'=>$appointment,'appointment_rebook'=>$appointment_rebook,'review'=>$review);
       return view('patient.dashboard')->with($data);
     }
 
@@ -119,6 +130,34 @@ class PatientController extends Controller{
       $amenities_id = base64_decode($amenities_id);
       $status1   = DB::table('appointment_booked')->where('id', $amenities_id)->update(array('status'=>$status));
       return redirect('/patient_dashboard')->with('success', 'Cancled Successfully'); 
+    }
+
+    public function doctor_appointments_review_submit(Request $request){
+      $session = $request->session()->get('member');
+      $id      = $session->id;
+      $validator = Validator::make($request->all(), [
+            'booking_id' => 'required|max:100',
+            'rating' => 'required|max:100',
+        ]);
+        if ($validator->fails()){
+            return redirect('patient_dashboard')->withErrors($validator)->withInput();
+        }else{
+            $booking_id      = $request->input('booking_id');
+            $rating             = $request->input('rating');
+            $review            = $request->input('review');
+            $agent             =  DB::select("select * from appointment_booked where patient_id='$id' and id='$booking_id' limit 1");
+            if(empty($agent)){
+                 return redirect('patient_dashboard')->with('failure', 'Appointment For Review Not Found'); 
+            }else{
+              $update = ['rating_status'=>1,'rating'=>$rating,'review'=>$review];
+               $status = DB::table('appointment_booked')->where(['patient_id'=>$id,'id'=>$booking_id])->update($update);
+               if($status){
+                    return redirect('patient_dashboard')->with('success', 'Review Submitted Successfully'); 
+               }else{
+                    return redirect('patient_dashboard')->with('failure', 'Some Problem Occured Try again'); 
+               }
+            }
+        }
     }
 
 

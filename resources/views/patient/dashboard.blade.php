@@ -8,6 +8,22 @@
 						<div class="col-md-7 col-lg-8 col-xl-9">
 							<div class="card">
 								<div class="card-body pt-0">
+
+									<div class="login-header">
+                                            <center><h6 class="card-title">
+                                                  @if(session()->get('success'))
+                                                    <span class="text-success">
+                                                      {{ session()->get('success') }}  
+                                                    </span>
+                                                  @endif
+                                                   @if(session()->get('failure'))
+                                                    <span class="text-danger">
+                                                      {{ session()->get('failure') }}  
+                                                    </span>
+                                                  @endif
+                                              </h6>
+                                          </center>
+                                        </div>
 								
 									<!-- Tab Menu -->
 									<nav class="user-tabs mb-4">
@@ -995,8 +1011,105 @@
       <!-- /Page Wrapper -->
       @section('scripts')
 
+       <script src="{{asset('template')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
+
+		<script type="text/javascript">
+			$(function(){
+				// $('.check_in_click').click(function(e){
+				// 	e.preventDefault();
+				// 	$('.patient_name').text($(this).attr('patient_name'));
+				// 	$('.appintment_on').text($(this).attr('appointment_on'));
+				// 	$('.doctor_fee').val($(this).attr('doctor_fee'));
+				// 	$('.booking_id').val($(this).attr('booking_id'));
+					$('#check_in_modal').modal('show');
+				// })
+			})
+		</script>
+
       @endsection
    
 @endsection
+
+<?php 
+if(!empty($review)){?>
+<div id="check_in_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      	<form id="needs-validation" enctype="multipart/form-data" novalidate="" class="needs-validation" method="post" action="{{ url('doctor_appointments_review_submit') }}">
+      		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+          	 <input type="hidden" name="booking_id" required="" value="{{ $review->id }}" class="booking_id">
+      <div class="write-review">
+										<h4>Write a review for <strong>{{ $review->name }}</strong></h4>
+										<!-- <br> -->
+										<h5>Appointment On <strong>{{ date('d/m/Y',strtotime($review->appointment_date)) }} {{ $review->appointment_slot}}</strong></h5>
+										
+										<!-- Write Review Form -->
+										<form>
+											<div class="form-group">
+												<label>Review</label>
+												<div class="star-rating">
+													<input id="star-5" type="radio" name="rating" value="5">
+													<label for="star-5" title="5 stars">
+														<i class="active fa fa-star"></i>
+													</label>
+													<input id="star-4" type="radio" name="rating" value="4">
+													<label for="star-4" title="4 stars">
+														<i class="active fa fa-star"></i>
+													</label>
+													<input id="star-3" type="radio" name="rating" value="3">
+													<label for="star-3" title="3 stars">
+														<i class="active fa fa-star"></i>
+													</label>
+													<input id="star-2" type="radio" name="rating" value="2">
+													<label for="star-2" title="2 stars">
+														<i class="active fa fa-star"></i>
+													</label>
+													<input id="star-1" checked="" type="radio" name="rating" value="1">
+													<label for="star-1" title="1 star">
+														<i class="active fa fa-star"></i>
+													</label>
+												</div>
+											</div>
+										<!-- 	<div class="form-group">
+												<label>Title of your review</label>
+												<input class="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?">
+											</div> -->
+											<div class="form-group">
+												<label>Your review</label>
+												<textarea id="review_desc" name="review" maxlength="100" class="form-control"></textarea>
+											  
+											  <div class="d-flex justify-content-between mt-3"><small class="text-muted"><span id="chars">100</span> characters remaining</small></div>
+											</div>
+											<hr>
+											<!-- <div class="form-group">
+												<div class="terms-accept">
+													<div class="custom-checkbox">
+													   <input type="checkbox" id="terms_accept">
+													   <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
+													</div>
+												</div>
+											</div> -->
+											<div class="submit-section">
+												<button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
+											</div>
+										</form>
+										<!-- /Write Review Form -->
+										
+									</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<?php } ?>
 
 

@@ -36,6 +36,8 @@ Route::get('/forgot_password', function () {  return view('public.forgot_passwor
 Route::post('/forget_password_submit', 'PublicController@forget_password_submit');
 Route::post('/forget_password_otp_submit', 'PublicController@forget_password_otp_submit');
 Route::get('/patient_member_history/{id}', 'PatientController@patient_member_history');
+Route::post('/doctor_appointments_review_submit', 'PatientController@doctor_appointments_review_submit');
+
 
 
 
